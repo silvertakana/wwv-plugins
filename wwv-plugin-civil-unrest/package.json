@@ -1,0 +1,33 @@
+{
+    "name": "@worldwideview/wwv-plugin-civil-unrest",
+    "version": "1.1.15",
+    "main": "dist/frontend.mjs",
+    "types": "src/index.tsx",
+    "dependencies": {
+        "lucide-react": "^0.477.0",
+        "resium": "1.19.4"
+    },
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*",
+        "cesium": "^1.139.0",
+        "react": "^19.0.0"
+    },
+    "worldwideview": {
+        "id": "civil-unrest",
+        "format": "bundle",
+        "category": "Conflict",
+        "icon": "Crosshair",
+        "capabilities": [
+            "layer"
+        ]
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react": "^6.0.1",
+        "vite": "^8.0.8"
+    },
+    "module": "dist/frontend.mjs",
+    "type": "module",
+    "scripts": {
+        "build": "vite build"
+    }
+}

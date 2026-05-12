@@ -1,0 +1,34 @@
+{
+  "name": "@worldwideview/wwv-plugin-nz-traffic-cameras",
+  "version": "1.0.0",
+  "description": "Live traffic cameras from New Zealand Transport Agency (NZTA)",
+  "main": "dist/frontend.mjs",
+  "types": "src/index.ts",
+  "files": [
+    "src"
+  ],
+  "author": "WorldWideView",
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+  },
+  "worldwideview": {
+    "id": "nz-traffic-cameras",
+    "icon": "Camera",
+    "category": "Infrastructure",
+    "format": "bundle",
+    "capabilities": [
+      "layer"
+    ]
+  },
+  "type": "module",
+  "module": "dist/frontend.mjs",
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

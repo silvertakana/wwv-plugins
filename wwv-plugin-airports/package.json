@@ -1,0 +1,50 @@
+{
+  "name": "@worldwideview/wwv-plugin-airports",
+  "version": "1.1.3",
+  "description": "WorldWideView plugin — Airports and aerodromes worldwide from OSM",
+  "main": "dist/frontend.mjs",
+  "files": [
+    "src",
+    "data"
+  ],
+  "keywords": [
+    "worldwideview",
+    "worldwideview-plugin",
+    "wwv-plugin-airports",
+    "airports"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/silvertakana/worldwideview-plugins.git",
+    "directory": "packages/wwv-plugin-airports"
+  },
+  "homepage": "https://github.com/silvertakana/worldwideview#readme",
+  "bugs": {
+    "url": "https://github.com/silvertakana/worldwideview/issues"
+  },
+  "license": "ISC",
+  "author": "WorldWideView",
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+  },
+  "worldwideview": {
+    "id": "airports",
+    "icon": "PlaneTakeoff",
+    "category": "Aviation",
+    "format": "bundle",
+    "capabilities": [
+      "layer"
+    ],
+    "type": "data-layer",
+    "dataFile": "data/data.json",
+    "rendering": {
+      "defaultColor": "#ffffff",
+      "iconUrl": "/icons/default.svg"
+    }
+  },
+  "type": "module",
+  "module": "dist/frontend.mjs",
+  "scripts": {
+    "build": "vite build"
+  }
+}

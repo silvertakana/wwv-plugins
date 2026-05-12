@@ -1,0 +1,29 @@
+{
+    "name": "@worldwideview/wwv-plugin-cyber-attacks",
+    "version": "2.0.17",
+    "main": "dist/frontend.mjs",
+    "dependencies": {
+        "lucide-react": "^1.14.0"
+    },
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    },
+    "worldwideview": {
+        "id": "cyber-attacks",
+        "format": "bundle",
+        "category": "Intelligence",
+        "icon": "Layer",
+        "capabilities": [
+            "layer"
+        ]
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react": "^6.0.1",
+        "vite": "^8.0.8"
+    },
+    "module": "dist/frontend.mjs",
+    "type": "module",
+    "scripts": {
+        "build": "vite build"
+    }
+}

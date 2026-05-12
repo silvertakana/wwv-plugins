@@ -1,0 +1,32 @@
+{
+  "name": "@worldwideview/wwv-plugin-fortiguard",
+  "version": "1.0.0",
+  "description": "FortiGuard live cyber threats plugin for WorldWideView",
+  "main": "dist/frontend.mjs",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "vite build"
+  },
+  "worldwideview": {
+    "id": "fortiguard",
+    "type": "data-layer",
+    "format": "bundle",
+    "category": "cyber",
+    "icon": "ShieldAlert",
+    "capabilities": [
+      "data:own",
+      "globe:overlay"
+    ]
+  },
+  "dependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "type": "module",
+  "module": "dist/frontend.mjs",
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+  }
+}

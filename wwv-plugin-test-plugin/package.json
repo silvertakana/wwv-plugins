@@ -1,0 +1,24 @@
+{
+  "name": "@worldwideview/wwv-plugin-test-plugin",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+  },
+  "worldwideview": {
+    "id": "test-plugin",
+    "format": "bundle",
+    "pluginId": "test-plugin",
+    "name": "ISS Tracker test",
+    "description": "Tracks the International Space Station in real time",
+    "icon": "Satellite",
+    "category": "space",
+    "streamUrl": "wss://dataenginev2.worldwideview.dev/stream",
+    "author": "Your Name",
+    "dev_entry": "src/index.ts"
+  }
+}
