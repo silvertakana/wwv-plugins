@@ -1,0 +1,54 @@
+{
+  "name": "@worldwideview/wwv-plugin-military-bases",
+  "version": "1.1.5",
+  "description": "WorldWideView plugin for worldwide military bases, airfields, and barracks from OpenStreetMap",
+  "main": "dist/frontend.mjs",
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "worldwideview",
+    "worldwideview-plugin",
+    "wwv-plugin-military-bases",
+    "military",
+    "bases",
+    "airfields",
+    "geojson",
+    "cesium",
+    "globe"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/silvertakana/worldwideview-plugins.git",
+    "directory": "packages/wwv-plugin-military-bases"
+  },
+  "homepage": "https://github.com/silvertakana/worldwideview#readme",
+  "bugs": {
+    "url": "https://github.com/silvertakana/worldwideview/issues"
+  },
+  "license": "ISC",
+  "author": "WorldWideView",
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "^1.4.10"
+  },
+  "worldwideview": {
+    "id": "military-bases",
+    "icon": "Swords",
+    "category": "Military",
+    "format": "bundle",
+    "capabilities": [
+      "layer"
+    ],
+    "type": "data-layer",
+    "dataFile": "data/data.json",
+    "rendering": {
+      "defaultColor": "#ffffff",
+      "iconUrl": "/icons/default.svg"
+    }
+  },
+  "type": "module",
+  "module": "dist/frontend.mjs",
+  "scripts": {
+    "build": "vite build"
+  }
+}

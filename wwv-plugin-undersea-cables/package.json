@@ -1,0 +1,30 @@
+{
+  "name": "@worldwideview/wwv-plugin-undersea-cables",
+  "version": "1.0.14",
+  "description": "Undersea Cables Plugin for WorldWideView",
+  "main": "dist/frontend.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "vite build",
+    "dev": "tsc -w"
+  },
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^5.4.3",
+    "vite": "^8.0.8"
+  },
+  "worldwideview": {
+    "id": "undersea-cables",
+    "format": "bundle",
+    "category": "Custom",
+    "icon": "Layer",
+    "capabilities": [
+      "layer"
+    ]
+  },
+  "module": "dist/frontend.mjs",
+  "type": "module"
+}

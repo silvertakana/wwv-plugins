@@ -1,0 +1,26 @@
+{
+  "name": "@worldwideview/wwv-plugin-surveillance-satellites",
+  "version": "1.1.15",
+  "main": "dist/frontend.mjs",
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+  },
+  "worldwideview": {
+    "id": "surveillance-satellites",
+    "format": "bundle",
+    "category": "Space",
+    "icon": "Rocket",
+    "capabilities": [
+      "layer"
+    ]
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.1",
+    "vite": "^8.0.8"
+  },
+  "module": "dist/frontend.mjs",
+  "type": "module",
+  "scripts": {
+    "build": "vite build"
+  }
+}
