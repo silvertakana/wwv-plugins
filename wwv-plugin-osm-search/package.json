@@ -1,0 +1,29 @@
+{
+  "name": "@worldwideview/wwv-plugin-osm-search",
+  "version": "1.2.15",
+  "description": "OSM Search Plugin for WorldWideView",
+  "main": "dist/frontend.mjs",
+  "type": "module",
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.2",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^5.4.5",
+    "vite": "^8.0.8"
+  },
+  "worldwideview": {
+    "id": "osm-search",
+    "format": "bundle",
+    "category": "Custom",
+    "icon": "Layer",
+    "capabilities": [
+      "layer"
+    ]
+  },
+  "module": "dist/frontend.mjs",
+  "scripts": {
+    "build": "vite build"
+  }
+}

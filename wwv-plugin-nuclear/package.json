@@ -1,0 +1,57 @@
+{
+  "name": "@worldwideview/wwv-plugin-nuclear",
+  "version": "1.1.5",
+  "description": "WorldWideView plugin displaying global nuclear power plants, reactors, and decommissioned facilities from OpenStreetMap",
+  "main": "dist/frontend.mjs",
+  "types": "src/index.ts",
+  "files": [
+    "src",
+    "data",
+    "dist"
+  ],
+  "keywords": [
+    "worldwideview",
+    "worldwideview-plugin",
+    "wwv-plugin-nuclear",
+    "nuclear",
+    "nuclear-power",
+    "power-plants",
+    "energy",
+    "cesium",
+    "globe"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/silvertakana/worldwideview-plugins.git",
+    "directory": "packages/wwv-plugin-nuclear"
+  },
+  "homepage": "https://github.com/silvertakana/worldwideview#readme",
+  "bugs": {
+    "url": "https://github.com/silvertakana/worldwideview/issues"
+  },
+  "license": "ISC",
+  "author": "WorldWideView",
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "^1.4.10"
+  },
+  "worldwideview": {
+    "id": "nuclear-facilities",
+    "icon": "Atom",
+    "category": "Infrastructure",
+    "format": "bundle",
+    "capabilities": [
+      "layer"
+    ],
+    "type": "data-layer",
+    "dataFile": "data/data.json",
+    "rendering": {
+      "defaultColor": "#ffffff",
+      "iconUrl": "/icons/default.svg"
+    }
+  },
+  "type": "module",
+  "module": "dist/frontend.mjs",
+  "scripts": {
+    "build": "vite build"
+  }
+}
