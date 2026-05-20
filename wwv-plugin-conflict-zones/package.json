@@ -1,7 +1,7 @@
-{
+﻿{
   "name": "@worldwideview/wwv-plugin-conflict-zones",
-  "version": "1.1.8",
-  "description": "WorldWideView plugin — Active conflict zones and geopolitical hotspots worldwide.",
+  "version": "1.1.9",
+  "description": "WorldWideView plugin â€” Active conflict zones and geopolitical hotspots worldwide.",
   "main": "dist/frontend.mjs",
   "types": "src/index.tsx",
   "files": [

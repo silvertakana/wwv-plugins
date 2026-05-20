@@ -1,6 +1,6 @@
-{
+﻿{
   "name": "@worldwideview/wwv-plugin-nuclear",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "WorldWideView plugin displaying global nuclear power plants, reactors, and decommissioned facilities from OpenStreetMap",
   "main": "dist/frontend.mjs",
   "types": "src/index.ts",
