@@ -1,10 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-// Dynamic import of gridstack ensures it never runs on the server.
-// CSS is loaded at runtime via a <link> tag injected in useEffect (see below) —
-// importing the CSS here would cause Vite to leave a bare ES import in the
-// bundle, which browsers cannot resolve without an importmap.
+// Inline gridstack CSS as a raw string. Loading the stylesheet from
+// `unpkg.com/gridstack` is blocked by the host app's Content Security
+// Policy (`style-src 'self' 'unsafe-inline' fonts.googleapis.com`), so
+// without this the grid loses its positioning rules and all widgets
+// stack vertically at full width.
+// The `?inline` suffix tells Vite to bundle the CSS as a string we can
+// inject via a <style> tag, which `'unsafe-inline'` permits.
+import gridstackCss from "gridstack/dist/gridstack.min.css?inline";
 
 interface GridstackWrapperProps {
   children: React.ReactNode;
@@ -19,17 +23,17 @@ export default function GridstackWrapper({ children, onChange }: GridstackWrappe
     let grid: any = null;
     let isMounted = true;
 
-    // Load gridstack's stylesheet from the unpkg CDN at runtime. We avoid an
-    // ES-style `import "gridstack/dist/gridstack.min.css"` because the host
-    // browser cannot resolve bare module specifiers.
-    const linkId = "wwv-plugin-market-tracker-css";
-    let link = document.getElementById(linkId) as HTMLLinkElement;
-    if (!link) {
-      link = document.createElement("link");
-      link.id = linkId;
-      link.rel = "stylesheet";
-      link.href = "https://unpkg.com/gridstack@11/dist/gridstack.min.css";
-      document.head.appendChild(link);
+    // Inject gridstack's stylesheet inline. We avoid loading from a CDN
+    // because the host page's CSP blocks external style-src origins. An
+    // inline <style> tag is allowed by `'unsafe-inline'` and ships zero
+    // extra network requests.
+    const styleId = "wwv-plugin-market-tracker-css";
+    let styleEl = document.getElementById(styleId) as HTMLStyleElement | null;
+    if (!styleEl) {
+      styleEl = document.createElement("style");
+      styleEl.id = styleId;
+      styleEl.textContent = gridstackCss;
+      document.head.appendChild(styleEl);
     }
 
     // Dynamically import gridstack on the client
@@ -40,11 +44,21 @@ export default function GridstackWrapper({ children, onChange }: GridstackWrappe
         if (gridRef.current) {
           grid = GridStack.init(
             {
+              column: 12,
+              minRow: 1,
               margin: 10,
               cellHeight: 120,
+              animate: true,
               draggable: { handle: ".widget-drag-handle" },
               resizable: { handles: "e, se, s, sw, w" },
-              animate: true,
+              columnOpts: {
+                breakpointForWindow: true,
+                breakpoints: [
+                  { w: 700, c: 6 },
+                  { w: 1100, c: 12 },
+                ],
+                layout: "moveScale",
+              },
             },
             gridRef.current
           );

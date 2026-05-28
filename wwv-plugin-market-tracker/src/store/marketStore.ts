@@ -20,10 +20,19 @@ export const useMarketStore = create<MarketState>()((set) => ({
 
     for (const tick of newTicks) {
       const existing = updatedTickers[tick.id];
-      // Keep last 20 prices for sparkline
-      const sparkline = existing
-        ? [...existing.sparkline, tick.price].slice(-20)
-        : [tick.price];
+      // Three cases for the sparkline:
+      // 1. No existing data AND the tick carries a multi-point series
+      //    (EOD bootstrap): use it directly.
+      // 2. No existing data AND only a single price: start the series.
+      // 3. Existing data: append the new live price.
+      let sparkline: number[];
+      if (existing) {
+        sparkline = [...existing.sparkline, tick.price].slice(-20);
+      } else if (tick.sparkline && tick.sparkline.length > 1) {
+        sparkline = tick.sparkline.slice(-20);
+      } else {
+        sparkline = [tick.price];
+      }
 
       updatedTickers[tick.id] = { ...tick, sparkline };
     }
