@@ -20,12 +20,12 @@ export default class MarketTrackerPlugin implements WorldPlugin {
   category: PluginCategory = "economic";
   version = pkg.version;
 
-  async initialize(ctx: PluginContext): Promise<void> {
-    console.log("[MarketTracker] Initialized");
+  async initialize(_ctx: PluginContext): Promise<void> {
+    // no-op
   }
 
   destroy(): void {
-    console.log("[MarketTracker] Destroyed");
+    // no-op
   }
 
   async fetch(timeRange: TimeRange): Promise<GeoEntity[]> {
