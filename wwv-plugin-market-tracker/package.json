@@ -1,8 +1,40 @@
 {
   "name": "@worldwideview/wwv-plugin-market-tracker",
   "version": "1.0.3",
+  "description": "WorldWideView plugin for real-time stock market tracking. Displays live prices, sparklines, and daily change for major equities and indices with a resizable, draggable dashboard.",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/frontend.mjs",
+  "module": "dist/frontend.mjs",
+  "types": "src/index.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "worldwideview",
+    "worldwideview-plugin",
+    "wwv-plugin-market-tracker",
+    "stock-market",
+    "finance",
+    "equities",
+    "real-time",
+    "cesium",
+    "globe"
+  ],
+  "author": "WorldWideView",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/silvertakana/wwv-plugins.git",
+    "directory": "wwv-plugin-market-tracker"
+  },
+  "homepage": "https://github.com/silvertakana/worldwideview#readme",
+  "bugs": {
+    "url": "https://github.com/silvertakana/worldwideview/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "worldwideview": {
     "id": "market-tracker",
     "type": "data-layer",
@@ -19,14 +51,17 @@
     "dev": "vite",
     "build": "vite build"
   },
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "*"
+  },
   "dependencies": {
-    "@worldwideview/wwv-plugin-sdk": "workspace:*",
     "gridstack": "^11.0.0",
     "lucide-react": "^0.470.0",
     "recharts": "^2.13.0",
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "rollup-plugin-external-globals": "^0.10.0",
