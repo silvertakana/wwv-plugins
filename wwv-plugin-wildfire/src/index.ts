@@ -1,6 +1,7 @@
 import { Flame } from "lucide-react";
 import {
     createSvgIconUrl,
+    dtProp,
     type WorldPlugin,
     type GeoEntity,
     type TimeRange,
@@ -62,21 +63,29 @@ export class WildfirePlugin implements WorldPlugin {
 
             return data.items.map((fire: {
                 latitude: number; longitude: number; frp: number; confidence: string;
-                acq_date: string; acq_time: string; satellite: string;
+                acq_date: string; acq_time: number; satellite: string;
                 bright_ti4?: number; bright_ti5?: number; tier?: number;
-            }): GeoEntity => ({
-                id: `wildfire-${fire.latitude.toFixed(4)}-${fire.longitude.toFixed(4)}-${fire.acq_date}-${fire.tier || 3}`,
-                pluginId: "wildfire",
-                latitude: fire.latitude,
-                longitude: fire.longitude,
-                timestamp: new Date(`${fire.acq_date}T${fire.acq_time.padStart(4, "0").slice(0, 2)}:${fire.acq_time.padStart(4, "0").slice(2)}:00Z`),
-                label: `FRP: ${fire.frp}`,
-                properties: {
-                    frp: fire.frp, frp_band: getFrpBand(fire.frp), confidence: fire.confidence, satellite: fire.satellite,
-                    acq_date: fire.acq_date, acq_time: fire.acq_time,
-                    bright_ti4: fire.bright_ti4, bright_ti5: fire.bright_ti5, tier: fire.tier,
-                },
-            }));
+            }): GeoEntity => {
+                const paddedTime = String(fire.acq_time).padStart(4, "0");
+                return {
+                    id: `wildfire-${fire.latitude.toFixed(4)}-${fire.longitude.toFixed(4)}-${fire.acq_date}-${fire.tier || 3}`,
+                    pluginId: "wildfire",
+                    latitude: fire.latitude,
+                    longitude: fire.longitude,
+                    timestamp: new Date(`${fire.acq_date}T${paddedTime.slice(0, 2)}:${paddedTime.slice(2)}:00Z`),
+                    label: `FRP: ${fire.frp}`,
+                    properties: {
+                        frp: fire.frp, frp_band: getFrpBand(fire.frp), confidence: fire.confidence, satellite: fire.satellite,
+                        acq_date: fire.acq_date, acq_time: fire.acq_time,
+                        acq_datetime: dtProp(
+                            fire.acq_date && fire.acq_time !== undefined
+                                ? `${fire.acq_date}T${String(fire.acq_time).padStart(4, "0").slice(0, 2)}:${String(fire.acq_time).padStart(4, "0").slice(2)}:00Z`
+                                : null
+                        ),
+                        bright_ti4: fire.bright_ti4, bright_ti5: fire.bright_ti5, tier: fire.tier,
+                    },
+                };
+            });
         } catch (err) {
             console.error("[WildfirePlugin] Fetch error:", err);
             return [];
