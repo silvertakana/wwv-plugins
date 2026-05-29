@@ -20,6 +20,32 @@ pnpm dev
 4. The marketplace load API auto-discovers them in dev mode
 5. Everything in this directory is gitignored
 
+## Property Conventions
+
+Use the SDK property tag helpers to give the Intel panel rich rendering for dates, URLs, images, and video. Without them, values display as plain text.
+
+```ts
+import { dtProp, urlProp, imageProp, videoProp } from "@worldwideview/wwv-plugin-sdk";
+
+properties: {
+    // Dates — pass ISO 8601 strings
+    updated_at:  dtProp(item.timestamp ?? null),
+    // External links
+    source_url:  urlProp(item.url ?? null),
+    // Images
+    preview:     imageProp(item.image_url ?? null),
+    // Video/streams
+    live_stream: videoProp(item.stream_url ?? null),
+    // Plain values — no helper needed
+    name:  item.name,
+    count: item.count,
+}
+```
+
+All helpers are null-safe — passing `null` or `undefined` returns `null`, which the panel skips.
+
+See the [SDK README](../worldwideview/packages/wwv-plugin-sdk/README.md) for the full reference.
+
 ## Publishing to NPM
 
 When your plugin is ready to share, you can publish it directly to NPM from the root directory:
