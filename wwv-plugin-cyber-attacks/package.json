@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-cyber-attacks",
-    "version": "2.1.0",
+    "version": "2.0.17",
     "main": "dist/frontend.mjs",
     "dependencies": {
         "lucide-react": "^1.14.0"

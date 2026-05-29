@@ -1,14 +1,13 @@
-import type {
-    WorldPlugin,
-    GeoEntity,
-    TimeRange,
-    PluginContext,
+import type { 
+    WorldPlugin, 
+    GeoEntity, 
+    TimeRange, 
+    PluginContext, 
     LayerConfig,
     FilterDefinition,
     CesiumEntityOptions,
     ServerPluginConfig
 } from "@worldwideview/wwv-plugin-sdk";
-import { dtProp } from "@worldwideview/wwv-plugin-sdk";
 import { Hand } from "lucide-react";
 
 export class CivilUnrestPlugin implements WorldPlugin {
@@ -76,7 +75,7 @@ export class CivilUnrestPlugin implements WorldPlugin {
                 fatalities: item.fatalities,
                 country: item.country,
                 location: item.location,
-                date: dtProp(item.date ?? null),
+                date: item.date,
                 source: item.source,
                 notes: item.notes,
                 reportCount: item.reportCount

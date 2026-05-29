@@ -1,7 +1,6 @@
 import { ShieldAlert, Bug, Skull, Fish, Radio, Server, Zap, HelpCircle } from "lucide-react";
 import {
     createSvgIconUrl,
-    urlProp,
     type WorldPlugin,
     type GeoEntity,
     type TimeRange,
@@ -83,7 +82,7 @@ export class CyberAttacksPlugin implements WorldPlugin {
                     malwareFamilies: (item.malwareFamilies || []).join(", "),
                     tags: (item.tags || []).join(", "),
                     targetedCountries: (item.targetedCountries || []).join(", "),
-                    pulseUrl: urlProp(`https://otx.alienvault.com/pulse/${item.pulseId}`),
+                    pulseUrl: `https://otx.alienvault.com/pulse/${item.pulseId}`,
                 },
             }));
         } catch (err) {
