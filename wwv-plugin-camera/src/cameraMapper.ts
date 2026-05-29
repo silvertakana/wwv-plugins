@@ -1,4 +1,4 @@
-import type { GeoEntity } from "@worldwideview/wwv-plugin-sdk";
+import { imageProp, videoProp, type GeoEntity } from "@worldwideview/wwv-plugin-sdk";
 
 const DEFAULT_CAMERA_ALT = 8;
 
@@ -11,7 +11,11 @@ export function mapRawCamera(cam: Record<string, unknown>, index: number, prefix
         altitude: (cam.altitude as number) ?? (cam.elevation as number) ?? DEFAULT_CAMERA_ALT,
         timestamp: new Date(),
         label: (cam.city as string) || (cam.country as string) || "Unknown Camera",
-        properties: { ...cam },
+        properties: {
+            ...cam,
+            preview_url: imageProp(cam.preview_url as string ?? null),
+            stream: videoProp(cam.stream as string ?? null),
+        },
     };
 }
 
@@ -27,6 +31,10 @@ export function mapGeoJsonFeature(feature: unknown, index: number, prefix: strin
         altitude: DEFAULT_CAMERA_ALT,
         timestamp: new Date(),
         label: (props.city as string) || (props.country as string) || "Unknown Camera",
-        properties: { ...props },
+        properties: {
+            ...props,
+            preview_url: imageProp(props.preview_url as string ?? null),
+            stream: videoProp(props.stream as string ?? null),
+        },
     };
 }
