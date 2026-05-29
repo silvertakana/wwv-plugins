@@ -19,13 +19,6 @@ function frpToColor(frp: number): string {
     return "#dc2626";
 }
 
-function frpToSize(frp: number): number {
-    if (frp < 10) return 5;
-    if (frp < 50) return 7;
-    if (frp < 100) return 9;
-    return 12;
-}
-
 function getFrpBand(frp: number): string {
     if (frp < 10) return "low";
     if (frp < 50) return "moderate";
@@ -116,7 +109,7 @@ export class WildfirePlugin implements WorldPlugin {
 
         return {
             type: "billboard", iconUrl: this.iconUrls[color], color,
-            iconScale: (frpToSize(frp) / 10) * (tier === 1 ? 2 : tier === 2 ? 1.5 : 1),
+            iconScale: 1.0,
             distanceDisplayCondition,
         };
     }
