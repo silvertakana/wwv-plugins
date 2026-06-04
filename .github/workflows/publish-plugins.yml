@@ -1,0 +1,109 @@
+# Publish Plugins to npm — composed-checkout model
+#
+# Plugins keep workspace:* deps (they build inside the worldwideview monorepo,
+# which hoists vite, typescript, react, and the SDK). This workflow reproduces
+# that environment on CI by checking out worldwideview and placing wwv-plugins
+# inside it as local-plugins/, making every plugin a real workspace member.
+#
+# pnpm publish (not npm publish) rewrites workspace:* → real semver before
+# uploading, which is what npm publish alone cannot do. This fixes the broken
+# published packages that currently have literal "workspace:*" in their deps.
+#
+# Auth: NPM_TOKEN secret — a single npm automation/granular token scoped to
+# @worldwideview/*. No --provenance: plugins don't have repository fields.
+
+name: Publish Plugins to npm
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Serialize so two fast-follow merges can't both pass the version-check and
+# then race to publish the same version.
+concurrency:
+  group: publish-plugins
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - name: Checkout worldwideview (monorepo toolchain)
+        uses: actions/checkout@v6
+        with:
+          repository: silvertakana/worldwideview
+          path: worldwideview
+
+      # Place this repo inside worldwideview/local-plugins/ so the plugins
+      # become workspace members and pnpm can resolve workspace:* deps.
+      - name: Checkout wwv-plugins into local-plugins
+        uses: actions/checkout@v6
+        with:
+          path: worldwideview/local-plugins
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.4
+          run_install: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+          cache-dependency-path: worldwideview/pnpm-lock.yaml
+
+      # Install from the monorepo root so the toolchain (vite, typescript,
+      # react) is hoisted. --no-frozen-lockfile because the lockfile was
+      # generated in the worldwideview repo, not here.
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+        working-directory: worldwideview
+
+      - name: Publish version-bumped plugins
+        working-directory: worldwideview
+        run: |
+          PUBLISHED=0
+          SKIPPED=0
+          FAILED=0
+
+          for plugin_dir in local-plugins/*/; do
+            pkg_json="${plugin_dir}package.json"
+            [ -f "$pkg_json" ] || continue
+
+            plugin_name=$(node -p "require('./${pkg_json}').name" 2>/dev/null || true)
+            local_version=$(node -p "require('./${pkg_json}').version" 2>/dev/null || true)
+            [ -n "$plugin_name" ] && [ -n "$local_version" ] || continue
+
+            # Skip README or non-scoped dirs (no name = not a plugin package)
+            [[ "$plugin_name" == @worldwideview/* ]] || continue
+
+            # Equality check: only skip when that EXACT version is already on npm.
+            # Missing package returns empty string -> we publish.
+            npm_version=$(npm view "${plugin_name}@${local_version}" version --silent 2>/dev/null || true)
+            if [ "$npm_version" = "$local_version" ]; then
+              echo "  skip  ${plugin_name}@${local_version}"
+              SKIPPED=$((SKIPPED + 1))
+              continue
+            fi
+
+            echo ""
+            echo "--- ${plugin_name}@${local_version} ---"
+            if pnpm --filter "$plugin_name" build && \
+               pnpm publish --filter "$plugin_name" --no-git-checks --access public; then
+              echo "  ok    published"
+              PUBLISHED=$((PUBLISHED + 1))
+            else
+              echo "  FAIL  ${plugin_name}@${local_version}"
+              FAILED=$((FAILED + 1))
+            fi
+          done
+
+          echo ""
+          echo "Published: ${PUBLISHED}  Skipped: ${SKIPPED}  Failed: ${FAILED}"
+          [ "$FAILED" -eq 0 ] || exit 1
