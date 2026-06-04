@@ -28,11 +28,12 @@ jobs:
 
       - uses: pnpm/action-setup@v6
 
+      # No `cache: pnpm` — this repo has no pnpm-lock.yaml (no workspace root),
+      # so setup-node has nothing to key a cache on and would fail.
       - uses: actions/setup-node@v6
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
-          cache: pnpm
 
       - name: Publish each plugin if not already on npm
         shell: bash
