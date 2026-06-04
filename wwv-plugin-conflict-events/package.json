@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-conflict-events",
-    "version": "1.0.18",
+    "version": "1.0.19",
     "main": "dist/frontend.mjs",
     "types": "src/index.tsx",
     "dependencies": {
@@ -8,8 +8,8 @@
         "resium": "1.19.4"
     },
     "peerDependencies": {
-        "@worldwideview/wwv-lib-incidents": "workspace:*",
-        "@worldwideview/wwv-plugin-sdk": "workspace:*",
+        "@worldwideview/wwv-lib-incidents": "^1.0.4",
+        "@worldwideview/wwv-plugin-sdk": "^1.7.0",
         "cesium": "^1.139.0",
         "react": "^19.0.0"
     },

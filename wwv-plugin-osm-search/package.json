@@ -1,11 +1,11 @@
 {
   "name": "@worldwideview/wwv-plugin-osm-search",
-  "version": "1.2.15",
+  "version": "1.2.16",
   "description": "OSM Search Plugin for WorldWideView",
   "main": "dist/frontend.mjs",
   "type": "module",
   "peerDependencies": {
-    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    "@worldwideview/wwv-plugin-sdk": "^1.7.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.2",

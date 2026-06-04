@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-aviation",
-    "version": "1.0.21",
+    "version": "1.0.22",
     "description": "WorldWideView plugin for real-time commercial aircraft tracking via the OpenSky Network API. Renders 3D aircraft models with altitude-based coloring, flight trails, and country/altitude/callsign filters",
     "main": "dist/frontend.mjs",
     "types": "src/index.ts",
@@ -30,8 +30,8 @@
     "license": "ISC",
     "author": "WorldWideView",
     "peerDependencies": {
-        "@worldwideview/wwv-plugin-sdk": "workspace:*",
-        "@worldwideview/wwv-lib-aviation": "workspace:*",
+        "@worldwideview/wwv-plugin-sdk": "^1.7.0",
+        "@worldwideview/wwv-lib-aviation": "^1.0.2",
         "lucide-react": ">=0.576.0"
     },
     "worldwideview": {

@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-gps-jamming",
-    "version": "1.0.16",
+    "version": "1.0.17",
     "main": "dist/frontend.mjs",
     "types": "src/index.tsx",
     "dependencies": {
@@ -9,7 +9,7 @@
         "resium": "1.19.4"
     },
     "peerDependencies": {
-        "@worldwideview/wwv-plugin-sdk": "workspace:*",
+        "@worldwideview/wwv-plugin-sdk": "^1.7.0",
         "cesium": "^1.139.0",
         "react": "^19.0.0"
     },

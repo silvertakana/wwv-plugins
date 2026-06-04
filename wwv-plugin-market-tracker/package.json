@@ -1,6 +1,6 @@
 {
   "name": "@worldwideview/wwv-plugin-market-tracker",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "WorldWideView plugin for real-time stock market tracking. Displays live prices, sparklines, and daily change for major equities and indices with a resizable, draggable dashboard.",
   "type": "module",
   "main": "dist/frontend.mjs",
@@ -52,7 +52,7 @@
     "build": "vite build"
   },
   "peerDependencies": {
-    "@worldwideview/wwv-plugin-sdk": "*"
+    "@worldwideview/wwv-plugin-sdk": "^1.7.0"
   },
   "dependencies": {
     "gridstack": "^11.0.0",
@@ -61,7 +61,7 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
-    "@worldwideview/wwv-plugin-sdk": "workspace:*",
+    "@worldwideview/wwv-plugin-sdk": "^1.7.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "rollup-plugin-external-globals": "^0.10.0",

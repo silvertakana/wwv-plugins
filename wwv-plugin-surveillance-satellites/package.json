@@ -1,9 +1,9 @@
 {
   "name": "@worldwideview/wwv-plugin-surveillance-satellites",
-  "version": "1.1.15",
+  "version": "1.1.16",
   "main": "dist/frontend.mjs",
   "peerDependencies": {
-    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    "@worldwideview/wwv-plugin-sdk": "^1.7.0"
   },
   "worldwideview": {
     "id": "surveillance-satellites",

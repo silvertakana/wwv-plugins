@@ -1,6 +1,6 @@
 {
   "name": "@worldwideview/wwv-plugin-fortiguard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "FortiGuard live cyber threats plugin for WorldWideView",
   "main": "dist/frontend.mjs",
   "types": "src/index.ts",
@@ -19,7 +19,7 @@
     ]
   },
   "dependencies": {
-    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    "@worldwideview/wwv-plugin-sdk": "^1.7.0"
   },
   "devDependencies": {
     "typescript": "^5.0.0"
@@ -27,6 +27,6 @@
   "type": "module",
   "module": "dist/frontend.mjs",
   "peerDependencies": {
-    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    "@worldwideview/wwv-plugin-sdk": "^1.7.0"
   }
 }

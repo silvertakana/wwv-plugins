@@ -1,6 +1,6 @@
 {
   "name": "@worldwideview/wwv-plugin-undersea-cables",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Undersea Cables Plugin for WorldWideView",
   "main": "dist/frontend.mjs",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
     "dev": "tsc -w"
   },
   "peerDependencies": {
-    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    "@worldwideview/wwv-plugin-sdk": "^1.7.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.1",

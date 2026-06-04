@@ -1,6 +1,6 @@
 {
   "name": "@worldwideview/wwv-plugin-rocket-launches",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Upcoming and recent rocket launches from Launch Library 2, pinned to launch sites worldwide.",
   "type": "module",
   "main": "dist/frontend.mjs",
@@ -54,13 +54,13 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "@worldwideview/wwv-plugin-sdk": "*"
+    "@worldwideview/wwv-plugin-sdk": "^1.7.0"
   },
   "dependencies": {
     "lucide-react": "^0.470.0"
   },
   "devDependencies": {
-    "@worldwideview/wwv-plugin-sdk": "workspace:*",
+    "@worldwideview/wwv-plugin-sdk": "^1.7.0",
     "@types/react": "^19.0.0",
     "rollup-plugin-external-globals": "^0.10.0",
     "vite": "^6.0.0",

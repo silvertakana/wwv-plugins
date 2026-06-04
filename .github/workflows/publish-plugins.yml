@@ -1,0 +1,60 @@
+# Trigger: a version-bump commit merged to main causes CI to publish any plugin
+# whose local version is not yet on npm. A single org-level NPM_TOKEN secret
+# authenticates all plugins. Provenance attestation uses the id-token permission.
+# npm publish is safe here because Task 0.5 removed all workspace:* deps --
+# no workspace protocol remains for npm to choke on during standalone installs.
+
+name: Publish Plugins to npm
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: publish-plugins
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Publish each plugin if not already on npm
+        shell: bash
+        run: |
+          set -e
+          for dir in wwv-plugin-*/; do
+            NAME=$(node -p "require('./${dir}package.json').name")
+            LOCAL_VERSION=$(node -p "require('./${dir}package.json').version")
+
+            NPM_VERSION=$(npm view "${NAME}@${LOCAL_VERSION}" version --silent 2>/dev/null || true)
+
+            if [ "$NPM_VERSION" = "$LOCAL_VERSION" ]; then
+              echo "skip ${NAME}@${LOCAL_VERSION} — already published"
+              continue
+            fi
+
+            echo "publishing ${NAME}@${LOCAL_VERSION}..."
+            pushd "$dir"
+            # --ignore-workspace prevents pnpm from walking up to any parent
+            # workspace config that might exist on the CI runner checkout root.
+            pnpm install --ignore-workspace
+            pnpm run build
+            npm publish . --provenance --access public
+            popd
+          done
