@@ -52,7 +52,7 @@ export class CyberAttacksPlugin implements WorldPlugin {
         try {
             // Note: timeRange is now used properly at the history route.
             // If the start and end aren't passed, data engine returns live snapshot.
-            let engineBase = this.context?.getEngineUrl() || 'https://dataengine.worldwideview.dev';
+            let engineBase = this.context?.getEngineUrl() || 'https://dataenginev2.worldwideview.dev';
             engineBase = engineBase.replace(/\/$/, "");
             const url = timeRange 
                 ? `${engineBase}/api/cyber-attacks/history?start=${timeRange.start.getTime()}&end=${timeRange.end.getTime()}`
