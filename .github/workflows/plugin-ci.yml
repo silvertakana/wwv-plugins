@@ -15,8 +15,11 @@
 #   4 — bundle size gate (ci.bundleSizeLimitKb in package.json worldwideview block,
 #       default 10240 KB / 10 MB)
 #
-# ci.type in package.json worldwideview block controls which tiers run when Tiers
-# 2–3 are added. Defaults to "data" if not set. Values: data | ui | control.
+# ci.type in package.json worldwideview block gates tier execution. Defaults to
+# "data" if not set. Values: data | ui | control.
+#   data    — all tiers (Tiers 0-4)
+#   ui      — Tiers 0, 1, 4 only (no load smoke / method contracts)
+#   control — Tiers 0, 1, 4 only (no load smoke / method contracts)
 
 name: Plugin CI
 
@@ -211,8 +214,12 @@ jobs:
       #   Tier 2 — required WorldPlugin fields and methods are present
       #   Tier 3 — getLayerConfig/renderEntity/mapWebsocketPayload return the
       #            correct shapes (no network or Docker required)
+      #
+      # Skipped for ui and control plugins — they don't implement the full
+      # WorldPlugin data contract (fetch, renderEntity, getLayerConfig, etc.).
 
       - name: "Tier 2+3 — load smoke + method contracts"
+        if: matrix.plugin.type == 'data'
         working-directory: worldwideview
         run: |
           BUNDLE="local-plugins/${{ matrix.plugin.dir }}/dist/frontend.mjs"
