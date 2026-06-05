@@ -34,7 +34,7 @@ jobs:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - name: Checkout worldwideview (monorepo toolchain)
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           repository: silvertakana/worldwideview
           path: worldwideview
@@ -42,16 +42,16 @@ jobs:
       # Place this repo inside worldwideview/local-plugins/ so the plugins
       # become workspace members and pnpm can resolve workspace:* deps.
       - name: Checkout wwv-plugins into local-plugins
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           path: worldwideview/local-plugins
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@v4
         with:
           version: 9.15.4
           run_install: false
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
