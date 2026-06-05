@@ -4,6 +4,9 @@ import {
     type TimeRange,
     type FilterDefinition,
     type ServerPluginConfig,
+    urlProp,
+    imageProp,
+    videoProp,
 } from "@worldwideview/wwv-plugin-sdk";
 import { BaseIncidentPlugin } from "@worldwideview/wwv-lib-incidents";
 
@@ -75,9 +78,9 @@ export class IranWarLivePlugin extends BaseIncidentPlugin {
                     location: item.location,
                     summary: item.event_summary,
                     casualties: item._osint_meta?.casualties || 0,
-                    source_url: item.source_url,
-                    preview_image: item.preview_image,
-                    preview_video: item.preview_video
+                    source_url: urlProp(item.source_url ?? null),
+                    preview_image: imageProp(item.preview_image ?? null),
+                    preview_video: videoProp(item.preview_video ?? null)
                 },
             };
         });

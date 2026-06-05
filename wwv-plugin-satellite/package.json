@@ -18,7 +18,10 @@
         "format": "bundle",
         "capabilities": [
             "layer"
-        ]
+        ],
+        "ci": {
+            "type": "ui"
+        }
     },
     "type": "module",
     "module": "dist/frontend.mjs",

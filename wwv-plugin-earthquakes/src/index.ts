@@ -4,6 +4,8 @@ import {
     type TimeRange,
     type FilterDefinition,
     type ServerPluginConfig,
+    dtProp,
+    urlProp,
 } from "@worldwideview/wwv-plugin-sdk";
 import { BaseIncidentPlugin } from "@worldwideview/wwv-lib-incidents";
 
@@ -71,8 +73,8 @@ export class EarthquakesPlugin extends BaseIncidentPlugin {
                         magnitude,
                         depth: Number(feature?.geometry?.coordinates?.[2] ?? 0) || 0,
                         place: feature?.properties?.place ?? null,
-                        url: feature?.properties?.url ?? null,
-                        updated: feature?.properties?.updated ?? null,
+                        url: urlProp(feature?.properties?.url ?? null),
+                        updated: dtProp(feature?.properties?.updated ? new Date(feature.properties.updated).toISOString() : null),
                         status: feature?.properties?.status ?? null,
                         tsunami: feature?.properties?.tsunami ?? null,
                         sig: feature?.properties?.sig ?? null,

@@ -1,0 +1,201 @@
+# Per-plugin CI — Tiers 0 and 1
+#
+# Detects which wwv-plugin-* directories changed in a PR and runs two tiers
+# for each changed plugin. No tier runs for unchanged plugins (the whole point).
+#
+# Composed-checkout model: same as publish-plugins.yml. Checks out worldwideview
+# for the hoisted toolchain, places wwv-plugins inside it as local-plugins/ so
+# every plugin is a workspace member and can resolve workspace:* deps.
+#
+# Tiers implemented here:
+#   0 — type-check (if tsconfig.json present), Vite build, bundle + manifest validation
+#   1 — unit tests via vitest (only if *.test.* or *.spec.* files exist)
+#
+# Tiers 2–4 (load smoke, mock-data pipeline, perf ratchet) will be added once the
+# `:ci` image publishing and Playwright setup are in place.
+#
+# ci.type in package.json worldwideview block controls which tiers run when Tiers
+# 2–3 are added. Defaults to "data" if not set. Values: data | ui | control.
+
+name: Plugin CI
+
+on:
+  pull_request:
+    paths:
+      - 'wwv-plugin-*/**'
+    branches: [main]
+
+concurrency:
+  group: plugin-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ── Detect changed plugins and build a matrix ──────────────────────────────
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Build plugin matrix
+        id: matrix
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          git fetch origin "$BASE" --depth=1
+
+          # Changed top-level plugin dirs in this PR
+          CHANGED=$(git diff --name-only "origin/${BASE}...HEAD" \
+            | grep '^wwv-plugin-[^/]*/' \
+            | cut -d'/' -f1 \
+            | sort -u)
+
+          if [ -z "$CHANGED" ]; then
+            echo "No plugin changes detected."
+            echo 'value=[]' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          ENTRIES=""
+          while IFS= read -r dir; do
+            [ -f "${dir}/package.json" ] || continue
+            name=$(node -p "require('./${dir}/package.json').name")
+            id=$(node -p "require('./${dir}/package.json').worldwideview?.id ?? ''")
+            type=$(node -p "require('./${dir}/package.json').worldwideview?.ci?.type ?? 'data'")
+            entry="{\"dir\":\"${dir}\",\"name\":\"${name}\",\"id\":\"${id}\",\"type\":\"${type}\"}"
+            ENTRIES="${ENTRIES:+$ENTRIES,}${entry}"
+            echo "  found: ${name} (type=${type})"
+          done <<< "$CHANGED"
+
+          if [ -z "$ENTRIES" ]; then
+            echo 'value=[]' >> "$GITHUB_OUTPUT"
+          else
+            echo "value=[${ENTRIES}]" >> "$GITHUB_OUTPUT"
+          fi
+
+  # ── Run tiers for each changed plugin ─────────────────────────────────────
+  test:
+    needs: detect
+    if: needs.detect.outputs.matrix != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        plugin: ${{ fromJSON(needs.detect.outputs.matrix) }}
+      fail-fast: false
+    name: "${{ matrix.plugin.name }}"
+    steps:
+      - name: Checkout worldwideview (monorepo toolchain)
+        uses: actions/checkout@v6
+        with:
+          repository: silvertakana/worldwideview
+          path: worldwideview
+
+      - name: Checkout wwv-plugins into local-plugins
+        uses: actions/checkout@v6
+        with:
+          path: worldwideview/local-plugins
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 9.15.4
+          run_install: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: worldwideview/pnpm-lock.yaml
+
+      - name: Install
+        run: pnpm install --no-frozen-lockfile
+        working-directory: worldwideview
+
+      - name: Build shared packages
+        working-directory: worldwideview
+        run: |
+          # Build the SDK so dist/viteGlobals.js exists for esbuild to analyze
+          # when Vite loads each plugin's vite.config.ts. Without this step,
+          # viteGlobals.js is absent (not committed) and esbuild can't resolve
+          # __exportStar(require("./viteGlobals")) → wwvPluginGlobals import fails.
+          pnpm --filter "@worldwideview/wwv-plugin-sdk" build
+
+      # ── Tier 0: static checks (all plugin types, blocking) ────────────────
+
+      - name: "Tier 0 — type-check"
+        working-directory: worldwideview
+        run: |
+          PLUGIN_DIR="local-plugins/${{ matrix.plugin.dir }}"
+          TSCONFIG="${PLUGIN_DIR}/tsconfig.json"
+          if [ -f "$TSCONFIG" ]; then
+            echo "Running tsc --noEmit..."
+            # Some plugins extend ../../tsconfig.json which has "local-plugins" in its
+            # exclude list. From within the plugin directory that exclude resolves to the
+            # plugin's own parent, covering src/ entirely (TS18003). Override by writing
+            # a thin wrapper that replaces the inherited exclude with a safe baseline.
+            # compilerOptions.paths:{} clears the inherited root path mappings that
+            # would otherwise make tsc traverse into packages/wwv-plugin-sdk/src and
+            # trigger TS6059 rootDir violations (e.g. wwv-plugin-fortiguard).
+            # include:["src/**/*"] prevents a plugin's own tsconfig include patterns
+            # (e.g. "test/**/*") from pulling test files outside rootDir (TS6059).
+            CI_TSCONFIG="${PLUGIN_DIR}/tsconfig.ci.json"
+            echo '{"extends":"./tsconfig.json","compilerOptions":{"paths":{}},"include":["src/**/*"],"exclude":["node_modules","dist"]}' > "$CI_TSCONFIG"
+            pnpm --filter "${{ matrix.plugin.name }}" exec tsc --noEmit --project tsconfig.ci.json
+            rm -f "$CI_TSCONFIG"
+          else
+            echo "No tsconfig.json found — type safety verified by Vite build (next step)."
+          fi
+
+      - name: "Tier 0 — build"
+        working-directory: worldwideview
+        run: pnpm --filter "${{ matrix.plugin.name }}" build
+
+      - name: "Tier 0 — validate bundle + manifest"
+        working-directory: worldwideview
+        run: |
+          BUNDLE="local-plugins/${{ matrix.plugin.dir }}/dist/frontend.mjs"
+
+          if [ ! -f "$BUNDLE" ]; then
+            echo "FAIL: dist/frontend.mjs not produced by build."
+            exit 1
+          fi
+
+          SIZE_KB=$(du -k "$BUNDLE" | cut -f1)
+          echo "Bundle: ${BUNDLE} (${SIZE_KB} KB)"
+
+          # Validate worldwideview manifest block
+          PLUGIN_ID="${{ matrix.plugin.id }}"
+          if [ -z "$PLUGIN_ID" ]; then
+            echo "FAIL: worldwideview.id is missing in package.json."
+            exit 1
+          fi
+          if ! echo "$PLUGIN_ID" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$'; then
+            echo "FAIL: worldwideview.id '${PLUGIN_ID}' is not kebab-case."
+            exit 1
+          fi
+
+          CI_TYPE="${{ matrix.plugin.type }}"
+          if [ -z "$CI_TYPE" ]; then
+            echo "WARN: worldwideview.ci.type not set — defaulting to 'data'."
+          fi
+
+          echo "Manifest OK: id=${PLUGIN_ID} type=${CI_TYPE:-data}"
+
+      # ── Tier 1: unit tests (only if test files exist, blocking) ───────────
+
+      - name: "Tier 1 — unit tests"
+        working-directory: worldwideview
+        run: |
+          PLUGIN_DIR="local-plugins/${{ matrix.plugin.dir }}"
+          HAS_TESTS=$(find "$PLUGIN_DIR" \( -name '*.test.ts' -o -name '*.test.tsx' \
+            -o -name '*.spec.ts' -o -name '*.spec.tsx' \) 2>/dev/null | head -1)
+
+          if [ -z "$HAS_TESTS" ]; then
+            echo "No test files found — Tier 1 skipped."
+            exit 0
+          fi
+
+          echo "Found tests — running vitest..."
+          pnpm --filter "${{ matrix.plugin.name }}" exec vitest run --reporter=verbose

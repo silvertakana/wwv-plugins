@@ -10,7 +10,7 @@ type SourceType = "default" | "traffic" | "url" | "file";
 
 export const CameraSettings: React.FC<{ pluginId: string }> = ({ pluginId }) => {
     const settingsRaw = useStore((s) => s.dataConfig.pluginSettings[pluginId]);
-    const settings = { sourceType: "default" as SourceType, ...(settingsRaw || {}) };
+    const settings = { sourceType: "default" as SourceType, ...(settingsRaw || {}) } as { sourceType: SourceType } & Record<string, unknown>;
     const updatePluginSettings = useStore((s) => s.updatePluginSettings);
     const setHighlightLayerId = useStore((s) => s.setHighlightLayerId);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -93,7 +93,7 @@ export const CameraSettings: React.FC<{ pluginId: string }> = ({ pluginId }) => 
                 <div style={inputGroupStyle}>
                     <label style={labelStyle}>JSON File</label>
                     <input type="file" accept=".json" onChange={handleFileUpload} style={{ ...inputStyle, width: "100%", marginTop: "4px", padding: "4px", fontSize: "10px" }} />
-                    {settings.customData && Array.isArray(settings.customData) && (
+                    {!!settings.customData && Array.isArray(settings.customData) && (
                         <div style={{ fontSize: 10, color: "var(--accent-green)", marginTop: "4px" }}>✓ Data loaded ({(settings.customData as unknown[]).length} cameras)</div>
                     )}
                 </div>
