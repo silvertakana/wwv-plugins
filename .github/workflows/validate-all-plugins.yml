@@ -1,0 +1,161 @@
+# Validate All Plugins — manual full-suite run
+#
+# Runs the same tier pipeline as plugin-ci.yml but against every plugin in the
+# repo, regardless of what changed. Use this to:
+#   - Audit the full plugin fleet after infrastructure changes
+#   - Confirm all plugins pass before a major release
+#   - Investigate a specific tier failure across the board
+#
+# Tiers: identical to plugin-ci.yml (0 through 4, gated by ci.type)
+# Trigger: workflow_dispatch only — never runs automatically
+
+name: Validate All Plugins
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # ── Build full plugin matrix (all dirs, not just changed) ─────────────────
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      value: ${{ steps.build.outputs.value }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build full plugin matrix
+        id: build
+        run: |
+          ENTRIES=""
+          for dir in wwv-plugin-*/; do
+            pkg_json="${dir}package.json"
+            [ -f "$pkg_json" ] || continue
+            name=$(node -p "require('./${pkg_json}').name" 2>/dev/null || true)
+            id=$(node -p "require('./${pkg_json}').worldwideview?.id ?? ''" 2>/dev/null || true)
+            type=$(node -p "require('./${pkg_json}').worldwideview?.ci?.type ?? 'data'" 2>/dev/null || true)
+            [ -n "$name" ] || continue
+            entry="{\"dir\":\"${dir%/}\",\"name\":\"${name}\",\"id\":\"${id}\",\"type\":\"${type}\"}"
+            ENTRIES="${ENTRIES:+$ENTRIES,}${entry}"
+            echo "  queued: ${name} (type=${type})"
+          done
+          echo "value=[${ENTRIES}]" >> "$GITHUB_OUTPUT"
+
+  # ── Run tiers for every plugin ─────────────────────────────────────────────
+  test:
+    needs: matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        plugin: ${{ fromJSON(needs.matrix.outputs.value) }}
+      fail-fast: false
+    name: "${{ matrix.plugin.name }}"
+    steps:
+      - name: Checkout worldwideview (monorepo toolchain)
+        uses: actions/checkout@v4
+        with:
+          repository: silvertakana/worldwideview
+          path: worldwideview
+
+      - name: Checkout wwv-plugins into local-plugins
+        uses: actions/checkout@v4
+        with:
+          path: worldwideview/local-plugins
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: worldwideview/pnpm-lock.yaml
+
+      - name: Install
+        run: pnpm install --no-frozen-lockfile
+        working-directory: worldwideview
+
+      - name: Build shared packages
+        working-directory: worldwideview
+        run: pnpm --filter "@worldwideview/wwv-plugin-sdk" build
+
+      # ── Tier 0 ─────────────────────────────────────────────────────────────
+
+      - name: "Tier 0 — type-check"
+        working-directory: worldwideview
+        run: |
+          PLUGIN_DIR="local-plugins/${{ matrix.plugin.dir }}"
+          TSCONFIG="${PLUGIN_DIR}/tsconfig.json"
+          if [ -f "$TSCONFIG" ]; then
+            CI_TSCONFIG="${PLUGIN_DIR}/tsconfig.ci.json"
+            echo '{"extends":"./tsconfig.json","compilerOptions":{"paths":{}},"include":["src/**/*"],"exclude":["node_modules","dist"]}' > "$CI_TSCONFIG"
+            pnpm --filter "${{ matrix.plugin.name }}" exec tsc --noEmit --project tsconfig.ci.json
+            rm -f "$CI_TSCONFIG"
+          else
+            echo "No tsconfig.json — type safety verified by Vite build."
+          fi
+
+      - name: "Tier 0 — build"
+        working-directory: worldwideview
+        run: pnpm --filter "${{ matrix.plugin.name }}" build
+
+      - name: "Tier 0 — validate bundle + manifest"
+        working-directory: worldwideview
+        run: |
+          BUNDLE="local-plugins/${{ matrix.plugin.dir }}/dist/frontend.mjs"
+          if [ ! -f "$BUNDLE" ]; then
+            echo "FAIL: dist/frontend.mjs not produced by build."
+            exit 1
+          fi
+          PLUGIN_ID="${{ matrix.plugin.id }}"
+          if [ -z "$PLUGIN_ID" ]; then
+            echo "FAIL: worldwideview.id is missing in package.json."
+            exit 1
+          fi
+          if ! echo "$PLUGIN_ID" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$'; then
+            echo "FAIL: worldwideview.id '${PLUGIN_ID}' is not kebab-case."
+            exit 1
+          fi
+          echo "Manifest OK: id=${PLUGIN_ID} type=${{ matrix.plugin.type }}"
+
+      # ── Tier 4: bundle size gate ────────────────────────────────────────────
+
+      - name: "Tier 4 — bundle size gate"
+        working-directory: worldwideview
+        run: |
+          BUNDLE="local-plugins/${{ matrix.plugin.dir }}/dist/frontend.mjs"
+          PKG_JSON="local-plugins/${{ matrix.plugin.dir }}/package.json"
+          SIZE_BYTES=$(wc -c < "$BUNDLE")
+          SIZE_KB=$(( SIZE_BYTES / 1024 ))
+          LIMIT_KB=$(node -p "require('./${PKG_JSON}').worldwideview?.ci?.bundleSizeLimitKb ?? 10240" 2>/dev/null || echo 10240)
+          echo "Bundle size: ${SIZE_KB} KB  Limit: ${LIMIT_KB} KB"
+          if [ "$SIZE_KB" -gt "$LIMIT_KB" ]; then
+            echo "FAIL: bundle exceeds limit (${SIZE_KB} KB > ${LIMIT_KB} KB)."
+            exit 1
+          fi
+          echo "OK: ${SIZE_KB} KB <= ${LIMIT_KB} KB"
+
+      # ── Tier 2+3: load smoke + method contracts (data plugins only) ─────────
+
+      - name: "Tier 2+3 — load smoke + method contracts"
+        if: matrix.plugin.type == 'data'
+        working-directory: worldwideview
+        run: |
+          BUNDLE="local-plugins/${{ matrix.plugin.dir }}/dist/frontend.mjs"
+          node scripts/ci-plugin-smoke/smoke.mjs "$BUNDLE"
+
+      # ── Tier 1: unit tests ──────────────────────────────────────────────────
+
+      - name: "Tier 1 — unit tests"
+        working-directory: worldwideview
+        run: |
+          PLUGIN_DIR="local-plugins/${{ matrix.plugin.dir }}"
+          HAS_TESTS=$(find "$PLUGIN_DIR" \( -name '*.test.ts' -o -name '*.test.tsx' \
+            -o -name '*.spec.ts' -o -name '*.spec.tsx' \) 2>/dev/null | head -1)
+          if [ -z "$HAS_TESTS" ]; then
+            echo "No test files found — Tier 1 skipped."
+            exit 0
+          fi
+          echo "Found tests — running vitest..."
+          pnpm --filter "${{ matrix.plugin.name }}" exec vitest run --reporter=verbose

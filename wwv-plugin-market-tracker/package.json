@@ -41,6 +41,9 @@
     "format": "bundle",
     "category": "economic",
     "icon": "LineChart",
+    "ci": {
+      "type": "data"
+    },
     "dev_entry": "src/index.ts",
     "capabilities": [
       "data:own",
