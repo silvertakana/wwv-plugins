@@ -11,6 +11,9 @@
 #
 # Auth: NPM_TOKEN secret — a single npm automation/granular token scoped to
 # @worldwideview/*. No --provenance: plugins don't have repository fields.
+#
+# Dry-run mode: set dry_run=true via workflow_dispatch to validate manifests
+# and preview what would publish/skip without touching npm.
 
 name: Publish Plugins to npm
 
@@ -18,6 +21,15 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Skip actual publish — show what would be published'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
 
 # Serialize so two fast-follow merges can't both pass the version-check and
 # then race to publish the same version.
@@ -65,8 +77,75 @@ jobs:
         run: pnpm install --no-frozen-lockfile
         working-directory: worldwideview
 
+      # ── Pre-flight: validate all plugin manifests before touching npm ─────
+      # Catches missing/malformed worldwideview block fields early so a bad
+      # plugin never reaches the registry with corrupt metadata.
+
+      - name: Validate plugin manifests
+        working-directory: worldwideview
+        run: |
+          FAILED=0
+
+          for plugin_dir in local-plugins/*/; do
+            pkg_json="${plugin_dir}package.json"
+            [ -f "$pkg_json" ] || continue
+
+            plugin_name=$(node -p "require('./${pkg_json}').name" 2>/dev/null || true)
+            [[ "$plugin_name" == @worldwideview/* ]] || continue
+
+            plugin_id=$(node -p "require('./${pkg_json}').worldwideview?.id ?? ''" 2>/dev/null || true)
+            plugin_type=$(node -p "require('./${pkg_json}').worldwideview?.type ?? ''" 2>/dev/null || true)
+            plugin_format=$(node -p "require('./${pkg_json}').worldwideview?.format ?? ''" 2>/dev/null || true)
+            plugin_category=$(node -p "require('./${pkg_json}').worldwideview?.category ?? ''" 2>/dev/null || true)
+
+            ok=true
+
+            if [ -z "$plugin_id" ]; then
+              echo "  FAIL  ${plugin_name}: worldwideview.id is missing"
+              ok=false
+            elif ! echo "$plugin_id" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$'; then
+              echo "  FAIL  ${plugin_name}: worldwideview.id '${plugin_id}' is not kebab-case"
+              ok=false
+            fi
+
+            if [ -z "$plugin_type" ]; then
+              echo "  WARN  ${plugin_name}: worldwideview.type is missing (expected: data-layer | extension) — add to suppress this warning"
+            elif [ "$plugin_type" != "data-layer" ] && [ "$plugin_type" != "extension" ]; then
+              echo "  FAIL  ${plugin_name}: worldwideview.type '${plugin_type}' is invalid (expected: data-layer | extension)"
+              ok=false
+            fi
+
+            if [ -z "$plugin_format" ]; then
+              echo "  FAIL  ${plugin_name}: worldwideview.format is missing (expected: bundle | declarative | static)"
+              ok=false
+            elif [ "$plugin_format" != "bundle" ] && [ "$plugin_format" != "declarative" ] && [ "$plugin_format" != "static" ]; then
+              echo "  FAIL  ${plugin_name}: worldwideview.format '${plugin_format}' is invalid (expected: bundle | declarative | static)"
+              ok=false
+            fi
+
+            if [ -z "$plugin_category" ]; then
+              echo "  FAIL  ${plugin_name}: worldwideview.category is missing"
+              ok=false
+            fi
+
+            if $ok; then
+              echo "  ok    ${plugin_name} (id=${plugin_id} type=${plugin_type} format=${plugin_format})"
+            else
+              FAILED=$((FAILED + 1))
+            fi
+          done
+
+          if [ "$FAILED" -gt 0 ]; then
+            echo ""
+            echo "FAIL: ${FAILED} plugin(s) have invalid manifests — fix before publishing."
+            exit 1
+          fi
+          echo "All manifests valid."
+
       - name: Publish version-bumped plugins
         working-directory: worldwideview
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
         run: |
           PUBLISHED=0
           SKIPPED=0
@@ -94,7 +173,11 @@ jobs:
 
             echo ""
             echo "--- ${plugin_name}@${local_version} ---"
-            if pnpm --filter "$plugin_name" build && \
+
+            if [ "$DRY_RUN" = "true" ]; then
+              echo "  dry   would publish ${plugin_name}@${local_version}"
+              PUBLISHED=$((PUBLISHED + 1))
+            elif pnpm --filter "$plugin_name" build && \
                pnpm publish --filter "$plugin_name" --no-git-checks --access public; then
               echo "  ok    published"
               PUBLISHED=$((PUBLISHED + 1))
@@ -105,5 +188,9 @@ jobs:
           done
 
           echo ""
-          echo "Published: ${PUBLISHED}  Skipped: ${SKIPPED}  Failed: ${FAILED}"
-          [ "$FAILED" -eq 0 ] || exit 1
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "DRY RUN — Would publish: ${PUBLISHED}  Would skip: ${SKIPPED}"
+          else
+            echo "Published: ${PUBLISHED}  Skipped: ${SKIPPED}  Failed: ${FAILED}"
+            [ "$FAILED" -eq 0 ] || exit 1
+          fi
