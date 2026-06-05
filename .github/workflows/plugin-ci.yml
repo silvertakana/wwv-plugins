@@ -10,9 +10,11 @@
 # Tiers implemented here:
 #   0 — type-check (if tsconfig.json present), Vite build, bundle + manifest validation
 #   1 — unit tests via vitest (only if *.test.* or *.spec.* files exist)
+#   4 — bundle size gate (ci.bundleSizeLimitKb in package.json worldwideview block,
+#       default 10240 KB / 10 MB)
 #
-# Tiers 2–4 (load smoke, mock-data pipeline, perf ratchet) will be added once the
-# `:ci` image publishing and Playwright setup are in place.
+# Tiers 2–3 (load smoke, mock-data pipeline) will be added once the `:ci` image
+# publishing and Playwright setup are in place.
 #
 # ci.type in package.json worldwideview block controls which tiers run when Tiers
 # 2–3 are added. Defaults to "data" if not set. Values: data | ui | control.
@@ -36,7 +38,7 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.value }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -88,22 +90,22 @@ jobs:
     name: "${{ matrix.plugin.name }}"
     steps:
       - name: Checkout worldwideview (monorepo toolchain)
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           repository: silvertakana/worldwideview
           path: worldwideview
 
       - name: Checkout wwv-plugins into local-plugins
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           path: worldwideview/local-plugins
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@v4
         with:
           version: 9.15.4
           run_install: false
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
@@ -182,6 +184,28 @@ jobs:
           fi
 
           echo "Manifest OK: id=${PLUGIN_ID} type=${CI_TYPE:-data}"
+
+      # ── Tier 4: bundle size gate ───────────────────────────────────────────
+
+      - name: "Tier 4 — bundle size gate"
+        working-directory: worldwideview
+        run: |
+          BUNDLE="local-plugins/${{ matrix.plugin.dir }}/dist/frontend.mjs"
+          PKG_JSON="local-plugins/${{ matrix.plugin.dir }}/package.json"
+
+          SIZE_BYTES=$(wc -c < "$BUNDLE")
+          SIZE_KB=$(( SIZE_BYTES / 1024 ))
+          LIMIT_KB=$(node -p "require('./${PKG_JSON}').worldwideview?.ci?.bundleSizeLimitKb ?? 10240" 2>/dev/null || echo 10240)
+
+          echo "Bundle size: ${SIZE_KB} KB  Limit: ${LIMIT_KB} KB"
+
+          if [ "$SIZE_KB" -gt "$LIMIT_KB" ]; then
+            echo "FAIL: bundle exceeds limit (${SIZE_KB} KB > ${LIMIT_KB} KB)."
+            echo "  To raise the limit: set worldwideview.ci.bundleSizeLimitKb in package.json."
+            exit 1
+          fi
+
+          echo "OK: ${SIZE_KB} KB <= ${LIMIT_KB} KB"
 
       # ── Tier 1: unit tests (only if test files exist, blocking) ───────────
 
