@@ -113,7 +113,7 @@ export class MaritimePlugin implements WorldPlugin {
             if (lookback === "0h") lookback = "";
             const query = lookback ? `?lookback=${lookback}` : "";
             
-            let engineBase = this.context?.getEngineUrl() || "https://dataengine.worldwideview.dev";
+            let engineBase = this.context?.getEngineUrl() || "https://dataenginev2.worldwideview.dev";
             engineBase = engineBase.replace(/\/$/, "");
             const res = await fetch(`${engineBase}/api/maritime${query}`);
             if (!res.ok) throw new Error(`Maritime API returned ${res.status}`);

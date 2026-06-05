@@ -47,7 +47,7 @@ export class ConflictEventsPlugin extends BaseIncidentPlugin {
     }
 
     async fetch(timeRange: TimeRange): Promise<GeoEntity[]> {
-        let engineBase = this.context?.getEngineUrl() || "https://dataengine.worldwideview.dev";
+        let engineBase = this.context?.getEngineUrl() || "https://dataenginev2.worldwideview.dev";
         engineBase = engineBase.replace(/\/$/, "");
         const res = await fetch(`${engineBase}/api/conflict-events`);
         const json = await res.json();

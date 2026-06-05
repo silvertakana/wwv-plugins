@@ -41,7 +41,7 @@ export class WildfirePlugin implements WorldPlugin {
 
     async fetch(_timeRange: TimeRange): Promise<GeoEntity[]> {
         try {
-            let engineBase = this.context?.getEngineUrl() || "https://dataengine.worldwideview.dev";
+            let engineBase = this.context?.getEngineUrl() || "https://dataenginev2.worldwideview.dev";
             
 
 
