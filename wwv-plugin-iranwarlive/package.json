@@ -8,6 +8,9 @@
         "src"
     ],
     "author": "WorldWideView",
+    "devDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    },
     "peerDependencies": {
         "@worldwideview/wwv-plugin-sdk": "^1.4.10",
         "@worldwideview/wwv-lib-incidents": "workspace:*"
