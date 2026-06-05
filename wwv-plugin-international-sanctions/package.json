@@ -12,7 +12,10 @@
         "icon": "Layer",
         "capabilities": [
             "layer"
-        ]
+        ],
+        "ci": {
+            "type": "ui"
+        }
     },
     "peerDependencies": {
         "@worldwideview/wwv-plugin-sdk": "workspace:*"

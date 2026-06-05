@@ -40,7 +40,10 @@
         "format": "bundle",
         "capabilities": [
             "layer"
-        ]
+        ],
+        "ci": {
+            "type": "data"
+        }
     },
     "type": "module",
     "module": "dist/frontend.mjs",

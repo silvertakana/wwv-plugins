@@ -19,7 +19,10 @@
         "icon": "Crosshair",
         "capabilities": [
             "layer"
-        ]
+        ],
+        "ci": {
+            "type": "data"
+        }
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^6.0.1",
