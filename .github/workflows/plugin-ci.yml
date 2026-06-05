@@ -10,11 +10,10 @@
 # Tiers implemented here:
 #   0 — type-check (if tsconfig.json present), Vite build, bundle + manifest validation
 #   1 — unit tests via vitest (only if *.test.* or *.spec.* files exist)
+#   2 — load smoke: bundle loads in Node.js with mocked host globals, plugin instantiates
+#   3 — method contracts: getLayerConfig/renderEntity/mapWebsocketPayload return valid shapes
 #   4 — bundle size gate (ci.bundleSizeLimitKb in package.json worldwideview block,
 #       default 10240 KB / 10 MB)
-#
-# Tiers 2–3 (load smoke, mock-data pipeline) will be added once the `:ci` image
-# publishing and Playwright setup are in place.
 #
 # ci.type in package.json worldwideview block controls which tiers run when Tiers
 # 2–3 are added. Defaults to "data" if not set. Values: data | ui | control.
@@ -206,6 +205,18 @@ jobs:
           fi
 
           echo "OK: ${SIZE_KB} KB <= ${LIMIT_KB} KB"
+
+      # ── Tier 2+3: load smoke + method contracts ───────────────────────────
+      # Loads the bundle in Node.js with mocked host globals and validates:
+      #   Tier 2 — required WorldPlugin fields and methods are present
+      #   Tier 3 — getLayerConfig/renderEntity/mapWebsocketPayload return the
+      #            correct shapes (no network or Docker required)
+
+      - name: "Tier 2+3 — load smoke + method contracts"
+        working-directory: worldwideview
+        run: |
+          BUNDLE="local-plugins/${{ matrix.plugin.dir }}/dist/frontend.mjs"
+          node scripts/ci-plugin-smoke/smoke.mjs "$BUNDLE"
 
       # ── Tier 1: unit tests (only if test files exist, blocking) ───────────
 
