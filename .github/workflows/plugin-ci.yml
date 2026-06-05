@@ -113,15 +113,32 @@ jobs:
         run: pnpm install --no-frozen-lockfile
         working-directory: worldwideview
 
+      - name: Build shared packages
+        working-directory: worldwideview
+        run: |
+          # Build the SDK so dist/viteGlobals.js exists for esbuild to analyze
+          # when Vite loads each plugin's vite.config.ts. Without this step,
+          # viteGlobals.js is absent (not committed) and esbuild can't resolve
+          # __exportStar(require("./viteGlobals")) → wwvPluginGlobals import fails.
+          pnpm --filter "@worldwideview/wwv-plugin-sdk" build
+
       # ── Tier 0: static checks (all plugin types, blocking) ────────────────
 
       - name: "Tier 0 — type-check"
         working-directory: worldwideview
         run: |
-          TSCONFIG="local-plugins/${{ matrix.plugin.dir }}/tsconfig.json"
+          PLUGIN_DIR="local-plugins/${{ matrix.plugin.dir }}"
+          TSCONFIG="${PLUGIN_DIR}/tsconfig.json"
           if [ -f "$TSCONFIG" ]; then
             echo "Running tsc --noEmit..."
-            pnpm --filter "${{ matrix.plugin.name }}" exec tsc --noEmit
+            # Some plugins extend ../../tsconfig.json which has "local-plugins" in its
+            # exclude list. From within the plugin directory that exclude resolves to the
+            # plugin's own parent, covering src/ entirely (TS18003). Override by writing
+            # a thin wrapper that replaces the inherited exclude with a safe baseline.
+            CI_TSCONFIG="${PLUGIN_DIR}/tsconfig.ci.json"
+            echo '{"extends":"./tsconfig.json","exclude":["node_modules","dist"]}' > "$CI_TSCONFIG"
+            pnpm --filter "${{ matrix.plugin.name }}" exec tsc --noEmit --project tsconfig.ci.json
+            rm -f "$CI_TSCONFIG"
           else
             echo "No tsconfig.json found — type safety verified by Vite build (next step)."
           fi
