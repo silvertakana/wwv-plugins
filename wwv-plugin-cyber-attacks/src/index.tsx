@@ -92,6 +92,31 @@ export class CyberAttacksPlugin implements WorldPlugin {
         }
     }
 
+    mapWebsocketPayload(payload: any): GeoEntity[] {
+        const items = payload && Array.isArray(payload.items) ? payload.items : (Array.isArray(payload) ? payload : []);
+        return items.map((item: any): GeoEntity => ({
+            id: item.id,
+            pluginId: "cyber-attacks",
+            latitude: item.lat,
+            longitude: item.lon,
+            timestamp: new Date(item.pulseModified || Date.now()),
+            label: `${item.threatType}: ${item.ip}`,
+            properties: {
+                ip: item.ip,
+                country: item.country,
+                city: item.city,
+                threatType: item.threatType,
+                adversary: item.adversary,
+                pulseName: item.pulseName,
+                pulseDescription: item.pulseDescription,
+                malwareFamilies: (item.malwareFamilies || []).join(", "),
+                tags: (item.tags || []).join(", "),
+                targetedCountries: (item.targetedCountries || []).join(", "),
+                pulseUrl: urlProp(`https://otx.alienvault.com/pulse/${item.pulseId}`),
+            },
+        }));
+    }
+
     getPollingInterval(): number { return 0; }
 
     getServerConfig(): ServerPluginConfig {

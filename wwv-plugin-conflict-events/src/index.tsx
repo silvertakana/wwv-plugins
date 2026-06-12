@@ -52,8 +52,8 @@ export class ConflictEventsPlugin extends BaseIncidentPlugin {
         const res = await fetch(`${engineBase}/api/conflict-events`);
         const json = await res.json();
         
-        if (json.data) {
-            this.data = json.data;
+        if (json.items) {
+            this.data = json.items;
             return this.data;
         }
         return [];

@@ -18,7 +18,7 @@ function getAltitudeBand(altitude: number | null): string {
 export class AviationPlugin extends BaseAviationPlugin {
     id = "aviation";
     name = "Aviation";
-    description = "Real-time aircraft tracking via OpenSky Network";
+    description = "Real-time global aircraft tracking";
     icon = Plane;
     version = "1.0.8";
 

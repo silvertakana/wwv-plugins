@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-civil-unrest",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "main": "dist/frontend.mjs",
     "types": "src/index.tsx",
     "dependencies": {

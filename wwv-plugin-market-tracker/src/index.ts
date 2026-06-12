@@ -7,7 +7,7 @@ import type {
   LayerConfig,
   PluginCategory
 } from "@worldwideview/wwv-plugin-sdk";
-import { LineChart } from "lucide-react";
+import { ChartLine } from "lucide-react";
 import pkg from "../package.json";
 import { useMarketStore } from "./store/marketStore";
 import MarketDashboard from "./components/MarketDashboard";
@@ -16,7 +16,7 @@ export default class MarketTrackerPlugin implements WorldPlugin {
   id = "market-tracker";
   name = "Market Tracker";
   description = "Real-time stock and market index tracker with draggable grid";
-  icon = LineChart;
+  icon = ChartLine;
   category: PluginCategory = "economic";
   version = pkg.version;
 
