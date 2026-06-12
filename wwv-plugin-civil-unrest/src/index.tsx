@@ -49,13 +49,37 @@ export class CivilUnrestPlugin implements WorldPlugin {
         };
     }
 
+    mapWebsocketPayload(payload: any, _existingEntities?: GeoEntity[]): GeoEntity[] {
+        const items = Array.isArray(payload) ? payload : (payload?.items || []);
+        return items.map((item: any) => ({
+            id: item.id,
+            latitude: item.lat,
+            longitude: item.lon,
+            timestamp: item.date ? new Date(item.date) : new Date(),
+            name: `${item.type}: ${item.location || 'Unknown'}`,
+            properties: {
+                type: item.type,
+                subType: item.subType,
+                actor1: item.actor1,
+                actor2: item.actor2,
+                fatalities: item.fatalities,
+                country: item.country,
+                location: item.location,
+                date: dtProp(item.date ?? null),
+                source: item.source,
+                notes: item.notes,
+                reportCount: item.reportCount
+            }
+        }));
+    }
+
     async fetch(timeRange: TimeRange): Promise<GeoEntity[]> {
         let engineBase = this.context?.getEngineUrl() || "https://dataenginev2.worldwideview.dev";
         engineBase = engineBase.replace(/\/$/, "");
         const res = await fetch(`${engineBase}/api/civil-unrest`);
         const json = await res.json();
         
-        const payload = json.data;
+        const payload = json.items || json.data;
         if (!payload) return [];
 
         const items = Array.isArray(payload) ? payload : (payload.items || []);
