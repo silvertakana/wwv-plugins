@@ -1,0 +1,250 @@
+# Gremlin OpenCode Autonomous Fix — wwv-plugins edition
+#
+# This repo has NO root package.json. Each plugin lives in its own
+# wwv-plugin-*/ directory with its own package.json, deps, and build
+# script (vite build). Gremlin must cd into the affected plugin directory,
+# install deps there, make the fix, and verify with pnpm build.
+#
+# Required secrets:
+#   GREMLIN_PAT   — GitHub PAT for gh CLI operations (comments, labels, PRs)
+#   DEEPSEEK_API_KEY — DeepSeek API key for the OpenCode agent
+
+name: OpenCode Autonomous Fix
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Issue number to fix
+        required: true
+        type: number
+  issue_comment:
+    types: [created]
+  issues:
+    types: [labeled]
+
+concurrency:
+  group: opencode-fix-${{ github.event.issue.number || github.event.inputs.issue_number }}
+  cancel-in-progress: true
+
+env:
+  GH_TOKEN: ${{ secrets.GREMLIN_PAT }}
+
+jobs:
+  fix:
+    if: |
+      (github.event_name == 'issue_comment' && 
+       (contains(github.event.comment.body, '/opencode') || contains(github.event.comment.body, '/oc') || contains(github.event.comment.body, '/gremlin')) &&
+       contains('["OWNER","MEMBER","COLLABORATOR"]', github.event.comment.author_association)) ||
+      (github.event_name == 'issues' && github.event.action == 'labeled' && 
+       github.event.label.name == 'agent-fix' &&
+       contains('["OWNER","MEMBER","COLLABORATOR"]', github.event.sender.author_association)) ||
+      github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Get issue details
+        id: issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = context.payload.issue?.number ||
+              context.payload.inputs?.issue_number;
+
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber
+            });
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: ['agent-fix-running']
+            });
+
+            const isPR = !!context.payload.issue?.pull_request;
+            const commentBody = context.payload.comment?.body || '';
+            const instruction = commentBody
+              .replace(/^\/(opencode|oc|gremlin)\s*/i, '')
+              .trim();
+
+            const repoGuidance =
+              'This repo has individual plugin directories (wwv-plugin-*/). ' +
+              'Determine which plugin is affected from the issue description. ' +
+              'cd into that directory, run pnpm install in it, make your changes, ' +
+              'and run pnpm build to verify. There is NO root package.json -- ' +
+              'do not attempt pnpm install, pnpm test, or pnpm lint at the repo root.';
+
+            let prompt;
+            if (instruction) {
+              const parts = [
+                'Repository: ' + context.repo.owner + '/' + context.repo.repo,
+                isPR ? 'This comment is on PR #' + issueNumber : 'Issue #' + issueNumber + ': ' + issue.title,
+                '',
+                '## Description',
+                issue.body || '(no description)',
+                '',
+                '## Instruction',
+                instruction,
+                '',
+                repoGuidance,
+              ];
+
+              if (isPR) {
+                parts.push(
+                  '',
+                  'The PR branch is already checked out. Review the changes, answer questions about them, or make any requested modifications.'
+                );
+              } else {
+                parts.push(
+                  '',
+                  'You have full access to the codebase. Use shell commands and read files as needed.',
+                  '',
+                  '## Critical Rules',
+                  '- Identify which wwv-plugin-* directory is affected',
+                  '- cd into that directory and run pnpm install',
+                  '- Make your changes',
+                  '- Run pnpm build in that directory to verify',
+                  '- If changes are needed, commit and push to a new branch named fix/agent-issue-' + issueNumber + ' and create a pull request.'
+                );
+              }
+
+              prompt = parts.join('\n');
+
+              prompt += '\n\n## Handoff\n' +
+                'When creating a PR for any changes:\n' +
+                '- Include "Fixes #' + issueNumber + '" in the description\n' +
+                '- Never modify or delete tests to make them pass\n' +
+                '- Only modify files necessary for the task\n' +
+                '- Verify with pnpm build inside the affected plugin directory\n' +
+                '- Max 3 retries per verification step, then restore and report failure';
+            } else {
+              prompt = 'Fix this issue in the repository.\n\n' +
+                'Issue #' + issueNumber + ': ' + issue.title + '\n\n' +
+                'Description:\n' + issue.body + '\n\n' +
+                '## Repository Structure\n' +
+                repoGuidance + '\n\n' +
+                '## Workflow\n' +
+                '1. REPRODUCE the issue - confirm it exists before making changes\n' +
+                '2. IDENTIFY which wwv-plugin-* directory is affected\n' +
+                '3. cd into that directory, run pnpm install\n' +
+                '4. FIX with minimal, targeted changes\n' +
+                '5. VERIFY with pnpm build inside the plugin directory (up to 3 retries)\n' +
+                '6. CHECK edge cases (empty states, null inputs, errors, boundaries)\n' +
+                '7. COMMIT and PR\n\n' +
+                '## Critical Rules\n' +
+                '- NEVER modify or delete tests to make them pass. If a test fails, fix your implementation.\n' +
+                '- Only modify files necessary to fix the issue. No refactoring unrelated code.\n' +
+                '- If you cannot reproduce the issue, report that in the PR description and STOP.\n' +
+                '- Do NOT run pnpm commands at the repo root -- there is no root package.json.\n' +
+                '- Always run pnpm install and pnpm build inside the specific plugin directory.\n' +
+                '- Max 3 retries per verification step. After 3 failed retries, git restore all changes and abort.\n' +
+                '- Before committing, run git diff and check for debug code or accidental changes.\n\n' +
+                '## PR Requirements\n' +
+                '- Branch: fix/agent-issue-' + issueNumber + '\n' +
+                '- Commit format: fix: <description>\n' +
+                '- PR description must include: what the issue was, root cause, what changed, how verified (with pnpm build)\n' +
+                '- Include "Fixes #' + issueNumber + '" at the end of the PR description';
+            }
+
+            core.setOutput('issue_number', issueNumber.toString());
+            core.setOutput('prompt', prompt);
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Configure git identity
+        run: |
+           git config user.name "Gremlin"
+           git config user.email "gremlin@users.noreply.github.com"
+
+      - name: Run OpenCode
+        uses: anomalyco/opencode/github@v1.17.13
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          model: deepseek/deepseek-v4-flash
+          use_github_token: true
+          share: false
+          mentions: '/opencode,/oc,/gremlin'
+          prompt: ${{ steps.issue.outputs.prompt }}
+
+      - name: On success
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = ${{ steps.issue.outputs.issue_number }};
+
+            // Remove status labels
+            for (const label of ['agent-fix-running', 'agent-fix-failed']) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  name: label
+                });
+              } catch {}
+            }
+
+            const { data: prs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: 'fix/agent-issue-' + issueNumber,
+              state: 'open'
+            });
+
+            let comment = 'Gremlin has finished working on this issue.';
+            if (prs.length > 0) {
+              comment += '\n\nPull Request: #' + prs[0].number;
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: comment
+            });
+
+      - name: On failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = ${{ steps.issue.outputs.issue_number }};
+
+            try {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                name: 'agent-fix-running'
+              });
+            } catch {}
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: ['agent-fix-failed']
+            });
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: 'Gremlin was unable to fix this issue automatically. The agent-fix-failed label has been added. Please review manually.'
+            });
