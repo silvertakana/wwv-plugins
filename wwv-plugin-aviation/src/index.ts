@@ -45,7 +45,7 @@ export class AviationPlugin extends BaseAviationPlugin {
             return {
                 id: `aviation-${st.icao24}`, pluginId: "aviation",
                 latitude: st.lat, longitude: st.lon,
-                altitude: (st.alt || 0) * 10,
+                altitude: (st.alt || 0),
                 heading: st.hdg || undefined, speed: st.spd || undefined,
                 timestamp: new Date(rawTs ? rawTs * 1000 : Date.now()),
                 label: st.callsign || st.icao24,
