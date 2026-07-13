@@ -55,7 +55,7 @@ export class MilitaryPlugin extends BaseAviationPlugin {
                 return {
                     id: `military-aviation-${ac.hex}`, pluginId: "military-aviation",
                     latitude: ac.lat!, longitude: ac.lon!,
-                    altitude: altMeters !== null ? altMeters * 10 : 0,
+                    altitude: altMeters !== null ? altMeters : 0,
                     heading: ac.track ?? undefined, speed: ac.gs ?? undefined,
                     timestamp: new Date(),
                     label: ac.flight?.trim() || ac.r || ac.hex,
