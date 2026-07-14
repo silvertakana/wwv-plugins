@@ -57,7 +57,7 @@
         "test": "vitest run"
     },
     "peerDependencies": {
-        "@worldwideview/wwv-plugin-sdk": "*"
+        "@worldwideview/wwv-plugin-sdk": "workspace:*"
     },
     "dependencies": {
         "lucide-react": "^0.470.0"
