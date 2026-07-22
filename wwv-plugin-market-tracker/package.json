@@ -42,7 +42,7 @@
     "category": "economic",
     "icon": "LineChart",
     "ci": {
-      "type": "data"
+      "type": "ui"
     },
     "dev_entry": "src/index.ts",
     "capabilities": [
@@ -55,7 +55,7 @@
     "build": "vite build"
   },
   "peerDependencies": {
-    "@worldwideview/wwv-plugin-sdk": "*"
+    "@worldwideview/wwv-plugin-sdk": "workspace:*"
   },
   "dependencies": {
     "gridstack": "^11.0.0",
