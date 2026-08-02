@@ -1,0 +1,30 @@
+{
+  "name": "@worldwideview/wwv-plugin-moon",
+  "version": "1.0.0",
+  "description": "Live sub-lunar point — the spot on Earth directly beneath the moon",
+  "main": "dist/frontend.mjs",
+  "type": "module",
+  "dependencies": {
+    "lucide-react": "^1.14.0"
+  },
+  "worldwideview": {
+    "id": "moon",
+    "icon": "MoonStar",
+    "category": "space",
+    "format": "bundle",
+    "capabilities": [
+      "data:own",
+      "globe:overlay"
+    ],
+    "ci": {
+      "type": "data"
+    }
+  },
+  "module": "dist/frontend.mjs",
+  "scripts": {
+    "build": "vite build"
+  },
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "@worldwideview/wwv-plugin-phone-lookup",
+  "version": "1.0.0",
+  "description": "OSINT tool: country/region and number type from a phone number's format",
+  "main": "dist/frontend.mjs",
+  "type": "module",
+  "dependencies": {
+    "google-libphonenumber": "^3.2.46",
+    "lucide-react": "^1.14.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.2",
+    "@types/google-libphonenumber": "^7.4.31",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^5.4.5",
+    "vite": "^8.0.8"
+  },
+  "worldwideview": {
+    "id": "phone-lookup",
+    "icon": "Phone",
+    "category": "intelligence",
+    "format": "bundle",
+    "capabilities": [
+      "data:own",
+      "globe:overlay",
+      "ui:sidebar"
+    ],
+    "ci": {
+      "type": "control"
+    }
+  },
+  "module": "dist/frontend.mjs",
+  "scripts": {
+    "build": "vite build"
+  },
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*",
+    "react": ">=19"
+  }
+}
