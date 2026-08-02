@@ -1,0 +1,31 @@
+{
+  "name": "@worldwideview/wwv-plugin-iss",
+  "version": "1.0.0",
+  "description": "Live position of the International Space Station",
+  "main": "dist/frontend.mjs",
+  "type": "module",
+  "dependencies": {
+    "lucide-react": "^1.14.0"
+  },
+  "worldwideview": {
+    "id": "iss",
+    "icon": "Satellite",
+    "category": "space",
+    "format": "bundle",
+    "capabilities": [
+      "data:own",
+      "globe:overlay",
+      "network:fetch"
+    ],
+    "ci": {
+      "type": "data"
+    }
+  },
+  "module": "dist/frontend.mjs",
+  "scripts": {
+    "build": "vite build"
+  },
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*"
+  }
+}

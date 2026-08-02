@@ -1,0 +1,39 @@
+{
+  "name": "@worldwideview/wwv-plugin-exif-geolocate",
+  "version": "1.0.0",
+  "description": "OSINT tool: reads a photo's EXIF GPS tags and drops a pin where it was taken",
+  "main": "dist/frontend.mjs",
+  "type": "module",
+  "dependencies": {
+    "exifr": "^7.1.3",
+    "lucide-react": "^1.14.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.2",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^5.4.5",
+    "vite": "^8.0.8"
+  },
+  "worldwideview": {
+    "id": "exif-geolocate",
+    "icon": "MapPinned",
+    "category": "intelligence",
+    "format": "bundle",
+    "capabilities": [
+      "data:own",
+      "globe:overlay",
+      "ui:sidebar"
+    ],
+    "ci": {
+      "type": "control"
+    }
+  },
+  "module": "dist/frontend.mjs",
+  "scripts": {
+    "build": "vite build"
+  },
+  "peerDependencies": {
+    "@worldwideview/wwv-plugin-sdk": "workspace:*",
+    "react": ">=19"
+  }
+}
