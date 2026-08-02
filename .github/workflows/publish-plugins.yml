@@ -77,6 +77,16 @@ jobs:
         run: pnpm install --no-frozen-lockfile
         working-directory: worldwideview
 
+      - name: Build shared packages
+        working-directory: worldwideview
+        run: |
+          # Build the SDK so dist/viteGlobals.js exists for esbuild to analyze
+          # when Vite loads each plugin's vite.config.ts. Without this step,
+          # viteGlobals.js is absent (not committed) and esbuild can't resolve
+          # __exportStar(require("./viteGlobals")) → wwvPluginGlobals import fails
+          # on EVERY plugin build. Mirrors plugin-ci.yml "Build shared packages".
+          pnpm --filter "@worldwideview/wwv-plugin-sdk" build
+
       # ── Pre-flight: validate all plugin manifests before touching npm ─────
       # Catches missing/malformed worldwideview block fields early so a bad
       # plugin never reaches the registry with corrupt metadata.
