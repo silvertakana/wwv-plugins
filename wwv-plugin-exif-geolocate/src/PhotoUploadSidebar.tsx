@@ -2,7 +2,7 @@ import { useState } from "react";
 import * as exifr from "exifr";
 import { addUploadedPhoto } from "./photoStore";
 
-export default function PhotoUploadSidebar(): JSX.Element {
+export default function PhotoUploadSidebar() {
     const [status, setStatus] = useState<string | null>(null);
     const [isError, setIsError] = useState(false);
 

@@ -21,7 +21,7 @@ const TYPE_LABELS: Record<number, string> = {
     [PhoneNumberType.UNKNOWN]: "Unknown",
 };
 
-export default function PhoneLookupSidebar(): JSX.Element {
+export default function PhoneLookupSidebar() {
     const [value, setValue] = useState("");
     const [status, setStatus] = useState<string | null>(null);
     const [isError, setIsError] = useState(false);
