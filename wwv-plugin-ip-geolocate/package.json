@@ -1,0 +1,61 @@
+{
+    "name": "@worldwideview/wwv-plugin-ip-geolocate",
+    "version": "1.0.0",
+    "description": "Find where any IP address lives on the globe. Country-level lookup, fully offline.",
+    "main": "dist/frontend.mjs",
+    "files": [
+        "src",
+        "data"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-ip-geolocate",
+        "ip-geolocate",
+        "ip",
+        "geolocation"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/wwv-plugins.git",
+        "directory": "wwv-plugin-ip-geolocate"
+    },
+    "homepage": "https://github.com/silvertakana/wwv-plugins#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/wwv-plugins/issues"
+    },
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    },
+    "devDependencies": {
+        "@types/react": "^19.0.2",
+        "@vitejs/plugin-react": "^6.0.1",
+        "typescript": "^5.4.5",
+        "vite": "^8.0.8"
+    },
+    "worldwideview": {
+        "id": "ip-geolocate",
+        "icon": "Globe",
+        "category": "Custom",
+        "format": "bundle",
+        "capabilities": [
+            "layer",
+            "ui:sidebar"
+        ],
+        "type": "data-layer",
+        "rendering": {
+            "defaultColor": "#4f8cff",
+            "iconUrl": "/icons/default.svg"
+        },
+        "ci": {
+            "type": "control"
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}
