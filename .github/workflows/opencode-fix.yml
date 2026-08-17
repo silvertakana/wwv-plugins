@@ -6,7 +6,7 @@
 # install deps there, make the fix, and verify with pnpm build.
 #
 # Required secrets:
-#   LITELLM_API_KEY — API key for the LiteLLM proxy (passed as DEEPSEEK_API_KEY env var)
+#   LITELLM_API_KEY — API key for the LiteLLM proxy (passed as OPENAI_API_KEY env var)
 
 name: OpenCode Autonomous Fix
 
@@ -169,10 +169,11 @@ jobs:
       - name: Run OpenCode
         uses: anomalyco/opencode/github@v1.17.13
         env:
-          DEEPSEEK_API_KEY: ${{ secrets.LITELLM_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.LITELLM_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENCODE_CONFIG_CONTENT: '{"provider":{"litellm":{"npm":"@ai-sdk/openai-compatible","options":{"baseURL":"https://llm2.worldwideview.dev/v1"},"models":{"deepseek-v4-flash":{}}}}}'
         with:
-          model: deepseek/deepseek-v4-flash
+          model: litellm/deepseek-v4-flash
           use_github_token: true
           share: false
           mentions: '/opencode,/oc,/gremlin'
