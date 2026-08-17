@@ -40,7 +40,7 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.value }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -92,13 +92,13 @@ jobs:
     name: "${{ matrix.plugin.name }}"
     steps:
       - name: Checkout worldwideview (monorepo toolchain)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: silvertakana/worldwideview
           path: worldwideview
 
       - name: Checkout wwv-plugins into local-plugins
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: worldwideview/local-plugins
 
