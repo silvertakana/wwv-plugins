@@ -1,17 +1,19 @@
 # wwv-plugin-ip-geolocate
 
-WorldWideView plugin — find where any IPv4 address lives on the globe. Country-level lookup, fully offline.
+WorldWideView plugin — find where any IPv4 address lives on the globe. **City-level** lookup, fully offline.
 
 ## Usage
 
-Open the plugin's sidebar, type an IPv4 address (e.g. `8.8.8.8`), and press **Locate**. The plugin places a marker at the country's centroid and shows the resolved country. Invalid or unmatched IPs show a "No match" message and clear the map.
+Open the plugin's sidebar, type an IPv4 address (e.g. `8.8.8.8`), and press **Locate**. The plugin places a marker at the city's real coordinates and shows the resolved city (e.g. `8.8.8.8 → Mountain View, US`). Invalid, private, or unmatched IPs show "Private IP" / "No match" and clear the map.
+
+City resolution is approximate to block level (a `/20` block is labelled with its most populous city), not street-level.
 
 ## Data
 
-- Source: [sapics/ip-location-db](https://github.com/sapics/ip-location-db) `user-country-ipv4.csv` (PDDL, public domain)
-- Country names + centroids: [mledoze/countries](https://github.com/mledoze/countries) `countries.json` (ODbL)
-- Bundled compactly as base64 typed arrays in `data/data.json` (~3.6 MB, 283,687 ranges, 250 countries)
-- Regenerate with: `node scripts/prepare-data.mjs` (after re-downloading the two source files into `data/`)
+- Source: [sapics/ip-location-db](https://github.com/sapics/ip-location-db) `dbip-city-ipv4.csv.gz`
+- **Attribution (CC BY 4.0)**: IP geolocation data © DB-IP.com (https://db-ip.com), licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). See `data/ATTRIBUTION`.
+- Bundled compactly in `data/data.json` (~5.7 MB, 298,685 blocks across 63,628 city locations, 4096-address `/20` granularity). Ranges with the same city are merged; each block is labelled with its most populous city.
+- Regenerate with: `node scripts/prepare-data.mjs` (after re-downloading `dbip-city-ipv4.csv` into `data/`). Set `BLOCK_BITS` to trade precision for size if needed.
 
 ## Runtime
 
