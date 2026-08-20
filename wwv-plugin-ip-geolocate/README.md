@@ -12,7 +12,7 @@ City resolution is approximate to block level (a `/20` block is labelled with it
 
 - Source: [sapics/ip-location-db](https://github.com/sapics/ip-location-db) `dbip-city-ipv4.csv.gz`
 - **Attribution (CC BY 4.0)**: IP geolocation data © DB-IP.com (https://db-ip.com), licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). See `data/ATTRIBUTION`.
-- Bundled compactly in `data/data.json` (~5.7 MB, 298,685 blocks across 63,628 city locations, 4096-address `/20` granularity). Ranges with the same city are merged; each block is labelled with its most populous city.
+- Bundled compactly in `data/data.json` (~5.05 MB, 271,369 blocks across 53,836 city locations, 4096-address `/20` granularity). Ranges with the same city are merged; each block is labelled with its most populous city.
 - Regenerate with: `node scripts/prepare-data.mjs` (after re-downloading `dbip-city-ipv4.csv` into `data/`). Set `BLOCK_BITS` to trade precision for size if needed.
 
 ## Runtime

@@ -22,7 +22,7 @@ export interface CityInfo {
 
 /** Shape of data/data.json (compact base64 typed arrays, see scripts/prepare-data.mjs). */
 interface IpGeoData {
-    countries: string[]; // country code by index (0 = "")
+    countries: string[]; // country code by index (first-appearance order; countries[0] is not reserved)
     locs: {
         c: string; // base64 Uint16Array of country indices
         t: string; // concatenated city strings (sliced by off, no separator)
