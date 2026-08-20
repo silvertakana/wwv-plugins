@@ -1,0 +1,53 @@
+{
+    "name": "@worldwideview/wwv-plugin-solar-plants",
+    "version": "1.0.0",
+    "description": "WorldWideView plugin — Utility-scale solar power plants worldwide",
+    "main": "dist/frontend.mjs",
+    "files": [
+        "src",
+        "data"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-solar-plants",
+        "solar"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/worldwideview-plugins.git",
+        "directory": "packages/wwv-plugin-solar-plants"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "^1.4.10"
+    },
+    "worldwideview": {
+        "id": "solar-plants",
+        "icon": "Sun",
+        "category": "Energy",
+        "format": "bundle",
+        "capabilities": [
+            "layer"
+        ],
+        "type": "data-layer",
+        "dataFile": "data/data.json",
+        "rendering": {
+            "defaultColor": "#fbbf24",
+            "iconUrl": "/icons/default.svg"
+        },
+        "ci": {
+            "type": "ui"
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}
