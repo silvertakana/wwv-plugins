@@ -129,6 +129,16 @@ jobs:
           SIZE_BYTES=$(wc -c < "$BUNDLE")
           SIZE_KB=$(( SIZE_BYTES / 1024 ))
           LIMIT_KB=$(node -p "require('./${PKG_JSON}').worldwideview?.ci?.bundleSizeLimitKb ?? 10240" 2>/dev/null || echo 10240)
+
+          # Fail closed: a non-numeric declared limit must not silently disable the gate.
+          case "$LIMIT_KB" in
+            ''|*[!0-9]*)
+              echo "FAIL: worldwideview.ci.bundleSizeLimitKb must be a positive integer (KB). Got: '${LIMIT_KB}'"
+              echo "  Set a number like 15360 (15 MB), or remove the field to use the 10240 KB default."
+              exit 1
+              ;;
+          esac
+
           echo "Bundle size: ${SIZE_KB} KB  Limit: ${LIMIT_KB} KB"
           if [ "$SIZE_KB" -gt "$LIMIT_KB" ]; then
             echo "FAIL: bundle exceeds limit (${SIZE_KB} KB > ${LIMIT_KB} KB)."

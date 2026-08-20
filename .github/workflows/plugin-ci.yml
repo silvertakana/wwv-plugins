@@ -13,7 +13,7 @@
 #   2 — load smoke: bundle loads in Node.js with mocked host globals, plugin instantiates
 #   3 — method contracts: getLayerConfig/renderEntity/mapWebsocketPayload return valid shapes
 #   4 — bundle size gate (ci.bundleSizeLimitKb in package.json worldwideview block,
-#       default 10240 KB / 10 MB)
+#       default 10240 KB / 10 MB; declared value must be a positive integer KB)
 #
 # ci.type in package.json worldwideview block gates tier execution. Defaults to
 # "data" if not set. Values: data | ui | control.
@@ -198,6 +198,15 @@ jobs:
           SIZE_BYTES=$(wc -c < "$BUNDLE")
           SIZE_KB=$(( SIZE_BYTES / 1024 ))
           LIMIT_KB=$(node -p "require('./${PKG_JSON}').worldwideview?.ci?.bundleSizeLimitKb ?? 10240" 2>/dev/null || echo 10240)
+
+          # Fail closed: a non-numeric declared limit must not silently disable the gate.
+          case "$LIMIT_KB" in
+            ''|*[!0-9]*)
+              echo "FAIL: worldwideview.ci.bundleSizeLimitKb must be a positive integer (KB). Got: '${LIMIT_KB}'"
+              echo "  Set a number like 15360 (15 MB), or remove the field to use the 10240 KB default."
+              exit 1
+              ;;
+          esac
 
           echo "Bundle size: ${SIZE_KB} KB  Limit: ${LIMIT_KB} KB"
 
