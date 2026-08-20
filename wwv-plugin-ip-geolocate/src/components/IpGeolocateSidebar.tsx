@@ -8,8 +8,8 @@ interface IpGeolocateSidebarProps {
 }
 
 type Result =
-    | { status: "ok"; ip: string; name: string; code: string; lat: number; lng: number }
-    | { status: "miss"; ip: string }
+    | { status: "ok"; ip: string; city: string; code: string; lat: number; lng: number }
+    | { status: "miss"; ip: string; private: boolean }
     | null;
 
 export function IpGeolocateSidebar({ plugin }: IpGeolocateSidebarProps) {
@@ -26,33 +26,34 @@ export function IpGeolocateSidebar({ plugin }: IpGeolocateSidebarProps) {
         setTimeout(() => {
             try {
                 const found = plugin.lookup(trimmed);
-                if (found && found.name !== "Unknown") {
+                const isPrivate = /^(10\.|127\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.)/.test(trimmed);
+                if (found && found.city) {
                     const entity: GeoEntity = {
                         id: "ip-geolocate-" + trimmed,
                         pluginId: "ip-geolocate",
                         latitude: found.lat,
                         longitude: found.lng,
                         timestamp: new Date(),
-                        label: found.name,
-                        properties: { ip: trimmed, countryCode: found.code },
+                        label: found.city,
+                        properties: { ip: trimmed, city: found.city, countryCode: found.code },
                     };
                     plugin.pushResults([entity]);
                     setResult({
                         status: "ok",
                         ip: trimmed,
-                        name: found.name,
+                        city: found.city,
                         code: found.code,
                         lat: found.lat,
                         lng: found.lng,
                     });
                 } else {
                     plugin.pushResults([]);
-                    setResult({ status: "miss", ip: trimmed });
+                    setResult({ status: "miss", ip: trimmed, private: isPrivate });
                 }
             } catch (err) {
                 console.error("IP lookup failed", err);
                 plugin.pushResults([]);
-                setResult({ status: "miss", ip: trimmed });
+                setResult({ status: "miss", ip: trimmed, private: false });
             } finally {
                 setIsBusy(false);
             }
@@ -125,19 +126,21 @@ export function IpGeolocateSidebar({ plugin }: IpGeolocateSidebarProps) {
                     minHeight: "24px",
                 }}
             >
-                {result === null && "Enter an IPv4 address to place a marker at its country's centroid."}
+                {result === null && "Enter an IPv4 address to place a marker at its city."}
                 {result?.status === "ok" && (
                     <span style={{ color: "var(--text-primary)" }}>
-                        <strong>{result.ip}</strong> → {result.name} ({result.code})
+                        <strong>{result.ip}</strong> → {result.city}, {result.code}
                         <span style={{ color: "var(--text-muted)" }}>
                             {" "}
-                            · {result.lat.toFixed(1)}, {result.lng.toFixed(1)}
+                            · {result.lat.toFixed(2)}, {result.lng.toFixed(2)}
                         </span>
                     </span>
                 )}
                 {result?.status === "miss" && (
                     <span style={{ color: "#ef4444" }}>
-                        No match for <strong>{result.ip}</strong> — invalid IP or not in the public dataset.
+                        {result.private
+                            ? "Private IP"
+                            : `No match for ${result.ip} — invalid IP or not in the public dataset.`}
                     </span>
                 )}
             </div>

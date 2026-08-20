@@ -5,3 +5,7 @@ dist
 coverage
 *.log
 .DS_Store
+
+# Raw IP-geolocation feedstock (re-download before prepare; provenance in data/ATTRIBUTION)
+wwv-plugin-ip-geolocate/data/dbip-city-ipv4.csv
+wwv-plugin-ip-geolocate/data/dbip-city-ipv4.csv.gz
