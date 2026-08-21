@@ -42,5 +42,16 @@ node scripts/verify-data.mjs
 
 Exits `0` on pass, `1` on any anomaly (FeatureCollection shape, Point geometries, coordinate ranges, required properties, duplicate ids).
 
+## Refreshing data
+
+Re-download the SatNOGS station list and regenerate `data/data.json` (path-independent, no dependencies, plain Node):
+
+```bash
+node scripts/fetch-data.mjs
+node scripts/verify-data.mjs
+```
+
+`fetch-data.mjs` fetches with retry, drops stations with missing or invalid coordinates (0,0 sentinel, out-of-range lon/lat), and transforms each station into a Point feature with `name`, `status`, `altitude`, `bands` (comma-joined unique non-empty frequency bands), and `qth` (Maidenhead locator). After refreshing, the second command must exit `0` before committing.
+
 ---
 *Built for WorldWideView.*
