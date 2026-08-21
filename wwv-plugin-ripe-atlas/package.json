@@ -1,0 +1,58 @@
+{
+    "name": "@worldwideview/wwv-plugin-ripe-atlas",
+    "version": "1.0.0",
+    "description": "WorldWideView plugin — RIPE Atlas network measurement probes worldwide",
+    "main": "dist/frontend.mjs",
+    "files": [
+        "src",
+        "data"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-ripe-atlas",
+        "ripe-atlas",
+        "network",
+        "probes"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/worldwideview-plugins.git",
+        "directory": "packages/wwv-plugin-ripe-atlas"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "^1.4.10"
+    },
+    "devDependencies": {
+        "vite": "^8.1.2"
+    },
+    "worldwideview": {
+        "id": "ripe-atlas",
+        "icon": "Activity",
+        "category": "Infrastructure",
+        "format": "bundle",
+        "capabilities": [
+            "layer"
+        ],
+        "type": "data-layer",
+        "dataFile": "data/data.json",
+        "rendering": {
+            "defaultColor": "#38bdf8",
+            "iconUrl": "/icons/default.svg"
+        },
+        "ci": {
+            "type": "ui"
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}
