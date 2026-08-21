@@ -1,0 +1,54 @@
+{
+    "name": "@worldwideview/wwv-plugin-satground-stations",
+    "version": "1.0.0",
+    "description": "WorldWideView plugin — Satellite ground stations worldwide",
+    "main": "dist/frontend.mjs",
+    "files": [
+        "src",
+        "data"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-satground-stations",
+        "satnogs",
+        "ground-stations"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/worldwideview-plugins.git",
+        "directory": "packages/wwv-plugin-satground-stations"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "^1.4.10"
+    },
+    "worldwideview": {
+        "id": "satground-stations",
+        "icon": "SatelliteDish",
+        "category": "Space",
+        "format": "bundle",
+        "capabilities": [
+            "layer"
+        ],
+        "type": "data-layer",
+        "dataFile": "data/data.json",
+        "rendering": {
+            "defaultColor": "#22d3ee",
+            "iconUrl": "/icons/default.svg"
+        },
+        "ci": {
+            "type": "ui"
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}
