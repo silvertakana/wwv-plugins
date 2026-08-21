@@ -42,5 +42,23 @@ node scripts/verify-data.mjs
 
 Exits `0` on pass, `1` on any anomaly (FeatureCollection shape, Point geometries, coordinate ranges, required properties, duplicate ids).
 
+## Refreshing Data
+
+Re-download the WRI Global Power Plant Database CSV and regenerate `data/data.json`:
+
+```bash
+node scripts/fetch-data.mjs
+```
+
+The script parses the RFC-4180 CSV (quoted fields, `""` escapes), filters rows with unparseable coordinates, and writes a FeatureCollection with the same field mapping and row order as the committed data. It exits `1` (fails closed) if verification fails, if the feature count moves more than 2% from the committed file, or if the download shows signs of corruption. If the regenerated file is byte-identical, nothing is written.
+
+Known plants can be spot-checked after a refresh:
+
+```bash
+node scripts/fetch-data.mjs --check="Ain Djasser=Algeria"
+```
+
+Re-run offline with `--use-cache` after a previous download (cached in the system temp dir).
+
 ---
 *Built for WorldWideView.*
