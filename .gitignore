@@ -9,3 +9,6 @@ coverage
 # Raw IP-geolocation feedstock (re-download before prepare; provenance in data/ATTRIBUTION)
 wwv-plugin-ip-geolocate/data/dbip-city-ipv4.csv
 wwv-plugin-ip-geolocate/data/dbip-city-ipv4.csv.gz
+
+# PeeringDB raw feedstock cache (re-fetch before regenerate; see scripts/fetch-data.mjs)
+wwv-plugin-internet-exchanges/.cache/
