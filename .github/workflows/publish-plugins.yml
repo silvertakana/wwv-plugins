@@ -187,13 +187,28 @@ jobs:
             if [ "$DRY_RUN" = "true" ]; then
               echo "  dry   would publish ${plugin_name}@${local_version}"
               PUBLISHED=$((PUBLISHED + 1))
-            elif pnpm --filter "$plugin_name" build && \
-               pnpm publish --filter "$plugin_name" --no-git-checks --access public; then
-              echo "  ok    published"
-              PUBLISHED=$((PUBLISHED + 1))
-            else
-              echo "  FAIL  ${plugin_name}@${local_version}"
+            elif ! pnpm --filter "$plugin_name" build; then
+              echo "  FAIL  ${plugin_name}@${local_version} (build failed)"
               FAILED=$((FAILED + 1))
+            else
+              # Capture the publish output so an E403 "already published" race
+              # (npm registry propagation lag: npm view above returned empty for
+              # a just-published version) is counted as SKIPPED, not FAILED.
+              publish_log=$(mktemp)
+              pnpm publish --filter "$plugin_name" --no-git-checks --access public >"$publish_log" 2>&1
+              publish_status=$?
+              cat "$publish_log"
+              if [ "$publish_status" -eq 0 ]; then
+                echo "  ok    published"
+                PUBLISHED=$((PUBLISHED + 1))
+              elif grep -q "403" "$publish_log" && grep -qE "previously published|cannot publish over" "$publish_log"; then
+                echo "  skip  ${plugin_name}@${local_version} (already published, E403)"
+                SKIPPED=$((SKIPPED + 1))
+              else
+                echo "  FAIL  ${plugin_name}@${local_version}"
+                FAILED=$((FAILED + 1))
+              fi
+              rm -f "$publish_log"
             fi
           done
 

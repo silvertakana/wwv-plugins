@@ -1,0 +1,153 @@
+# Refresh Plugin Data — monthly + manual
+#
+# Re-runs each plugin's data refresh script (scripts/fetch-data.mjs) where one
+# exists, regenerating data/data.json from the live source. Plugins without a
+# fetch script are skipped. Changed data is committed to a chore branch and
+# opened as a PR (chore: refresh plugin data) with a patch version bump on each
+# changed plugin, so the publish workflow ships the refreshed data.
+#
+# Robustness rules:
+#   - A failing fetch/verify never fails the run — it logs and moves on.
+#   - Unchanged data is never committed.
+#   - A plugin whose regenerated data fails verify-data.mjs is NOT committed.
+#   - No changes -> clean exit 0, no PR.
+
+name: Refresh Plugin Data
+
+on:
+  schedule:
+    # 3am UTC on the 1st of every month
+    - cron: '0 3 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+
+      - name: Refresh plugin data
+        id: refresh
+        run: |
+          set -euo pipefail
+
+          CHANGED=0
+          FAILED=0
+
+          for plugin_dir in wwv-plugin-*/; do
+            pkg_json="${plugin_dir}package.json"
+            [ -f "$pkg_json" ] || continue
+
+            # Only @worldwideview/* packages are plugins (skip README or other dirs).
+            plugin_name=$(node -p "require('./${pkg_json}').name" 2>/dev/null || true)
+            [[ "$plugin_name" == @worldwideview/* ]] || continue
+
+            fetch_script="${plugin_dir}scripts/fetch-data.mjs"
+            verify_script="${plugin_dir}scripts/verify-data.mjs"
+            data_file="${plugin_dir}data/data.json"
+
+            if [ ! -f "$fetch_script" ]; then
+              echo "  skip  ${plugin_name} (no scripts/fetch-data.mjs)"
+              continue
+            fi
+
+            if [ ! -f "$data_file" ]; then
+              echo "  warn  ${plugin_name}: no data/data.json present — skipping"
+              continue
+            fi
+
+            echo ""
+            echo "--- ${plugin_name} ---"
+
+            if ! (cd "$plugin_dir" && node scripts/fetch-data.mjs); then
+              echo "  FAIL  ${plugin_name}: fetch-data.mjs failed — skipping"
+              FAILED=$((FAILED + 1))
+              continue
+            fi
+
+            if [ -f "$verify_script" ]; then
+              if ! (cd "$plugin_dir" && node scripts/verify-data.mjs); then
+                echo "  FAIL  ${plugin_name}: regenerated data failed verify-data.mjs — NOT committing"
+                FAILED=$((FAILED + 1))
+                continue
+              fi
+            fi
+
+            if git diff --quiet "$data_file"; then
+              echo "  ok    ${plugin_name}: data unchanged"
+              continue
+            fi
+
+            # Bump the plugin's package.json version patch (1.0.0 -> 1.0.1).
+            # Any failure is logged as a failure and the plugin is skipped —
+            # never fail the whole run mid-loop with a dirty tree.
+            if ! (cd "$plugin_dir" && npm version patch --no-git-tag-version --allow-same-version >/dev/null 2>&1); then
+              echo "  FAIL  ${plugin_name}: version bump failed — skipping"
+              FAILED=$((FAILED + 1))
+              continue
+            fi
+
+            echo "  ok    ${plugin_name}: data refreshed, version bumped"
+            CHANGED=$((CHANGED + 1))
+          done
+
+          echo ""
+          echo "Refreshed: ${CHANGED}  Failed: ${FAILED}"
+
+          if [ "$CHANGED" -eq 0 ]; then
+            echo "No plugin data changed — nothing to commit."
+            exit 0
+          fi
+
+          echo "changed=${CHANGED}" >> "$GITHUB_OUTPUT"
+
+      - name: Open PR with refreshed data
+        if: steps.refresh.outputs.changed > 0
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          DATE=$(date +%Y-%m-%d)
+          BRANCH="chore/data-refresh-${DATE}"
+
+          # Abort (exit 0) if a refresh branch for today already exists, so
+          # re-runs don't stack duplicate PRs.
+          if git ls-remote --heads origin "$BRANCH" | grep -q "$BRANCH"; then
+            echo "Branch ${BRANCH} already exists — skipping PR creation."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add -A wwv-plugin-*/data wwv-plugin-*/package.json
+          git commit -m "chore: refresh plugin data"
+          git push -u origin "$BRANCH"
+
+          {
+            echo "Automated monthly data refresh."
+            echo ""
+            echo "Updated plugin data and patch-bumped versions for the plugins listed"
+            echo "in the commit stat below:"
+            echo ""
+            git show --stat --oneline HEAD
+            echo ""
+            echo "Verified with each plugin's scripts/verify-data.mjs (when present)"
+            echo "before committing."
+          } > /tmp/pr-body.md
+
+          gh pr create \
+            --title "chore: refresh plugin data" \
+            --body-file /tmp/pr-body.md \
+            --base main --head "$BRANCH"
