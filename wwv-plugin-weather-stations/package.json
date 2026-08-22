@@ -1,0 +1,54 @@
+{
+    "name": "@worldwideview/wwv-plugin-weather-stations",
+    "version": "1.0.0",
+    "description": "Weather station network - active GHCN stations, curated subset (NOAA)",
+    "main": "dist/frontend.mjs",
+    "files": [
+        "src",
+        "data"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-weather-stations",
+        "weather-stations"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/worldwideview-plugins.git",
+        "directory": "packages/wwv-plugin-lighthouses"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "^1.4.10"
+    },
+    "worldwideview": {
+        "id": "weather-stations",
+        "icon": "CloudSun",
+        "category": "Weather",
+        "format": "bundle",
+        "capabilities": [
+            "layer"
+        ],
+        "type": "data-layer",
+        "dataFile": "data/data.json",
+        "rendering": {
+            "defaultColor": "#4f8bff",
+            "iconUrl": "/icons/default.svg"
+        },
+        "ci": {
+            "type": "ui",
+            "bundleSizeLimitKb": 15360
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}
