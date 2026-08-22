@@ -42,5 +42,16 @@ node scripts/verify-data.mjs
 
 Exits `0` on pass, `1` on any anomaly (FeatureCollection shape, Point geometries, coordinate ranges, required properties, duplicate ids).
 
+## Refreshing Data
+
+Regenerate `data/data.json` from the current NOAA IBTrACS release:
+
+```bash
+node scripts/fetch-data.mjs --force
+node scripts/verify-data.mjs
+```
+
+`fetch-data.mjs` re-downloads the IBTrACS v04r00 North Atlantic CSV (~53 MB), selects NA-basin storms (storm-level: cross-basin storms like 2022 BONNIE keep their East Pacific positions) from seasons 2000+ with peak Saffir-Simpson category 2+, and writes the GeoJSON FeatureCollection. `--force` is required because the script refuses to overwrite an existing data file by default. It exits non-zero on download failure, parse error, or a generated file that fails the integrity checks.
+
 ---
 *Built for WorldWideView.*
