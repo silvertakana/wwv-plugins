@@ -12,3 +12,6 @@ wwv-plugin-ip-geolocate/data/dbip-city-ipv4.csv.gz
 
 # PeeringDB raw feedstock cache (re-fetch before regenerate; see scripts/fetch-data.mjs)
 wwv-plugin-internet-exchanges/.cache/
+
+# Overpass raw region cache (re-fetch before regenerate; see scripts/fetch-data.mjs)
+wwv-plugin-power-grid-substations/.cache/
