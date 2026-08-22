@@ -1,0 +1,53 @@
+{
+    "name": "@worldwideview/wwv-plugin-unesco-sites",
+    "version": "1.0.0",
+    "description": "1,273 UNESCO World Heritage sites (UNESCO, baked snapshot)",
+    "main": "dist/frontend.mjs",
+    "files": [
+        "src",
+        "data"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-unesco-sites",
+        "unesco-sites"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/worldwideview-plugins.git",
+        "directory": "packages/wwv-plugin-lighthouses"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "^1.4.10"
+    },
+    "worldwideview": {
+        "id": "unesco-sites",
+        "icon": "Landmark",
+        "category": "Culture",
+        "format": "bundle",
+        "capabilities": [
+            "layer"
+        ],
+        "type": "data-layer",
+        "dataFile": "data/data.json",
+        "rendering": {
+            "defaultColor": "#e2a54a",
+            "iconUrl": "/icons/default.svg"
+        },
+        "ci": {
+            "type": "ui"
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}
