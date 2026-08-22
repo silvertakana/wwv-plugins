@@ -45,5 +45,15 @@ node scripts/verify-data.mjs
 
 Exits `0` on pass, `1` on any anomaly (FeatureCollection shape, Point geometries, coordinate ranges, required properties, duplicate ids).
 
+## Refreshing Data
+
+Re-query OpenStreetMap and regenerate `data/data.json`:
+
+```bash
+node scripts/fetch-data.mjs
+```
+
+The script queries the Overpass API per world region (`node["railway"="station"]["name"]`), de-dupes by OSM id, and deterministically samples (sort by name, keep every 3rd) to stay under the 9 MB bundle gate. Raw region responses are cached in `temp/.cache` (gitignored), so an interrupted run resumes without re-querying. It is fail-closed: `data.json` is only written if the resulting feature count drifts less than 2% from the last published count and the file stays under 9 MB. After a successful refresh, re-run `node scripts/verify-data.mjs` to confirm integrity.
+
 ---
 *Built for WorldWideView.*
