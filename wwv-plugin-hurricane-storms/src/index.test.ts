@@ -75,7 +75,7 @@ describe("HurricaneStormsPlugin", () => {
         expect(plugin.id).toBe("hurricane-storms");
         expect(plugin.name).toBe("Hurricane Storms");
         expect(plugin.category).toBe("natural-disaster");
-        expect(plugin.version).toBe("1.0.0");
+        expect(plugin.version).toBe("1.0.1");
     });
 
     it("serves the engine endpoint contract", () => {

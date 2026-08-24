@@ -66,7 +66,8 @@ export class LiveDisastersPlugin extends BaseIncidentPlugin {
 
     async fetch(_timeRange: TimeRange): Promise<GeoEntity[]> {
         try {
-            const res = await globalThis.fetch(`/api/live-disasters`);
+            const engineBase = this.context?.getEngineUrl() || "https://dataenginev2.worldwideview.dev";
+            const res = await globalThis.fetch(`${engineBase}/api/live-disasters`);
             if (!res.ok) {
                 this.context?.onError(new Error(`Live Disasters API returned ${res.status}`));
                 return [];

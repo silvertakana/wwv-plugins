@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-launch-tracker",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Live upcoming rocket launches from Launch Library 2, engine-backed",
     "type": "module",
     "main": "dist/frontend.mjs",

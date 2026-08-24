@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-marine-buoys",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Live marine buoy observations from NOAA NDBC (wave height, wind, temperature)",
     "type": "module",
     "main": "dist/frontend.mjs",

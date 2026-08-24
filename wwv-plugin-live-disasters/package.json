@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-live-disasters",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "main": "dist/frontend.mjs",
     "dependencies": {
         "@worldwideview/wwv-lib-incidents": "workspace:*",

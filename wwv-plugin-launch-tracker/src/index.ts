@@ -73,7 +73,8 @@ export class LaunchTrackerPlugin extends BaseIncidentPlugin {
 
     async fetch(_timeRange: TimeRange): Promise<GeoEntity[]> {
         try {
-            const res = await globalThis.fetch("/api/launch-tracker");
+            const engineBase = this.context?.getEngineUrl() || "https://dataenginev2.worldwideview.dev";
+            const res = await globalThis.fetch(`${engineBase}/api/launch-tracker`);
             if (!res.ok) {
                 this.context?.onError(new Error(`Launch Tracker API returned ${res.status}`));
                 return [];

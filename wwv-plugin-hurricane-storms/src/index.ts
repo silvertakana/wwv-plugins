@@ -196,7 +196,8 @@ export class HurricaneStormsPlugin extends BaseIncidentPlugin {
 
     async fetch(_timeRange: TimeRange): Promise<GeoEntity[]> {
         try {
-            const res = await globalThis.fetch("/api/hurricane-storms");
+            const engineBase = this.context?.getEngineUrl() || "https://dataenginev2.worldwideview.dev";
+            const res = await globalThis.fetch(`${engineBase}/api/hurricane-storms`);
             if (!res.ok) {
                 this.context?.onError(new Error(`Hurricane Storms API returned ${res.status}`));
                 return [];
