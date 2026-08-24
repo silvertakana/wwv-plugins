@@ -1,0 +1,46 @@
+{
+    "name": "@worldwideview/wwv-plugin-deforestation-gfw",
+    "version": "1.0.0",
+    "description": "Deforestation and fire alerts from Global Forest Watch GLAD. KEY-GATED: requires GFW_GLAD_API_KEY on the data engine.",
+    "main": "dist/frontend.mjs",
+    "types": "src/index.ts",
+    "files": [
+        "src"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-deforestation-gfw",
+        "deforestation",
+        "forest",
+        "global-forest-watch",
+        "glad",
+        "gfw",
+        "cesium",
+        "globe"
+    ],
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*",
+        "lucide-react": ">=0.576.0"
+    },
+    "worldwideview": {
+        "id": "deforestation-gfw",
+        "icon": "TreePine",
+        "category": "Custom",
+        "format": "bundle",
+        "capabilities": [
+            "layer",
+            "network:fetch"
+        ],
+        "ci": {
+            "type": "data"
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}

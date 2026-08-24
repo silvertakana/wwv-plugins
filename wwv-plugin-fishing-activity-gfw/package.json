@@ -1,0 +1,46 @@
+{
+    "name": "@worldwideview/wwv-plugin-fishing-activity-gfw",
+    "version": "1.0.0",
+    "description": "Global fishing activity and dark-vessel detections from Global Fishing Watch (GFW). KEY-GATED: requires GFW_API_KEY on the data engine.",
+    "main": "dist/frontend.mjs",
+    "types": "src/index.ts",
+    "files": [
+        "src"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-fishing-activity-gfw",
+        "fishing",
+        "global-fishing-watch",
+        "gfw",
+        "maritime",
+        "vessel",
+        "cesium",
+        "globe"
+    ],
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*",
+        "lucide-react": ">=0.576.0"
+    },
+    "worldwideview": {
+        "id": "fishing-activity-gfw",
+        "icon": "Ship",
+        "category": "Maritime",
+        "format": "bundle",
+        "capabilities": [
+            "layer",
+            "network:fetch"
+        ],
+        "ci": {
+            "type": "data"
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}
