@@ -1,0 +1,78 @@
+{
+    "name": "@worldwideview/wwv-plugin-hurricane-storms",
+    "version": "1.0.0",
+    "description": "Live tropical storms & hurricanes from NOAA NHC",
+    "type": "module",
+    "main": "dist/frontend.mjs",
+    "module": "dist/frontend.mjs",
+    "types": "src/index.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-hurricane-storms",
+        "hurricane-storms",
+        "hurricane",
+        "tropical-storm",
+        "cyclone",
+        "typhoon",
+        "nhc",
+        "noaa",
+        "real-time",
+        "cesium",
+        "globe"
+    ],
+    "author": "WorldWideView",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/wwv-plugins.git",
+        "directory": "wwv-plugin-hurricane-storms"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "worldwideview": {
+        "id": "hurricane-storms",
+        "type": "data-layer",
+        "format": "bundle",
+        "category": "natural-disaster",
+        "icon": "CloudLightning",
+        "dev_entry": "src/index.ts",
+        "capabilities": [
+            "data:own",
+            "globe:overlay",
+            "network:fetch"
+        ],
+        "ci": {
+            "type": "ui"
+        }
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "test": "vitest run"
+    },
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    },
+    "dependencies": {
+        "@worldwideview/wwv-lib-incidents": "workspace:*",
+        "lucide-react": "^0.470.0"
+    },
+    "devDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*",
+        "@types/react": "^19.0.0",
+        "rollup-plugin-external-globals": "^0.10.0",
+        "vite": "^8.0.0",
+        "vitest": "^4.1.7",
+        "typescript": "^5.5.0"
+    }
+}
