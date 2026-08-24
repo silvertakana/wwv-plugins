@@ -1,0 +1,62 @@
+{
+    "name": "@worldwideview/wwv-plugin-global-news-gdelt",
+    "version": "1.0.0",
+    "description": "Global news article locations from GDELT via the data engine, rendered as sentiment-tone-colored, magnitude-sized points",
+    "type": "module",
+    "main": "dist/frontend.mjs",
+    "module": "dist/frontend.mjs",
+    "types": "src/index.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-global-news-gdelt",
+        "gdelt",
+        "global-news",
+        "news",
+        "sentiment",
+        "tone",
+        "media",
+        "cesium",
+        "globe"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/wwv-plugins.git",
+        "directory": "wwv-plugin-global-news-gdelt"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "author": "WorldWideView",
+    "license": "ISC",
+    "publishConfig": {
+        "access": "public"
+    },
+    "worldwideview": {
+        "id": "global-news-gdelt",
+        "type": "data-layer",
+        "format": "bundle",
+        "category": "intelligence",
+        "icon": "Newspaper",
+        "dev_entry": "src/index.ts",
+        "capabilities": [
+            "layer",
+            "network:fetch"
+        ],
+        "ci": {
+            "type": "data"
+        }
+    },
+    "scripts": {
+        "build": "vite build"
+    },
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*",
+        "lucide-react": ">=0.576.0"
+    }
+}

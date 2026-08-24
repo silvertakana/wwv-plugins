@@ -1,0 +1,62 @@
+{
+    "name": "@worldwideview/wwv-plugin-near-earth-objects",
+    "version": "1.0.0",
+    "description": "Near-Earth object close approaches from JPL data via the data engine, with potentially hazardous asteroids highlighted",
+    "type": "module",
+    "main": "dist/frontend.mjs",
+    "module": "dist/frontend.mjs",
+    "types": "src/index.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-near-earth-objects",
+        "near-earth-objects",
+        "neo",
+        "asteroid",
+        "jpl",
+        "nasa",
+        "potentially-hazardous",
+        "cesium",
+        "globe"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/wwv-plugins.git",
+        "directory": "wwv-plugin-near-earth-objects"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "author": "WorldWideView",
+    "license": "ISC",
+    "publishConfig": {
+        "access": "public"
+    },
+    "worldwideview": {
+        "id": "near-earth-objects",
+        "type": "data-layer",
+        "format": "bundle",
+        "category": "space",
+        "icon": "Orbit",
+        "dev_entry": "src/index.ts",
+        "capabilities": [
+            "layer",
+            "network:fetch"
+        ],
+        "ci": {
+            "type": "data"
+        }
+    },
+    "scripts": {
+        "build": "vite build"
+    },
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*",
+        "lucide-react": ">=0.576.0"
+    }
+}
