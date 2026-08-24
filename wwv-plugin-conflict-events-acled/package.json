@@ -1,0 +1,46 @@
+{
+    "name": "@worldwideview/wwv-plugin-conflict-events-acled",
+    "version": "1.0.0",
+    "description": "Global conflict events, protests, and riots from ACLED. KEY-GATED: requires ACLED_API_KEY on the data engine.",
+    "main": "dist/frontend.mjs",
+    "types": "src/index.ts",
+    "files": [
+        "src"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-conflict-events-acled",
+        "conflict",
+        "acled",
+        "protests",
+        "riots",
+        "battles",
+        "cesium",
+        "globe"
+    ],
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*",
+        "lucide-react": ">=0.576.0"
+    },
+    "worldwideview": {
+        "id": "conflict-events-acled",
+        "icon": "Crosshair",
+        "category": "Conflict",
+        "format": "bundle",
+        "capabilities": [
+            "layer",
+            "network:fetch"
+        ],
+        "ci": {
+            "type": "data"
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}
