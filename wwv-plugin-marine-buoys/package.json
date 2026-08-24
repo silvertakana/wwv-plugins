@@ -1,0 +1,71 @@
+{
+    "name": "@worldwideview/wwv-plugin-marine-buoys",
+    "version": "1.0.0",
+    "description": "Live marine buoy observations from NOAA NDBC (wave height, wind, temperature)",
+    "type": "module",
+    "main": "dist/frontend.mjs",
+    "module": "dist/frontend.mjs",
+    "types": "src/index.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-marine-buoys",
+        "marine-buoys",
+        "buoy",
+        "buoys",
+        "wave-height",
+        "ocean",
+        "marine",
+        "weather",
+        "noaa",
+        "ndbc",
+        "real-time",
+        "cesium",
+        "globe"
+    ],
+    "author": "WorldWideView",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/wwv-plugins.git",
+        "directory": "wwv-plugin-marine-buoys"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "worldwideview": {
+        "id": "marine-buoys",
+        "type": "data-layer",
+        "format": "bundle",
+        "category": "maritime",
+        "icon": "Waves",
+        "dev_entry": "src/index.ts",
+        "capabilities": [
+            "data:own",
+            "globe:overlay",
+            "network:fetch"
+        ],
+        "ci": {
+            "type": "ui"
+        }
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    },
+    "dependencies": {
+        "@worldwideview/wwv-lib-incidents": "workspace:*",
+        "lucide-react": "^1.14.0"
+    }
+}
