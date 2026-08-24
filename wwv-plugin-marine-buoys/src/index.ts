@@ -122,7 +122,8 @@ export class MarineBuoysPlugin extends BaseIncidentPlugin {
 
     async fetch(_timeRange: TimeRange): Promise<GeoEntity[]> {
         try {
-            const res = await globalThis.fetch("/api/marine-buoys");
+            const engineBase = this.context?.getEngineUrl() || "https://dataenginev2.worldwideview.dev";
+            const res = await globalThis.fetch(`${engineBase}/api/marine-buoys`);
             if (!res.ok) {
                 this.context?.onError(new Error(`Marine Buoys API returned ${res.status}`));
                 return [];

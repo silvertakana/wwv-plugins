@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-hurricane-storms",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Live tropical storms & hurricanes from NOAA NHC",
     "type": "module",
     "main": "dist/frontend.mjs",
