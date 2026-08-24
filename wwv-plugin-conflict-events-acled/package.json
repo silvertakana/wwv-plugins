@@ -34,7 +34,7 @@
             "layer",
             "network:fetch"
         ],
-        "ci": {
+        "needsKey": true,"ci": {
             "type": "data"
         }
     },

@@ -172,6 +172,20 @@ jobs:
             # Skip README or non-scoped dirs (no name = not a plugin package)
             [[ "$plugin_name" == @worldwideview/* ]] || continue
 
+            # Needs-key guard: a manifest with worldwideview.needsKey: true is a
+            # scaffold for a key-gated row (e.g. OpenAQ/GFW/ACLED/GLAD). It must
+            # NEVER reach the public registry until a live key exists in the
+            # engine env. Skipping here prevents the auto-publish-on-merge trap
+            # (live breach on batch-gap-2026-08-24: 4 needs-key packages hit npm
+            # via a scaffold PR merge). npm unpublish is blocked for granular
+            # 2FA-bypass tokens, so prevention is the only reliable control.
+            needs_key=$(node -p "require('./${pkg_json}').worldwideview?.needsKey === true ? 'yes' : ''" 2>/dev/null || true)
+            if [ -n "$needs_key" ]; then
+              echo "  skip  ${plugin_name}@${local_version} (needs-key scaffold — not published)"
+              SKIPPED=$((SKIPPED + 1))
+              continue
+            fi
+
             # Equality check: only skip when that EXACT version is already on npm.
             # Missing package returns empty string -> we publish.
             npm_version=$(npm view "${plugin_name}@${local_version}" version --silent 2>/dev/null || true)
