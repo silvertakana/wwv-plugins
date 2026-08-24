@@ -5,6 +5,7 @@ import {
     type TimeRange,
     type FilterDefinition,
     type ServerPluginConfig,
+    dtProp,
     urlProp,
 } from "@worldwideview/wwv-plugin-sdk";
 import { BaseIncidentPlugin } from "@worldwideview/wwv-lib-incidents";
@@ -55,7 +56,7 @@ export function mapActiveStormToEntity(pluginId: string, storm: NhcActiveStorm):
             pressure: finiteOrNull(storm.pressure),
             movementDir: storm.movementDir,
             movementSpeed: finiteOrNull(storm.movementSpeed),
-            lastUpdate: storm.lastUpdate,
+            lastUpdate: dtProp(storm.lastUpdate ?? null),
             advisoryUrl: urlProp(storm.publicAdvisory?.url ?? null),
             forecastUrl: urlProp(storm.forecastTrack?.kmzFile ?? null),
             discussionUrl: urlProp(storm.forecastDiscussion?.url ?? null),
@@ -109,9 +110,9 @@ function HurricaneStormDetail({ entity }: { entity: GeoEntity }) {
     const speed = typeof props.movementSpeed === "number" ? `${props.movementSpeed} mph` : null;
     const movement = [dir, speed].filter(Boolean).join(" @ ") || "n/a";
 
-    const lastUpdate = typeof props.lastUpdate === "string" && props.lastUpdate
-        ? new Date(props.lastUpdate).toLocaleString()
-        : "n/a";
+    const lastUpdateTag = typeof props.lastUpdate === "string" && props.lastUpdate ? props.lastUpdate : null;
+    const lastUpdateIso = lastUpdateTag?.startsWith("datetime:") ? lastUpdateTag.slice(9) : lastUpdateTag;
+    const lastUpdate = lastUpdateIso ? new Date(lastUpdateIso).toLocaleString() : "n/a";
 
     const advisoryUrl = unwrapUrl(props.advisoryUrl);
     const forecastUrl = unwrapUrl(props.forecastUrl);

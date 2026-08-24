@@ -43,7 +43,7 @@ describe("mapActiveStormToEntity", () => {
         expect(entity.properties.advisoryUrl).toBe(`url:${STORM.publicAdvisory!.url}`);
         expect(entity.properties.forecastUrl).toBe(`url:${STORM.forecastTrack!.kmzFile}`);
         expect(entity.properties.discussionUrl).toBe(`url:${STORM.forecastDiscussion!.url}`);
-        expect(entity.properties.lastUpdate).toBe("2026-08-24T12:00:00Z");
+        expect(entity.properties.lastUpdate).toBe("datetime:2026-08-24T12:00:00Z");
         expect(entity.properties.intensity).toBe(120);
         expect(entity.properties.pressure).toBe(955);
         expect(entity.properties.movementDir).toBe("NW");
