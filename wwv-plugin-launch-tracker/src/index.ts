@@ -9,6 +9,7 @@ import {
 import { BaseIncidentPlugin } from "@worldwideview/wwv-lib-incidents";
 import { mapLaunchItemToEntity, type LaunchItem } from "./mapper";
 import { LaunchTrackerDetail } from "./DetailPanel";
+import pkg from "../package.json";
 
 /** Status rank used for severity: upcoming=1, in-flight=2, success=3, failure=4, unknown=0. */
 export const STATUS_RANK: Record<string, number> = {
@@ -39,7 +40,7 @@ export class LaunchTrackerPlugin extends BaseIncidentPlugin {
     description = "Live upcoming rocket launches from Launch Library 2, engine-backed";
     icon = Rocket;
     category = "space" as const;
-    version = "1.0.0";
+    version = pkg.version;
     protected defaultLayerColor = "#818cf8";
 
     protected getSeverityValue(entity: GeoEntity): number {

@@ -10,6 +10,7 @@ import {
 } from "@worldwideview/wwv-plugin-sdk";
 import { BaseIncidentPlugin } from "@worldwideview/wwv-lib-incidents";
 import { LiveDisasterDetail } from "./DetailPanel";
+import pkg from "../package.json";
 
 const EVENT_TYPES: { code: string; label: string }[] = [
     { code: "EQ", label: "Earthquake" },
@@ -32,7 +33,7 @@ export class LiveDisastersPlugin extends BaseIncidentPlugin {
     description = "Global disaster alerts from GDACS (earthquakes, cyclones, floods, droughts)";
     icon = Siren;
     category = "natural-disaster" as const;
-    version = "1.0.0";
+    version = pkg.version;
     protected defaultLayerColor = "#dc2626";
 
     // GDACS alert levels: Red = 3, Orange = 2, Green = 1, unknown/other = 0.
