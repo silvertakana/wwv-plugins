@@ -1,0 +1,61 @@
+{
+    "name": "@worldwideview/wwv-plugin-internet-censorship-ooni",
+    "version": "1.0.0",
+    "description": "Internet censorship measurements from the OONI data engine, color-coded by blocked/anomaly state",
+    "type": "module",
+    "main": "dist/frontend.mjs",
+    "module": "dist/frontend.mjs",
+    "types": "src/index.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-internet-censorship-ooni",
+        "ooni",
+        "internet-censorship",
+        "net-neutrality",
+        "web-connectivity",
+        "censorship",
+        "cesium",
+        "globe"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/wwv-plugins.git",
+        "directory": "wwv-plugin-internet-censorship-ooni"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "author": "WorldWideView",
+    "license": "ISC",
+    "publishConfig": {
+        "access": "public"
+    },
+    "worldwideview": {
+        "id": "internet-censorship-ooni",
+        "type": "data-layer",
+        "format": "bundle",
+        "category": "cyber",
+        "icon": "ShieldOff",
+        "dev_entry": "src/index.ts",
+        "capabilities": [
+            "layer",
+            "network:fetch"
+        ],
+        "ci": {
+            "type": "data"
+        }
+    },
+    "scripts": {
+        "build": "vite build"
+    },
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*",
+        "lucide-react": ">=0.576.0"
+    }
+}
