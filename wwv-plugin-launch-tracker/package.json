@@ -1,0 +1,56 @@
+{
+    "name": "@worldwideview/wwv-plugin-launch-tracker",
+    "version": "1.0.0",
+    "description": "Live upcoming rocket launches from Launch Library 2, engine-backed",
+    "type": "module",
+    "main": "dist/frontend.mjs",
+    "module": "dist/frontend.mjs",
+    "types": "src/index.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-launch-tracker",
+        "rocket",
+        "launches",
+        "space",
+        "real-time",
+        "cesium",
+        "globe"
+    ],
+    "author": "WorldWideView",
+    "license": "ISC",
+    "publishConfig": {
+        "access": "public"
+    },
+    "worldwideview": {
+        "id": "launch-tracker",
+        "type": "data-layer",
+        "format": "bundle",
+        "category": "space",
+        "icon": "Rocket",
+        "dev_entry": "src/index.ts",
+        "capabilities": [
+            "data:own",
+            "globe:overlay",
+            "network:fetch"
+        ],
+        "ci": {
+            "type": "ui"
+        }
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    },
+    "dependencies": {
+        "@worldwideview/wwv-lib-incidents": "workspace:*",
+        "lucide-react": "^1.14.0"
+    }
+}

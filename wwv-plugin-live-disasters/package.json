@@ -1,0 +1,41 @@
+{
+    "name": "@worldwideview/wwv-plugin-live-disasters",
+    "version": "1.0.0",
+    "main": "dist/frontend.mjs",
+    "dependencies": {
+        "@worldwideview/wwv-lib-incidents": "workspace:*",
+        "lucide-react": "^1.14.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "worldwideview": {
+        "id": "live-disasters",
+        "type": "data-layer",
+        "format": "bundle",
+        "category": "natural-disaster",
+        "icon": "Siren",
+        "dev_entry": "src/index.ts",
+        "capabilities": [
+            "data:own",
+            "globe:overlay",
+            "network:fetch"
+        ],
+        "ci": {
+            "type": "ui"
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "types": "src/index.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "scripts": {
+        "build": "vite build"
+    },
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    }
+}
