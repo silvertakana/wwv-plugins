@@ -37,7 +37,7 @@ function alertStyle(alertType: string | undefined): AlertStyle {
 export class DeforestationGFWPlugin implements WorldPlugin {
     id = "deforestation-gfw";
     name = "Deforestation (GFW GLAD)";
-    description = "Deforestation and fire alerts from Global Forest Watch GLAD. KEY-GATED: requires the GFW_GLAD_API_KEY seeder on the data engine.";
+    description = "Deforestation and fire alerts from Global Forest Watch GLAD.";
     icon = TreePine;
     category = "custom" as const;
     version = pkg.version;

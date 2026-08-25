@@ -1,7 +1,7 @@
 {
     "name": "@worldwideview/wwv-plugin-deforestation-gfw",
-    "version": "1.0.0",
-    "description": "Deforestation and fire alerts from Global Forest Watch GLAD. KEY-GATED: requires GFW_GLAD_API_KEY on the data engine.",
+    "version": "1.1.0",
+    "description": "Deforestation and fire alerts from Global Forest Watch GLAD.",
     "main": "dist/frontend.mjs",
     "types": "src/index.ts",
     "files": [
@@ -34,7 +34,7 @@
             "layer",
             "network:fetch"
         ],
-        "needsKey": true,"ci": {
+        "needsKey": false,"ci": {
             "type": "data"
         }
     },
