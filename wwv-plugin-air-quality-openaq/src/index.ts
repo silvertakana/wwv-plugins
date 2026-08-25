@@ -48,7 +48,7 @@ export class AirQualityOpenAQPlugin implements WorldPlugin {
     // (nearest valid value). The package.json display category is "Custom" for the same reason.
     id = "air-quality-openaq";
     name = "Air Quality (OpenAQ)";
-    description = "Real-time air quality index (AQI) from OpenAQ stations. KEY-GATED: requires the OPENAQ_API_KEY seeder on the data engine.";
+    description = "Real-time air quality index (AQI) from OpenAQ stations.";
     icon = Wind;
     category = "custom" as const;
     version = pkg.version;
