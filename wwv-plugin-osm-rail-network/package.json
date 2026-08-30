@@ -1,0 +1,53 @@
+{
+    "name": "@worldwideview/wwv-plugin-osm-rail-network",
+    "version": "1.0.0",
+    "description": "Global mainline railway network (Natural Earth)",
+    "main": "dist/frontend.mjs",
+    "files": [
+        "src",
+        "data"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-osm-rail-network",
+        "osm-rail-network"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/wwv-plugins.git",
+        "directory": "packages/wwv-plugin-osm-rail-network"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "^1.8.0"
+    },
+    "worldwideview": {
+        "id": "osm-rail-network",
+        "icon": "TrainFront",
+        "category": "transport",
+        "format": "bundle",
+        "capabilities": [
+            "layer"
+        ],
+        "type": "data-layer",
+        "dataFile": "data/data.json",
+        "rendering": {
+            "defaultColor": "#d97706",
+            "iconUrl": "/icons/default.svg"
+        },
+        "ci": {
+            "type": "ui"
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}
