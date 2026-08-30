@@ -1,0 +1,3218 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -7.55,
+          29
+        ]
+      },
+      "properties": {
+        "name": "Ouarkziz",
+        "country": "Algeria",
+        "diameter": 3.5,
+        "age": "<70"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5667,
+          -23.9833
+        ]
+      },
+      "properties": {
+        "name": "Glikson",
+        "country": "Australia",
+        "diameter": 19,
+        "age": "<508"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.1833,
+          49.7667
+        ]
+      },
+      "properties": {
+        "name": "West Hawk",
+        "country": "Canada",
+        "diameter": 2.44,
+        "age": "351 ± 20"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.2,
+          -22.6167
+        ]
+      },
+      "properties": {
+        "name": "Boxhole",
+        "country": "Australia",
+        "diameter": 0.17,
+        "age": "0.0054 ± 0.0015"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.25,
+          57.3667
+        ]
+      },
+      "properties": {
+        "name": "Hummeln",
+        "country": "Sweden",
+        "diameter": 1.2,
+        "age": "~443-470"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.9,
+          52.4833
+        ]
+      },
+      "properties": {
+        "name": "Morasko",
+        "country": "Poland",
+        "diameter": 0.1,
+        "age": "<0.01"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -115.6,
+          54
+        ]
+      },
+      "properties": {
+        "name": "Whitecourt",
+        "country": "Canada",
+        "diameter": 0.04,
+        "age": "<0.0011"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-8",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.5,
+          56.2167
+        ]
+      },
+      "properties": {
+        "name": "Clearwater West",
+        "country": "Canada",
+        "diameter": 36,
+        "age": "290 ± 20"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.7,
+          47.2
+        ]
+      },
+      "properties": {
+        "name": "Shunak",
+        "country": "Kazakhstan",
+        "diameter": 2.8,
+        "age": "45 ± 10"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-10",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.4333,
+          -32.7167
+        ]
+      },
+      "properties": {
+        "name": "Kalkkop",
+        "country": "South Africa",
+        "diameter": 0.64,
+        "age": "0.25 ± 0.05"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-11",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          109.65,
+          44.1167
+        ]
+      },
+      "properties": {
+        "name": "Tabun-Khara-Obo",
+        "country": "Mongolia",
+        "diameter": 1.3,
+        "age": "150 ± 20"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.1667,
+          48.75
+        ]
+      },
+      "properties": {
+        "name": "Boltysh",
+        "country": "Ukraine",
+        "diameter": 24,
+        "age": "65.17 ± 0.64"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-13",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.0833,
+          22.0167
+        ]
+      },
+      "properties": {
+        "name": "Kamil",
+        "country": "Egypt",
+        "diameter": 0.045,
+        "age": "-"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-14",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.5333,
+          48.4333
+        ]
+      },
+      "properties": {
+        "name": "Gusev",
+        "country": "Russia",
+        "diameter": 3,
+        "age": "49.0 ± 0.2"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-15",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0167,
+          35.0333
+        ]
+      },
+      "properties": {
+        "name": "Barringer",
+        "country": "United States",
+        "diameter": 1.18,
+        "age": "0.049 ± 0.003"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-16",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.4833,
+          31.75
+        ]
+      },
+      "properties": {
+        "name": "Odessa",
+        "country": "United States",
+        "diameter": 0.16,
+        "age": "<0.0635"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-17",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.5833,
+          63.0333
+        ]
+      },
+      "properties": {
+        "name": "Söderfjärden",
+        "country": "Finland",
+        "diameter": 6.6,
+        "age": "~600"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-18",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          134.8333,
+          -20.9167
+        ]
+      },
+      "properties": {
+        "name": "Amelia Creek",
+        "country": "Australia",
+        "diameter": 20,
+        "age": "1640 - 600"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-19",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.0667,
+          -34.6167
+        ]
+      },
+      "properties": {
+        "name": "Flaxman",
+        "country": "Australia",
+        "diameter": 10,
+        "age": "> 35"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-20",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.6,
+          62.1333
+        ]
+      },
+      "properties": {
+        "name": "Keurusselkä",
+        "country": "Finland",
+        "diameter": 30,
+        "age": "<1800"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-21",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.3333,
+          25.3167
+        ]
+      },
+      "properties": {
+        "name": "B.P. Structure",
+        "country": "Libya",
+        "diameter": 2,
+        "age": "<120"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-22",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.65,
+          -7.7167
+        ]
+      },
+      "properties": {
+        "name": "Riachão Ring",
+        "country": "Brazil",
+        "diameter": 4.5,
+        "age": "<200"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-23",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          142.8333,
+          -27.1167
+        ]
+      },
+      "properties": {
+        "name": "Tookoonooka",
+        "country": "Australia",
+        "diameter": 55,
+        "age": "128 ± 5"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-24",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.4,
+          61.4
+        ]
+      },
+      "properties": {
+        "name": "Sääksjärvi",
+        "country": "Finland",
+        "diameter": 6,
+        "age": "~560"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-25",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.4833,
+          46.0833
+        ]
+      },
+      "properties": {
+        "name": "Brent",
+        "country": "Canada",
+        "diameter": 3.8,
+        "age": "452.8 ± 2.7"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-26",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          133.1333,
+          -24.5667
+        ]
+      },
+      "properties": {
+        "name": "Henbury",
+        "country": "Australia",
+        "diameter": 0.15,
+        "age": "0.0042 ± 0.0019"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-27",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          27.4167,
+          57.9667
+        ]
+      },
+      "properties": {
+        "name": "Ilumetsä",
+        "country": "Estonia",
+        "diameter": 0.08,
+        "age": "~0.0066"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-28",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.1667,
+          62.7
+        ]
+      },
+      "properties": {
+        "name": "Suvasvesi North",
+        "country": "Finland",
+        "diameter": 4,
+        "age": "<1000"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-29",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -89.5,
+          21.3333
+        ]
+      },
+      "properties": {
+        "name": "Chicxulub",
+        "country": "Mexico",
+        "diameter": 150,
+        "age": "64.98 ± 0.05"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-30",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.8667,
+          61.0333
+        ]
+      },
+      "properties": {
+        "name": "Siljan",
+        "country": "Sweden",
+        "diameter": 52,
+        "age": "376.8 ± 1.7"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-31",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.8,
+          49.7167
+        ]
+      },
+      "properties": {
+        "name": "Presqu'ile",
+        "country": "Canada",
+        "diameter": 24,
+        "age": "<500"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-32",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.3667,
+          -22.9667
+        ]
+      },
+      "properties": {
+        "name": "Veevers",
+        "country": "Australia",
+        "diameter": 0.08,
+        "age": "<1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-33",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -109.5,
+          58.45
+        ]
+      },
+      "properties": {
+        "name": "Carswell",
+        "country": "Canada",
+        "diameter": 39,
+        "age": "115 ± 10"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-34",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.45,
+          40.35
+        ]
+      },
+      "properties": {
+        "name": "Xiuyan",
+        "country": "China",
+        "diameter": 1.8,
+        "age": "> 0.05"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-35",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.7,
+          -27.6333
+        ]
+      },
+      "properties": {
+        "name": "Campo Del Cielo",
+        "country": "Argentina",
+        "diameter": 0.05,
+        "age": "<0.004"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-36",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          57.85,
+          49.1667
+        ]
+      },
+      "properties": {
+        "name": "Chiyli",
+        "country": "Kazakhstan",
+        "diameter": 5.5,
+        "age": "46 ± 7"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-37",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -69.05,
+          -16.6667
+        ]
+      },
+      "properties": {
+        "name": "Carancas",
+        "country": "Peru",
+        "diameter": 0.0135,
+        "age": "0.000007"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-38",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -110.5,
+          49.7
+        ]
+      },
+      "properties": {
+        "name": "Eagle Butte",
+        "country": "Canada",
+        "diameter": 10,
+        "age": "<65"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-39",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9,
+          60.65
+        ]
+      },
+      "properties": {
+        "name": "Gardnos",
+        "country": "Norway",
+        "diameter": 5,
+        "age": "500 ± 10"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-40",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.5833,
+          60.1
+        ]
+      },
+      "properties": {
+        "name": "Macha",
+        "country": "Russia",
+        "diameter": 0.3,
+        "age": "<0.007"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-41",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -98.2,
+          36.25
+        ]
+      },
+      "properties": {
+        "name": "Ames",
+        "country": "United States",
+        "diameter": 16,
+        "age": "470 ± 30"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-42",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.0833,
+          -16.7333
+        ]
+      },
+      "properties": {
+        "name": "Spider",
+        "country": "Australia",
+        "diameter": 13,
+        "age": "> 570"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-43",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -91.3833,
+          37.8333
+        ]
+      },
+      "properties": {
+        "name": "Crooked Creek",
+        "country": "United States",
+        "diameter": 7,
+        "age": "320 ± 80"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-44",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          61.8,
+          58.7333
+        ]
+      },
+      "properties": {
+        "name": "Ragozinka",
+        "country": "Russia",
+        "diameter": 9,
+        "age": "46 ± 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-45",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.8667,
+          56.4167
+        ]
+      },
+      "properties": {
+        "name": "Mien",
+        "country": "Sweden",
+        "diameter": 9,
+        "age": "121.0 ± 2.3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-46",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.25,
+          56.5833
+        ]
+      },
+      "properties": {
+        "name": "Dobele",
+        "country": "Latvia",
+        "diameter": 4.5,
+        "age": "290 ± 35"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-47",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          137.8667,
+          46.3
+        ]
+      },
+      "properties": {
+        "name": "Sobolev",
+        "country": "Russia",
+        "diameter": 0.05,
+        "age": "<0.001"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-48",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          131.1833,
+          -15.5
+        ]
+      },
+      "properties": {
+        "name": "Matt Wilson",
+        "country": "Australia",
+        "diameter": 7.5,
+        "age": "1402±440"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-49",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -45.25,
+          -10.1667
+        ]
+      },
+      "properties": {
+        "name": "Santa Marta",
+        "country": "Brazil",
+        "diameter": 10,
+        "age": "66-100"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-50",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.3667,
+          -27.95
+        ]
+      },
+      "properties": {
+        "name": "Mount Toondina",
+        "country": "Australia",
+        "diameter": 4,
+        "age": "<110"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-51",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          60.9667,
+          48.4
+        ]
+      },
+      "properties": {
+        "name": "Zhamanshin",
+        "country": "Kazakhstan",
+        "diameter": 14,
+        "age": "0.9 ± 0.1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-52",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0167,
+          60.2833
+        ]
+      },
+      "properties": {
+        "name": "Pilot",
+        "country": "Canada",
+        "diameter": 6,
+        "age": "445 ± 2"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-53",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          136.7833,
+          -16.6667
+        ]
+      },
+      "properties": {
+        "name": "Foelsche",
+        "country": "Australia",
+        "diameter": 6,
+        "age": "> 545"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-54",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          27.5833,
+          -22.4833
+        ]
+      },
+      "properties": {
+        "name": "Kgagodi",
+        "country": "Botswana",
+        "diameter": 3.5,
+        "age": "<180"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-55",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          133.5833,
+          -15.2
+        ]
+      },
+      "properties": {
+        "name": "Strangways",
+        "country": "Australia",
+        "diameter": 25,
+        "age": "646 ± 42"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-56",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.6833,
+          62.6667
+        ]
+      },
+      "properties": {
+        "name": "Nicholson",
+        "country": "Canada",
+        "diameter": 12.5,
+        "age": "<400"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-57",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          134.05,
+          -12.4
+        ]
+      },
+      "properties": {
+        "name": "Liverpool",
+        "country": "Australia",
+        "diameter": 1.6,
+        "age": "150 ± 70"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-58",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          134.6667,
+          46.1167
+        ]
+      },
+      "properties": {
+        "name": "Sikhote Alin",
+        "country": "Russia",
+        "diameter": 0.02,
+        "age": "0.000067"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-59",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28,
+          -10.1667
+        ]
+      },
+      "properties": {
+        "name": "Luizi",
+        "country": "Democratic Republic of Congo",
+        "diameter": 17,
+        "age": "<573"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-60",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          97.8,
+          75.7
+        ]
+      },
+      "properties": {
+        "name": "Chukcha",
+        "country": "Russia",
+        "diameter": 6,
+        "age": "<70"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-61",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.6167,
+          57.4333
+        ]
+      },
+      "properties": {
+        "name": "La Moinerie",
+        "country": "Canada",
+        "diameter": 8,
+        "age": "400 ± 50"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-62",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -98.5333,
+          51.7833
+        ]
+      },
+      "properties": {
+        "name": "Sääksjärvi",
+        "country": "Canada",
+        "diameter": 40,
+        "age": "220 ± 32"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-63",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.7167,
+          50.9833
+        ]
+      },
+      "properties": {
+        "name": "Elbow",
+        "country": "Canada",
+        "diameter": 8,
+        "age": "395 ± 25"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-64",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -109.1,
+          49.8
+        ]
+      },
+      "properties": {
+        "name": "Maple Creek",
+        "country": "Canada",
+        "diameter": 6,
+        "age": "<75"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-65",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.2167,
+          42.8833
+        ]
+      },
+      "properties": {
+        "name": "Montagnais",
+        "country": "Canada",
+        "diameter": 45,
+        "age": "50.5 ± 0.76"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-66",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          138.65,
+          -18.6667
+        ]
+      },
+      "properties": {
+        "name": "Lawn Hill",
+        "country": "Australia",
+        "diameter": 18,
+        "age": "> 515"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-67",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32,
+          49
+        ]
+      },
+      "properties": {
+        "name": "Rotmistrovka",
+        "country": "Ukraine",
+        "diameter": 2.7,
+        "age": "120 ± 10"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-68",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.1667,
+          32.5167
+        ]
+      },
+      "properties": {
+        "name": "Wetumpka",
+        "country": "United States",
+        "diameter": 6.5,
+        "age": "81.0 ± 1.5"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-69",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.45,
+          -32.0167
+        ]
+      },
+      "properties": {
+        "name": "Acraman",
+        "country": "Australia",
+        "diameter": 90,
+        "age": "~590"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-70",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.3833,
+          63.1167
+        ]
+      },
+      "properties": {
+        "name": "Suavjärvi",
+        "country": "Russia",
+        "diameter": 16,
+        "age": "~2400"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-71",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.25,
+          62.2167
+        ]
+      },
+      "properties": {
+        "name": "Karikkoselkä",
+        "country": "Finland",
+        "diameter": 1.5,
+        "age": "~230"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-72",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -92.2333,
+          44.7167
+        ]
+      },
+      "properties": {
+        "name": "Rock Elm",
+        "country": "United States",
+        "diameter": 6,
+        "age": "<505"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-73",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.7333,
+          36.6167
+        ]
+      },
+      "properties": {
+        "name": "Middlesboro",
+        "country": "United States",
+        "diameter": 6,
+        "age": "<300"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-74",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -52.6833,
+          -25.95
+        ]
+      },
+      "properties": {
+        "name": "Vista Alegre",
+        "country": "Brazil",
+        "diameter": 9.5,
+        "age": "<65"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-75",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29,
+          49.7333
+        ]
+      },
+      "properties": {
+        "name": "Zapadnaya",
+        "country": "Ukraine",
+        "diameter": 3.2,
+        "age": "165 ± 5"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-76",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -52.9833,
+          -16.7833
+        ]
+      },
+      "properties": {
+        "name": "Araguainha",
+        "country": "Brazil",
+        "diameter": 40,
+        "age": "254.7 ± 2.5"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-77",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.1,
+          49.1167
+        ]
+      },
+      "properties": {
+        "name": "Ilyinets",
+        "country": "Ukraine",
+        "diameter": 8.5,
+        "age": "378 ± 5"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-78",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.9167,
+          49.5833
+        ]
+      },
+      "properties": {
+        "name": "Obolon'",
+        "country": "Ukraine",
+        "diameter": 20,
+        "age": "169 ± 7"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-79",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          95.9333,
+          65.5167
+        ]
+      },
+      "properties": {
+        "name": "Logancha",
+        "country": "Russia",
+        "diameter": 20,
+        "age": "40 ± 20"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-80",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.75,
+          43.1167
+        ]
+      },
+      "properties": {
+        "name": "Cloud Creek",
+        "country": "United States",
+        "diameter": 7,
+        "age": "190 ± 30"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-81",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.6667,
+          59.3333
+        ]
+      },
+      "properties": {
+        "name": "Neugrund",
+        "country": "Estonia",
+        "diameter": 8,
+        "age": "~535"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-82",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -89.5333,
+          43.9667
+        ]
+      },
+      "properties": {
+        "name": "Glover Bluff",
+        "country": "United States",
+        "diameter": 8,
+        "age": "<500"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-83",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.4333,
+          59.2333
+        ]
+      },
+      "properties": {
+        "name": "Ritland",
+        "country": "Norway",
+        "diameter": 2.7,
+        "age": "520 ± 20"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-84",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.8,
+          -19.1667
+        ]
+      },
+      "properties": {
+        "name": "Wolfe Creek",
+        "country": "Australia",
+        "diameter": 0.87,
+        "age": "<0.3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-85",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.6667,
+          58.4
+        ]
+      },
+      "properties": {
+        "name": "Kaalijärv",
+        "country": "Estonia",
+        "diameter": 0.11,
+        "age": "0.004 ± 0.001"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-86",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -113.9667,
+          72.4667
+        ]
+      },
+      "properties": {
+        "name": "Tunnunik (formerly Prince Albert)",
+        "country": "Canada",
+        "diameter": 25,
+        "age": "130-450"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-87",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.4167,
+          -17.5333
+        ]
+      },
+      "properties": {
+        "name": "Piccaninny",
+        "country": "Australia",
+        "diameter": 7,
+        "age": "<360"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-88",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.2833,
+          -23.9333
+        ]
+      },
+      "properties": {
+        "name": "Monturaqui",
+        "country": "Chile",
+        "diameter": 0.46,
+        "age": "<1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-89",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.0167,
+          48.5667
+        ]
+      },
+      "properties": {
+        "name": "Bigach",
+        "country": "Kazakhstan",
+        "diameter": 8,
+        "age": "5 ± 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-90",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.7167,
+          -23.8667
+        ]
+      },
+      "properties": {
+        "name": "Colônia",
+        "country": "Brazil",
+        "diameter": 3.6,
+        "age": "5-36"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-91",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.5333,
+          -26.4667
+        ]
+      },
+      "properties": {
+        "name": "Morokweng",
+        "country": "South Africa",
+        "diameter": 70,
+        "age": "145.0 ± 0.8"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-92",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.9833,
+          56.4
+        ]
+      },
+      "properties": {
+        "name": "Deep Bay",
+        "country": "Canada",
+        "diameter": 13,
+        "age": "99 ± 4"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-93",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.9167,
+          61.9667
+        ]
+      },
+      "properties": {
+        "name": "Jänisjärvi",
+        "country": "Russia",
+        "diameter": 14,
+        "age": "700 ± 5"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-94",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -92.7167,
+          37.9
+        ]
+      },
+      "properties": {
+        "name": "Decaturville",
+        "country": "United States",
+        "diameter": 6,
+        "age": "<300"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-95",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          78.1342,
+          25.2999
+        ]
+      },
+      "properties": {
+        "name": "Dhala",
+        "country": "India",
+        "diameter": 11,
+        "age": "1700 - 2100"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-96",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.23,
+          -32.87
+        ]
+      },
+      "properties": {
+        "name": "Rio Cuarto",
+        "country": "Argentina",
+        "diameter": 4.5,
+        "age": "<0.1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-97",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -89.6833,
+          75.3667
+        ]
+      },
+      "properties": {
+        "name": "Haughton",
+        "country": "Canada",
+        "diameter": 23,
+        "age": "39"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-98",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -156.6333,
+          71.25
+        ]
+      },
+      "properties": {
+        "name": "Avak",
+        "country": "United States",
+        "diameter": 12,
+        "age": "3-95"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-99",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          50.4667,
+          21.5
+        ]
+      },
+      "properties": {
+        "name": "Wabar",
+        "country": "Saudi Arabia",
+        "diameter": 0.11,
+        "age": "0.00014"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-100",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -52.1167,
+          -26.8333
+        ]
+      },
+      "properties": {
+        "name": "Vargeão Dome",
+        "country": "Brazil",
+        "diameter": 12,
+        "age": "123 ± 1.4"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-101",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.6333,
+          44.4667
+        ]
+      },
+      "properties": {
+        "name": "Holleford",
+        "country": "Canada",
+        "diameter": 2.35,
+        "age": "550 ± 100"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-102",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.8667,
+          42.05
+        ]
+      },
+      "properties": {
+        "name": "Des Plaines",
+        "country": "United States",
+        "diameter": 8,
+        "age": "<280"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-103",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.3333,
+          60.1333
+        ]
+      },
+      "properties": {
+        "name": "Couture",
+        "country": "Canada",
+        "diameter": 8,
+        "age": "430 ± 25"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-104",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.9333,
+          45.8333
+        ]
+      },
+      "properties": {
+        "name": "Rochechouart",
+        "country": "France",
+        "diameter": 23,
+        "age": "201 ± 2"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-105",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.9,
+          54.0167
+        ]
+      },
+      "properties": {
+        "name": "Mizarai",
+        "country": "Lithuania",
+        "diameter": 5,
+        "age": "500 ± 20"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-106",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.0667,
+          49.5833
+        ]
+      },
+      "properties": {
+        "name": "Viewfield",
+        "country": "Canada",
+        "diameter": 2.5,
+        "age": "190 ± 20"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-107",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.55,
+          62.9167
+        ]
+      },
+      "properties": {
+        "name": "Målingen",
+        "country": "Sweden",
+        "diameter": 1,
+        "age": "~458"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-108",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.4167,
+          58.7667
+        ]
+      },
+      "properties": {
+        "name": "Tvären",
+        "country": "Sweden",
+        "diameter": 2,
+        "age": "~455"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-109",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          19.25,
+          19.1
+        ]
+      },
+      "properties": {
+        "name": "Aorounga",
+        "country": "Chad",
+        "diameter": 12.6,
+        "age": "<345"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-110",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.7667,
+          59.0167
+        ]
+      },
+      "properties": {
+        "name": "Kärdla",
+        "country": "Estonia",
+        "diameter": 4,
+        "age": "~455"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-111",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8833,
+          50.6833
+        ]
+      },
+      "properties": {
+        "name": "Ile Rouleau",
+        "country": "Canada",
+        "diameter": 4,
+        "age": "<300"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-112",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.2,
+          54.5
+        ]
+      },
+      "properties": {
+        "name": "Kaluga",
+        "country": "Russia",
+        "diameter": 15,
+        "age": "380 ± 5"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-113",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -70.3,
+          47.5333
+        ]
+      },
+      "properties": {
+        "name": "Charlevoix",
+        "country": "Canada",
+        "diameter": 54,
+        "age": "342 ± 15"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-114",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          48.0333,
+          54.9167
+        ]
+      },
+      "properties": {
+        "name": "Karla",
+        "country": "Russia",
+        "diameter": 10,
+        "age": "5 ± 1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-115",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -102.9167,
+          30.6
+        ]
+      },
+      "properties": {
+        "name": "Sierra Madera",
+        "country": "United States",
+        "diameter": 13,
+        "age": "<100"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-116",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -96.3,
+          31.2833
+        ]
+      },
+      "properties": {
+        "name": "Marquez",
+        "country": "United States",
+        "diameter": 12.7,
+        "age": "58 ± 2"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-117",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          73.45,
+          39.0167
+        ]
+      },
+      "properties": {
+        "name": "Kara-Kul",
+        "country": "Tajikistan",
+        "diameter": 52,
+        "age": "<5"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-118",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6667,
+          36.3833
+        ]
+      },
+      "properties": {
+        "name": "Wells Creek",
+        "country": "United States",
+        "diameter": 12,
+        "age": "200 ± 100"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-119",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.7,
+          51.3833
+        ]
+      },
+      "properties": {
+        "name": "Manicouagan",
+        "country": "Canada",
+        "diameter": 85,
+        "age": "214 ± 1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-120",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.3,
+          55.8833
+        ]
+      },
+      "properties": {
+        "name": "Mistastin",
+        "country": "Canada",
+        "diameter": 28,
+        "age": "36.4 ± 4"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-121",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.2167,
+          62.6
+        ]
+      },
+      "properties": {
+        "name": "Suvasvesi South",
+        "country": "Finland",
+        "diameter": 3.8,
+        "age": "~250"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-122",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.3833,
+          26.0833
+        ]
+      },
+      "properties": {
+        "name": "Amguid",
+        "country": "Algeria",
+        "diameter": 0.45,
+        "age": "<0.1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-123",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          27.5,
+          -27
+        ]
+      },
+      "properties": {
+        "name": "Vredefort",
+        "country": "South Africa",
+        "diameter": 160,
+        "age": "2023 ± 4"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-124",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.8833,
+          -25.8667
+        ]
+      },
+      "properties": {
+        "name": "Shoemaker (formerly Teague)",
+        "country": "Australia",
+        "diameter": 30,
+        "age": "1630 ± 5"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-125",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.4167,
+          6.5
+        ]
+      },
+      "properties": {
+        "name": "Bosumtwi",
+        "country": "Ghana",
+        "diameter": 10.5,
+        "age": "1.07"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-126",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.8333,
+          -27.1667
+        ]
+      },
+      "properties": {
+        "name": "Yarrabubba",
+        "country": "Australia",
+        "diameter": 30,
+        "age": "~2000"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-127",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -94.55,
+          42.5833
+        ]
+      },
+      "properties": {
+        "name": "Manson",
+        "country": "United States",
+        "diameter": 35,
+        "age": "73.8 ± 0.3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-128",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.05,
+          58.7167
+        ]
+      },
+      "properties": {
+        "name": "Mishina Gora",
+        "country": "Russia",
+        "diameter": 2.5,
+        "age": "300 ± 50"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-129",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.6667,
+          61.2833
+        ]
+      },
+      "properties": {
+        "name": "New Quebec",
+        "country": "Canada",
+        "diameter": 3.44,
+        "age": "1.4 ± 0.1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-130",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.75,
+          17.4167
+        ]
+      },
+      "properties": {
+        "name": "Gweni-Fada",
+        "country": "Chad",
+        "diameter": 14,
+        "age": "<345"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-131",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.7,
+          29.5833
+        ]
+      },
+      "properties": {
+        "name": "Saqqar",
+        "country": "Saudi Arabia",
+        "diameter": 34,
+        "age": "70 - 410"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-132",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.0333,
+          -34.7167
+        ]
+      },
+      "properties": {
+        "name": "Crawford",
+        "country": "Australia",
+        "diameter": 8.5,
+        "age": "> 35"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-133",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          43.7167,
+          56.9667
+        ]
+      },
+      "properties": {
+        "name": "Puchezh-Katunki",
+        "country": "Russia",
+        "diameter": 40,
+        "age": "167 ± 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-134",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.0333,
+          -13.4667
+        ]
+      },
+      "properties": {
+        "name": "Goyder",
+        "country": "Australia",
+        "diameter": 3,
+        "age": "<1400"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-135",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.9333,
+          58.4167
+        ]
+      },
+      "properties": {
+        "name": "Granby",
+        "country": "Sweden",
+        "diameter": 3,
+        "age": "~470"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-136",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          20.1,
+          60.15
+        ]
+      },
+      "properties": {
+        "name": "Lumparn",
+        "country": "Finland",
+        "diameter": 9,
+        "age": "~1000"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-137",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.8,
+          61.8
+        ]
+      },
+      "properties": {
+        "name": "Dellen",
+        "country": "Sweden",
+        "diameter": 19,
+        "age": "89.0 ± 2.7"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-138",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.4,
+          40.75
+        ]
+      },
+      "properties": {
+        "name": "Kentland",
+        "country": "United States",
+        "diameter": 13,
+        "age": "<97"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-139",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -99.1667,
+          37.5833
+        ]
+      },
+      "properties": {
+        "name": "Haviland",
+        "country": "United States",
+        "diameter": 0.01,
+        "age": "<0.001"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-140",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.4833,
+          56.45
+        ]
+      },
+      "properties": {
+        "name": "Gow",
+        "country": "Canada",
+        "diameter": 5,
+        "age": "<250"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-141",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -10.4,
+          22.9167
+        ]
+      },
+      "properties": {
+        "name": "Tenoumer",
+        "country": "Mauritania",
+        "diameter": 1.9,
+        "age": "0.0214 ± 0.0097"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-142",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.75,
+          46.75
+        ]
+      },
+      "properties": {
+        "name": "Wanapitei",
+        "country": "Canada",
+        "diameter": 7.5,
+        "age": "37.2 ± 1.2"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-143",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.2833,
+          -27.6333
+        ]
+      },
+      "properties": {
+        "name": "Dalgaranga",
+        "country": "Australia",
+        "diameter": 0.02,
+        "age": "~0.27"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-144",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          27.15,
+          62.1833
+        ]
+      },
+      "properties": {
+        "name": "Iso-Naakkima",
+        "country": "Finland",
+        "diameter": 3,
+        "age": "> 1000"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-145",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.6333,
+          59.5
+        ]
+      },
+      "properties": {
+        "name": "Steen River",
+        "country": "Canada",
+        "diameter": 25,
+        "age": "91 ± 7"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-146",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.0833,
+          62.0333
+        ]
+      },
+      "properties": {
+        "name": "Paasselkä",
+        "country": "Finland",
+        "diameter": 10,
+        "age": "<1800"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-147",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.95,
+          41.8333
+        ]
+      },
+      "properties": {
+        "name": "Calvin",
+        "country": "United States",
+        "diameter": 8.5,
+        "age": "450 ± 10"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-148",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.0667,
+          48.6833
+        ]
+      },
+      "properties": {
+        "name": "Steinheim",
+        "country": "Germany",
+        "diameter": 3.8,
+        "age": "15 ± 1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-149",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.3833,
+          65.2833
+        ]
+      },
+      "properties": {
+        "name": "Saarijärvi",
+        "country": "Finland",
+        "diameter": 1.5,
+        "age": "> 600"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-150",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          133.95,
+          -19.9333
+        ]
+      },
+      "properties": {
+        "name": "Kelly West",
+        "country": "Australia",
+        "diameter": 10,
+        "age": "> 550"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-151",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.0333,
+          33.3167
+        ]
+      },
+      "properties": {
+        "name": "Talemzane",
+        "country": "Algeria",
+        "diameter": 1.75,
+        "age": "<3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-152",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          28.0833,
+          -25.4
+        ]
+      },
+      "properties": {
+        "name": "Tswaing (formerly Pretoria Saltpan)",
+        "country": "South Africa",
+        "diameter": 1.13,
+        "age": "0.220 ± 0.052"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-153",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.55,
+          47.6
+        ]
+      },
+      "properties": {
+        "name": "Red Wing",
+        "country": "United States",
+        "diameter": 9,
+        "age": "200 ± 25"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-154",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          172.0833,
+          67.5
+        ]
+      },
+      "properties": {
+        "name": "El'gygytgyn",
+        "country": "Russia",
+        "diameter": 18,
+        "age": "3.5 ± 0.5"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-155",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36,
+          51.7
+        ]
+      },
+      "properties": {
+        "name": "Kursk",
+        "country": "Russia",
+        "diameter": 6,
+        "age": "250 ± 80"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-156",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          40.5,
+          48.35
+        ]
+      },
+      "properties": {
+        "name": "Kamensk",
+        "country": "Russia",
+        "diameter": 25,
+        "age": "49.0 ± 0.2"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-157",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          36.8,
+          31.05
+        ]
+      },
+      "properties": {
+        "name": "Jebel Waqf as Suwwan",
+        "country": "Jordan",
+        "diameter": 5.5,
+        "age": "56 - 37"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-158",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -85.6667,
+          36.2833
+        ]
+      },
+      "properties": {
+        "name": "Flynn Creek",
+        "country": "United States",
+        "diameter": 3.8,
+        "age": "360 ± 20"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-159",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.8167,
+          63
+        ]
+      },
+      "properties": {
+        "name": "Lockne",
+        "country": "Sweden",
+        "diameter": 7.5,
+        "age": "~458"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-160",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.5167,
+          48.1333
+        ]
+      },
+      "properties": {
+        "name": "Ternovka",
+        "country": "Ukraine",
+        "diameter": 11,
+        "age": "280 ± 10"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-161",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.4,
+          24.5833
+        ]
+      },
+      "properties": {
+        "name": "Oasis",
+        "country": "Libya",
+        "diameter": 18,
+        "age": "<120"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-162",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.6667,
+          73.8
+        ]
+      },
+      "properties": {
+        "name": "Mjølnir",
+        "country": "Norway",
+        "diameter": 40,
+        "age": "142.0 ± 2.6"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-163",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.65,
+          -26.05
+        ]
+      },
+      "properties": {
+        "name": "Woodleigh",
+        "country": "Australia",
+        "diameter": 40,
+        "age": "364 ± 8"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-164",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.75,
+          -23.5333
+        ]
+      },
+      "properties": {
+        "name": "Connolly Basin",
+        "country": "Australia",
+        "diameter": 9,
+        "age": "<60"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-165",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.5167,
+          19.9667
+        ]
+      },
+      "properties": {
+        "name": "Lonar",
+        "country": "India",
+        "diameter": 1.83,
+        "age": "0.57 ± 0.05"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-166",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.1167,
+          27.6
+        ]
+      },
+      "properties": {
+        "name": "Tin Bider",
+        "country": "Algeria",
+        "diameter": 6,
+        "age": "<70"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-167",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.5833,
+          55.0833
+        ]
+      },
+      "properties": {
+        "name": "Vepriai",
+        "country": "Lithuania",
+        "diameter": 8,
+        "age": "> 160 ± 10"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-168",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -12.6833,
+          20.25
+        ]
+      },
+      "properties": {
+        "name": "Aouelloul",
+        "country": "Mauritania",
+        "diameter": 0.39,
+        "age": "3.0 ± 0.3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-169",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          64.15,
+          69.1
+        ]
+      },
+      "properties": {
+        "name": "Kara",
+        "country": "Russia",
+        "diameter": 65,
+        "age": "70.3 ± 2.2"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-170",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          16.3,
+          -27.7667
+        ]
+      },
+      "properties": {
+        "name": "Roter Kamm",
+        "country": "Namibia",
+        "diameter": 2.5,
+        "age": "<5"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-171",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -89.7833,
+          40.6
+        ]
+      },
+      "properties": {
+        "name": "Glasford",
+        "country": "United States",
+        "diameter": 4,
+        "age": "<430"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-172",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.1833,
+          46.6
+        ]
+      },
+      "properties": {
+        "name": "Sudbury",
+        "country": "Canada",
+        "diameter": 130,
+        "age": "1850 ± 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-173",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -113,
+          44.6
+        ]
+      },
+      "properties": {
+        "name": "Beaverhead",
+        "country": "United States",
+        "diameter": 60,
+        "age": "~600"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-174",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          27.8,
+          54.2
+        ]
+      },
+      "properties": {
+        "name": "Logoisk",
+        "country": "Belarus",
+        "diameter": 15,
+        "age": "42.3 ± 1.1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-175",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.75,
+          48.0667
+        ]
+      },
+      "properties": {
+        "name": "Zeleny Gai",
+        "country": "Ukraine",
+        "diameter": 3.5,
+        "age": "80 ± 20"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-176",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87,
+          48.6667
+        ]
+      },
+      "properties": {
+        "name": "Slate Islands",
+        "country": "Canada",
+        "diameter": 30,
+        "age": "~450"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-177",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.0167,
+          37.2833
+        ]
+      },
+      "properties": {
+        "name": "Chesapeake Bay",
+        "country": "United States",
+        "diameter": 40,
+        "age": "35.5 ± 0.3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-178",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          132.3167,
+          -23.8167
+        ]
+      },
+      "properties": {
+        "name": "Gosses Bluff",
+        "country": "Australia",
+        "diameter": 22,
+        "age": "142.5 ± 0.8"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-179",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -109.9,
+          38.4333
+        ]
+      },
+      "properties": {
+        "name": "Upheaval Dome",
+        "country": "United States",
+        "diameter": 10,
+        "age": "<170"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-180",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.6667,
+          -18.3333
+        ]
+      },
+      "properties": {
+        "name": "Goat Paddock",
+        "country": "Australia",
+        "diameter": 5.1,
+        "age": "<50"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-181",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.9333,
+          35.75
+        ]
+      },
+      "properties": {
+        "name": "Santa Fe",
+        "country": "United States",
+        "diameter": 6,
+        "age": "<1200"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-182",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.7,
+          63.2
+        ]
+      },
+      "properties": {
+        "name": "Lappajärvi",
+        "country": "Finland",
+        "diameter": 23,
+        "age": "76.20 ± 0.29"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-183",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -101.9667,
+          48.9667
+        ]
+      },
+      "properties": {
+        "name": "Newporte",
+        "country": "United States",
+        "diameter": 3.2,
+        "age": "<500"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-184",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.8667,
+          -8.0833
+        ]
+      },
+      "properties": {
+        "name": "Serra da Cangalha",
+        "country": "Brazil",
+        "diameter": 12,
+        "age": "<300"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-185",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.6667,
+          71
+        ]
+      },
+      "properties": {
+        "name": "Beyenchime-Salaatin",
+        "country": "Russia",
+        "diameter": 8,
+        "age": "40 ± 20"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-186",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.6167,
+          48.8833
+        ]
+      },
+      "properties": {
+        "name": "Ries",
+        "country": "Germany",
+        "diameter": 24,
+        "age": "15.1 ± 0.1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-187",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.4,
+          39.0333
+        ]
+      },
+      "properties": {
+        "name": "Serpent Mound",
+        "country": "United States",
+        "diameter": 8,
+        "age": "<320"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-188",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1167,
+          56.0833
+        ]
+      },
+      "properties": {
+        "name": "Clearwater East",
+        "country": "Canada",
+        "diameter": 26,
+        "age": "460-470"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "earth-impact-craters-189",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.1833,
+          71.65
+        ]
+      },
+      "properties": {
+        "name": "Popigai",
+        "country": "Russia",
+        "diameter": 90,
+        "age": "35.7 ± 0.2"
+      }
+    }
+  ]
+}
