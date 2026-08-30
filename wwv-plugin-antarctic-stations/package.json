@@ -1,0 +1,53 @@
+{
+    "name": "@worldwideview/wwv-plugin-antarctic-stations",
+    "version": "1.0.0",
+    "description": "Year-round Antarctic research stations (COMNAP)",
+    "main": "dist/frontend.mjs",
+    "files": [
+        "src",
+        "data"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-antarctic-stations",
+        "antarctic-stations"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/wwv-plugins.git",
+        "directory": "packages/wwv-plugin-antarctic-stations"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "^1.8.0"
+    },
+    "worldwideview": {
+        "id": "antarctic-stations",
+        "icon": "Snowflake",
+        "category": "science",
+        "format": "bundle",
+        "capabilities": [
+            "layer"
+        ],
+        "type": "data-layer",
+        "dataFile": "data/data.json",
+        "rendering": {
+            "defaultColor": "#5ab0e8",
+            "iconUrl": "/icons/default.svg"
+        },
+        "ci": {
+            "type": "ui"
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}
