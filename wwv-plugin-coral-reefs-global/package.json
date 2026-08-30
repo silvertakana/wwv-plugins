@@ -1,0 +1,54 @@
+{
+    "name": "@worldwideview/wwv-plugin-coral-reefs-global",
+    "version": "1.0.0",
+    "description": "Global distribution of warm-water coral reefs (UNEP-WCMC)",
+    "main": "dist/frontend.mjs",
+    "files": [
+        "src",
+        "data"
+    ],
+    "keywords": [
+        "worldwideview",
+        "worldwideview-plugin",
+        "wwv-plugin-coral-reefs-global",
+        "coral-reefs-global"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/silvertakana/wwv-plugins.git",
+        "directory": "packages/wwv-plugin-coral-reefs-global"
+    },
+    "homepage": "https://github.com/silvertakana/worldwideview#readme",
+    "bugs": {
+        "url": "https://github.com/silvertakana/worldwideview/issues"
+    },
+    "license": "ISC",
+    "author": "WorldWideView",
+    "peerDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "^1.8.0"
+    },
+    "worldwideview": {
+        "id": "coral-reefs-global",
+        "icon": "Waves",
+        "category": "nature",
+        "format": "bundle",
+        "capabilities": [
+            "layer"
+        ],
+        "type": "data-layer",
+        "dataFile": "data/data.json",
+        "rendering": {
+            "defaultColor": "#0f9bd8",
+            "iconUrl": "/icons/default.svg"
+        },
+        "ci": {
+            "type": "ui",
+            "bundleSizeLimitKb": 16000
+        }
+    },
+    "type": "module",
+    "module": "dist/frontend.mjs",
+    "scripts": {
+        "build": "vite build"
+    }
+}
