@@ -1,0 +1,736 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-belgrano-ii-antartic-base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -34.627778,
+          -77.873889
+        ]
+      },
+      "properties": {
+        "name": "Belgrano II Antartic Base",
+        "country": "Argentina",
+        "established": "1979",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-carlini-antartic-base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.666842,
+          -62.2379
+        ]
+      },
+      "properties": {
+        "name": "Carlini Antartic Base",
+        "country": "Argentina",
+        "established": "1953",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-esperanza-antartic-base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -56.998054,
+          -63.396959
+        ]
+      },
+      "properties": {
+        "name": "Esperanza Antartic Base",
+        "country": "Argentina",
+        "established": "1952",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-marambio-antartic-base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -56.623225,
+          -64.241769
+        ]
+      },
+      "properties": {
+        "name": "Marambio Antartic Base",
+        "country": "Argentina",
+        "established": "1969",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-orcadas-antartic-base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -44.737387,
+          -60.737592
+        ]
+      },
+      "properties": {
+        "name": "Orcadas Antartic Base",
+        "country": "Argentina",
+        "established": "1904",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-petrel-antartic-base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -56.230993,
+          -63.478303
+        ]
+      },
+      "properties": {
+        "name": "Petrel Antartic Base",
+        "country": "Argentina",
+        "established": "1952",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-san-martin-antartic-base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -67.102931,
+          -68.1303
+        ]
+      },
+      "properties": {
+        "name": "San Martin Antartic Base",
+        "country": "Argentina",
+        "established": "1951",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-casey",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          110.526792,
+          -66.282343
+        ]
+      },
+      "properties": {
+        "name": "Casey",
+        "country": "Australia",
+        "established": "1969",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-davis",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.969516,
+          -68.575938
+        ]
+      },
+      "properties": {
+        "name": "Davis",
+        "country": "Australia",
+        "established": "1957",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-macquarie-island",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          158.936794,
+          -54.499392
+        ]
+      },
+      "properties": {
+        "name": "Macquarie Island",
+        "country": "Australia",
+        "established": "1948",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-mawson",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          62.873028,
+          -67.602644
+        ]
+      },
+      "properties": {
+        "name": "Mawson",
+        "country": "Australia",
+        "established": "1954",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-comandante-ferraz",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.398722,
+          -62.085472
+        ]
+      },
+      "properties": {
+        "name": "Comandante Ferraz",
+        "country": "Brazil",
+        "established": "1984",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-arturo-prat-antarctic-naval-base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -59.663603,
+          -62.478717
+        ]
+      },
+      "properties": {
+        "name": "Arturo Prat Antarctic Naval Base",
+        "country": "Chile",
+        "established": "1947",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-bah-a-fildes-maritime-station",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.96115,
+          -62.201522
+        ]
+      },
+      "properties": {
+        "name": "Bah�a Fildes Maritime Station",
+        "country": "Chile",
+        "established": "",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-o-higgins-base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.899781,
+          -63.320951
+        ]
+      },
+      "properties": {
+        "name": "O'Higgins Base",
+        "country": "Chile",
+        "established": "1948",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-president-eduardo-frei-antarctic-base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.962627,
+          -62.200232
+        ]
+      },
+      "properties": {
+        "name": "President Eduardo Frei Antarctic Base",
+        "country": "Chile",
+        "established": "1969",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-great-wall",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.961992,
+          -62.217519
+        ]
+      },
+      "properties": {
+        "name": "Great Wall",
+        "country": "China",
+        "established": "1985",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-qinling",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          163.713006,
+          -74.934071
+        ]
+      },
+      "properties": {
+        "name": "QinLing",
+        "country": "China",
+        "established": "2024",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-zhongshan",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.371871,
+          -69.373206
+        ]
+      },
+      "properties": {
+        "name": "Zhongshan",
+        "country": "China",
+        "established": "1989",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-dumont-d-urville",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          140.001333,
+          -66.662833
+        ]
+      },
+      "properties": {
+        "name": "Dumont d'Urville",
+        "country": "France",
+        "established": "1956",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-german-antarctic-receiving-station-gars",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.90094,
+          -63.321092
+        ]
+      },
+      "properties": {
+        "name": "German Antarctic Receiving Station (GARS)",
+        "country": "Germany",
+        "established": "1991",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-neumayer-iii",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8.284148,
+          -70.660516
+        ]
+      },
+      "properties": {
+        "name": "Neumayer III",
+        "country": "Germany",
+        "established": "2009",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-bharati",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.19525,
+          -69.4068
+        ]
+      },
+      "properties": {
+        "name": "Bharati",
+        "country": "India",
+        "established": "2012",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-maitri",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.730783,
+          -70.766834
+        ]
+      },
+      "properties": {
+        "name": "Maitri",
+        "country": "India",
+        "established": "1989",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-concordia",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.332605,
+          -75.099975
+        ]
+      },
+      "properties": {
+        "name": "Concordia",
+        "country": "Italy",
+        "established": "1997",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-syowa",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.581836,
+          -69.004122
+        ]
+      },
+      "properties": {
+        "name": "Syowa",
+        "country": "Japan",
+        "established": "1957",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-scott-base",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          166.767281,
+          -77.849437
+        ]
+      },
+      "properties": {
+        "name": "Scott Base",
+        "country": "New Zealand",
+        "established": "1957",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-troll-station",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.53307,
+          -72.011946
+        ]
+      },
+      "properties": {
+        "name": "Troll Station",
+        "country": "Norway",
+        "established": "1990",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-henryk-arctowski",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.473322,
+          -62.159773
+        ]
+      },
+      "properties": {
+        "name": "Henryk Arctowski",
+        "country": "Poland",
+        "established": "1977",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-jang-bogo",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          164.2,
+          -74.623333
+        ]
+      },
+      "properties": {
+        "name": "Jang Bogo",
+        "country": "Republic of Korea",
+        "established": "2014",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-king-sejong",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.783333,
+          -62.216667
+        ]
+      },
+      "properties": {
+        "name": "King Sejong",
+        "country": "Republic of Korea",
+        "established": "1988",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-bellingshausen",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.960609,
+          -62.198184
+        ]
+      },
+      "properties": {
+        "name": "Bellingshausen",
+        "country": "Russia",
+        "established": "1968",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-mirny",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          93.009559,
+          -66.553181
+        ]
+      },
+      "properties": {
+        "name": "Mirny",
+        "country": "Russia",
+        "established": "1956",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-novolazarevskaya",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11.832151,
+          -70.775796
+        ]
+      },
+      "properties": {
+        "name": "Novolazarevskaya",
+        "country": "Russia",
+        "established": "1961",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-progress",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.388247,
+          -69.37795
+        ]
+      },
+      "properties": {
+        "name": "Progress",
+        "country": "Russia",
+        "established": "1989",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-vostok",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.836882,
+          -78.464182
+        ]
+      },
+      "properties": {
+        "name": "Vostok",
+        "country": "Russia",
+        "established": "1957",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-sanae-iv",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.840324,
+          -71.672873
+        ]
+      },
+      "properties": {
+        "name": "SANAE IV",
+        "country": "South Africa",
+        "established": "1962",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-vernadsky",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.25748123,
+          -65.24574295
+        ]
+      },
+      "properties": {
+        "name": "Vernadsky",
+        "country": "Ukraine",
+        "established": "1996",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-rothera",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -68.124888,
+          -67.569529
+        ]
+      },
+      "properties": {
+        "name": "Rothera",
+        "country": "United Kingdom",
+        "established": "1975",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-amundsen-scott-south-pole",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          142.266667,
+          -89.983333
+        ]
+      },
+      "properties": {
+        "name": "Amundsen-Scott South Pole",
+        "country": "United States",
+        "established": "1957",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-mcmurdo",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          166.666667,
+          -77.85
+        ]
+      },
+      "properties": {
+        "name": "McMurdo",
+        "country": "United States",
+        "established": "1956",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-palmer",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.053056,
+          -64.774167
+        ]
+      },
+      "properties": {
+        "name": "Palmer",
+        "country": "United States",
+        "established": "1965",
+        "status": "Open"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "antarctic-stations-artigas",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -58.902442,
+          -62.184551
+        ]
+      },
+      "properties": {
+        "name": "Artigas",
+        "country": "Uruguay",
+        "established": "1984",
+        "status": "Open"
+      }
+    }
+  ]
+}
