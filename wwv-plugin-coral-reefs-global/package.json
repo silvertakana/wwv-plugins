@@ -42,7 +42,8 @@
             "iconUrl": "/icons/default.svg"
         },
         "ci": {
-            "type": "ui"
+            "type": "ui",
+            "bundleSizeLimitKb": 16000
         }
     },
     "type": "module",
