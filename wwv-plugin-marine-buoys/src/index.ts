@@ -41,9 +41,16 @@ export interface BuoyObservation {
     tide: number | null;
 }
 
-/** Keep only finite numbers; "MM" or unparseable values map to null. */
+/**
+ * Keep only finite numbers; missing values map to null. NDBC reports missing
+ * measurements as "MM", and its numeric feeds historically use -99.99 as the
+ * sentinel — both must stay null so downstream severity/format code never
+ * sees an invented number (Number(null) would otherwise coerce to 0).
+ */
 function num(value: unknown): number | null {
+    if (value === null || value === undefined || value === "") return null;
     const n = Number(value);
+    if (n === -99.99) return null;
     return Number.isFinite(n) ? n : null;
 }
 
@@ -101,7 +108,7 @@ export class MarineBuoysPlugin extends BaseIncidentPlugin {
     protected defaultLayerColor = "#0ea5e9";
 
     protected getSeverityValue(entity: GeoEntity): number {
-        return typeof entity.properties.wvht === "number" ? entity.properties.wvht : 0;
+        return typeof entity.properties?.wvht === "number" ? entity.properties.wvht : 0;
     }
 
     protected getSeverityColor(wvht: number): string {
@@ -141,6 +148,23 @@ export class MarineBuoysPlugin extends BaseIncidentPlugin {
             this.context?.onError(error);
             return [];
         }
+    }
+
+    /**
+     * The engine streams the same raw observation rows (stn/lat/lon/wvht/...)
+     * over the WebSocket that fetch() receives over HTTP. Map them through
+     * mapBuoyToEntity so streamed entities carry a properties bag; the base
+     * implementation would pass bare rows through and the renderer would
+     * dereference entity.properties.wvht on an undefined bag.
+     */
+    override mapWebsocketPayload(payload: unknown): GeoEntity[] {
+        // extractIncidentItems types rows as GeoEntity, but the WS stream carries
+        // raw observation rows; they are observation-shaped, not entity-shaped.
+        const items = this.extractIncidentItems(payload) as unknown as BuoyObservation[];
+        return items.flatMap((b: BuoyObservation): GeoEntity[] => {
+            const entity = mapBuoyToEntity(this.id, b);
+            return entity ? [entity] : [];
+        });
     }
 
     getServerConfig(): ServerPluginConfig {
