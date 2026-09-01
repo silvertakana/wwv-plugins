@@ -158,7 +158,9 @@ export class MarineBuoysPlugin extends BaseIncidentPlugin {
      * dereference entity.properties.wvht on an undefined bag.
      */
     override mapWebsocketPayload(payload: unknown): GeoEntity[] {
-        const items = this.extractIncidentItems(payload);
+        // extractIncidentItems types rows as GeoEntity, but the WS stream carries
+        // raw observation rows; they are observation-shaped, not entity-shaped.
+        const items = this.extractIncidentItems(payload) as unknown as BuoyObservation[];
         return items.flatMap((b: BuoyObservation): GeoEntity[] => {
             const entity = mapBuoyToEntity(this.id, b);
             return entity ? [entity] : [];
