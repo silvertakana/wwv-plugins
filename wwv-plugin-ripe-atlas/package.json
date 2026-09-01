@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-ripe-atlas",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "WorldWideView plugin — RIPE Atlas network measurement probes worldwide",
     "main": "dist/frontend.mjs",
     "files": [

@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-internet-exchanges",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "WorldWideView plugin — Internet Exchange Points and carrier-neutral facilities worldwide",
     "main": "dist/frontend.mjs",
     "files": [
