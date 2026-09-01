@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-marine-buoys",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Live marine buoy observations from NOAA NDBC (wave height, wind, temperature)",
     "type": "module",
     "main": "dist/frontend.mjs",
@@ -59,7 +59,8 @@
     },
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "test": "vitest run"
     },
     "peerDependencies": {
         "@worldwideview/wwv-plugin-sdk": "workspace:*"
@@ -67,5 +68,12 @@
     "dependencies": {
         "@worldwideview/wwv-lib-incidents": "workspace:*",
         "lucide-react": "^1.14.0"
+    },
+    "devDependencies": {
+        "@worldwideview/wwv-plugin-sdk": "workspace:*",
+        "@types/react": "^19.0.0",
+        "vite": "^8.0.0",
+        "vitest": "^4.1.7",
+        "typescript": "^5.5.0"
     }
 }
