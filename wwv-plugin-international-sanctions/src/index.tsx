@@ -130,7 +130,7 @@ export class InternationalSanctionsPlugin implements WorldPlugin {
 
     getServerConfig(): ServerPluginConfig {
         return { streamUrl: "wss://dataenginev2.worldwideview.dev/stream",
-            apiBasePath: "/api/sanctions",
+            apiBasePath: "/api/international-sanctions",
             pollingIntervalMs: 0,
             historyEnabled: false,
         };
