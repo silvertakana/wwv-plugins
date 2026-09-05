@@ -8,9 +8,10 @@ import type {
     PluginContext,
     LayerConfig,
     CesiumEntityOptions,
+    ServerPluginConfig,
 } from "@worldwideview/wwv-plugin-sdk";
 
-const UnderseaCablesRenderer: React.FC<{ viewer: Cesium.Viewer | null; enabled: boolean }> = ({ viewer, enabled }) => {
+const UnderseaCablesRenderer: React.FC<{ viewer: Cesium.Viewer | null; enabled: boolean; engineBaseUrl?: string }> = ({ viewer, enabled, engineBaseUrl }) => {
     const dataSourceRef = useRef<Cesium.CustomDataSource | null>(null);
 
     useEffect(() => {
@@ -32,11 +33,17 @@ const UnderseaCablesRenderer: React.FC<{ viewer: Cesium.Viewer | null; enabled: 
                 viewer.dataSources.add(activeDataSource);
                 dataSourceRef.current = activeDataSource;
                 
-                // Proxy route to bypass CORS for Telegeography submarine cable map API
-                const url = "/api/undersea-cables";
+                // Source GeoJSON from the data engine REST envelope: { source, fetchedAt, items, totalCount }
+                const engineBase = engineBaseUrl || "https://dataenginev2.worldwideview.dev";
+                const url = `${engineBase}/api/undersea-cables`;
+                
+                const res = await fetch(url);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const json = await res.json();
+                const geojson = (json && json.items) || json;
                 
                 const tempDataSource = new Cesium.GeoJsonDataSource("temp-parse");
-                await tempDataSource.load(url);
+                await tempDataSource.load(geojson);
 
                 if (isCancelled) return;
 
@@ -121,14 +128,22 @@ export class UnderseaCablesPlugin implements GlobePlugin {
     icon = Cable;
     category = "infrastructure" as const;
     version = "1.0.0";
-    
-    async initialize(_ctx: PluginContext): Promise<void> {}
-    
+
+    private engineBaseUrl = "";
+
+    async initialize(ctx: PluginContext): Promise<void> {
+        this.engineBaseUrl = ctx.getEngineUrl();
+    }
+
     destroy(): void {}
 
     async fetch(_timeRange: TimeRange): Promise<GeoEntity[]> { return []; }
 
     getPollingInterval(): number { return 0; }
+
+    getServerConfig(): ServerPluginConfig {
+        return { apiBasePath: "/api/undersea-cables", pollingIntervalMs: 0 };
+    }
 
     getLayerConfig(): LayerConfig {
         return { color: "#0ea5e9", clusterEnabled: false, clusterDistance: 0 };
@@ -139,6 +154,9 @@ export class UnderseaCablesPlugin implements GlobePlugin {
     }
 
     getGlobeComponent() {
-        return UnderseaCablesRenderer;
+        const engineBaseUrl = this.engineBaseUrl;
+        return (props: { viewer: Cesium.Viewer | null; enabled: boolean }) => (
+            <UnderseaCablesRenderer {...props} engineBaseUrl={engineBaseUrl} />
+        );
     }
 }
