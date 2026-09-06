@@ -139,6 +139,69 @@ export class UnderseaCablesPlugin implements GlobePlugin {
 
     async fetch(_timeRange: TimeRange): Promise<GeoEntity[]> { return []; }
 
+    mapWebsocketPayload(payload: any): GeoEntity[] {
+        try {
+            let features: any[] = [];
+            if (payload && payload.items && payload.items.type === "FeatureCollection" && Array.isArray(payload.items.features)) {
+                features = payload.items.features;
+            } else if (payload && Array.isArray(payload.features)) {
+                features = payload.features;
+            } else if (Array.isArray(payload)) {
+                features = payload;
+            }
+
+            const entities = features.map((feature: any, index: number): GeoEntity | null => {
+                if (!feature) return null;
+                const props = feature.properties || {};
+
+                let anchor: number[] | null = null;
+                if (Array.isArray(props.coordinates) && props.coordinates.length >= 2
+                    && typeof props.coordinates[0] === "number" && typeof props.coordinates[1] === "number") {
+                    anchor = [props.coordinates[0], props.coordinates[1]];
+                } else if (feature.geometry && feature.geometry.type && Array.isArray(feature.geometry.coordinates)) {
+                    const g = feature.geometry;
+                    switch (g.type) {
+                        case "Point":
+                            anchor = [g.coordinates[0], g.coordinates[1]];
+                            break;
+                        case "LineString":
+                            anchor = [g.coordinates[0][0], g.coordinates[0][1]];
+                            break;
+                        case "MultiLineString":
+                            anchor = [g.coordinates[0][0][0], g.coordinates[0][0][1]];
+                            break;
+                        case "Polygon":
+                            anchor = [g.coordinates[0][0][0], g.coordinates[0][0][1]];
+                            break;
+                        case "MultiPolygon":
+                            anchor = [g.coordinates[0][0][0][0], g.coordinates[0][0][0][1]];
+                            break;
+                    }
+                }
+                if (!anchor || typeof anchor[0] !== "number" || typeof anchor[1] !== "number") return null;
+
+                return {
+                    id: String(props.feature_id ?? feature.id ?? `uc-${index}`),
+                    pluginId: "undersea-cables",
+                    latitude: Number(anchor[1]),
+                    longitude: Number(anchor[0]),
+                    timestamp: new Date(payload?.fetchedAt ?? Date.now()),
+                    label: String(props.name ?? ""),
+                    properties: {
+                        name: props.name,
+                        id: props.id,
+                        color: props.color,
+                        feature_id: props.feature_id,
+                    },
+                };
+            });
+
+            return entities.filter((entity: GeoEntity | null): entity is GeoEntity => entity !== null);
+        } catch {
+            return [];
+        }
+    }
+
     getPollingInterval(): number { return 0; }
 
     getServerConfig(): ServerPluginConfig {
@@ -146,7 +209,7 @@ export class UnderseaCablesPlugin implements GlobePlugin {
     }
 
     getLayerConfig(): LayerConfig {
-        return { color: "#0ea5e9", clusterEnabled: false, clusterDistance: 0 };
+        return { color: "#0ea5e9", clusterEnabled: false, clusterDistance: 0, disableDefaultRendering: true };
     }
 
     renderEntity(_entity: GeoEntity): CesiumEntityOptions {
