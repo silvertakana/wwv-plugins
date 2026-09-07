@@ -216,10 +216,14 @@ export class UnderseaCablesPlugin implements GlobePlugin {
         return { type: "polyline" }; // Fallback since actual rendering is via GlobeComponent
     }
 
+    private _globeComponent?: React.FC<{ viewer: Cesium.Viewer | null; enabled: boolean }>;
+
     getGlobeComponent() {
-        const engineBaseUrl = this.engineBaseUrl;
-        return (props: { viewer: Cesium.Viewer | null; enabled: boolean }) => (
-            <UnderseaCablesRenderer {...props} engineBaseUrl={engineBaseUrl} />
-        );
+        if (!this._globeComponent) {
+            this._globeComponent = (props) => (
+                <UnderseaCablesRenderer {...props} engineBaseUrl={this.engineBaseUrl} />
+            );
+        }
+        return this._globeComponent;
     }
 }
