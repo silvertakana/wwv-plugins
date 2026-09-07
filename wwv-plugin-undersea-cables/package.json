@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-undersea-cables",
-    "version": "1.0.17",
+    "version": "1.0.18",
     "description": "Undersea Cables Plugin for WorldWideView",
     "main": "dist/frontend.mjs",
     "types": "dist/index.d.ts",
