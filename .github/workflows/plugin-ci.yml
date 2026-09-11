@@ -30,7 +30,7 @@ on:
     branches: [main]
 
 concurrency:
-  group: plugin-ci-${{ github.ref }}
+  group: plugin-ci-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
