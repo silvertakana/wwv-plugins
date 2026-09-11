@@ -40,7 +40,7 @@ function vesselStyle(a: VesselActivity): VesselStyle {
 export class FishingActivityGFWPlugin implements WorldPlugin {
     id = "fishing-activity-gfw";
     name = "Fishing Activity (GFW)";
-    description = "Global fishing activity and dark-vessel detections from Global Fishing Watch. KEY-GATED: requires the GFW_API_KEY seeder on the data engine.";
+    description = "Global fishing activity and dark-vessel detections from Global Fishing Watch.";
     icon = Ship;
     category = "maritime" as const;
     version = pkg.version;
