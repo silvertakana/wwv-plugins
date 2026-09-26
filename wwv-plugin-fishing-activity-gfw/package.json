@@ -1,7 +1,7 @@
 {
     "name": "@worldwideview/wwv-plugin-fishing-activity-gfw",
-    "version": "1.0.0",
-    "description": "Global fishing activity and dark-vessel detections from Global Fishing Watch (GFW). KEY-GATED: requires GFW_API_KEY on the data engine.",
+    "version": "1.1.0",
+    "description": "Global fishing activity and dark-vessel detections from Global Fishing Watch (GFW).",
     "main": "dist/frontend.mjs",
     "types": "src/index.ts",
     "files": [
@@ -34,7 +34,7 @@
             "layer",
             "network:fetch"
         ],
-        "needsKey": true,"ci": {
+        "needsKey": false,"ci": {
             "type": "data"
         }
     },
