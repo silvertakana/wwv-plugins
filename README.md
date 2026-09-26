@@ -44,7 +44,7 @@ properties: {
 
 All helpers are null-safe — passing `null` or `undefined` returns `null`, which the panel skips.
 
-See the [SDK README](../worldwideview/packages/wwv-plugin-sdk/README.md) for the full reference.
+See the [SDK README](https://github.com/silvertakana/worldwideview/blob/main/packages/wwv-plugin-sdk/README.md) for the full reference. The package is published on npm as [`@worldwideview/wwv-plugin-sdk`](https://www.npmjs.com/package/@worldwideview/wwv-plugin-sdk).
 
 ## Publishing to NPM
 

@@ -9,7 +9,7 @@ pnpm --filter @worldwideview/wwv-plugin-<name> build
 
 ## Plugin Structure
 
-Each plugin lives in its own directory under `local-plugins/` and is a standalone npm package. The entry point is `src/index.ts` (or `src/index.tsx` for plugins with custom components).
+Each plugin lives in its own directory at the repository root and is a standalone npm package. The entry point is `src/index.ts` (or `src/index.tsx` for plugins with custom components).
 
 ## Property Conventions
 
