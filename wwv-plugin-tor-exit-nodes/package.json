@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-tor-exit-nodes",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "WorldWideView plugin — Tor exit node IPs geolocated worldwide",
     "main": "dist/frontend.mjs",
     "files": [

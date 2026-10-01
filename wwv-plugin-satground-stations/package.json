@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-satground-stations",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "WorldWideView plugin — Satellite ground stations worldwide",
     "main": "dist/frontend.mjs",
     "files": [
