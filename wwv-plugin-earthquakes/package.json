@@ -1,6 +1,6 @@
 {
     "name": "@worldwideview/wwv-plugin-earthquakes",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "main": "dist/frontend.mjs",
     "dependencies": {
         "@worldwideview/wwv-lib-incidents": "workspace:*",
@@ -12,7 +12,8 @@
         "category": "Natural Disasters",
         "format": "bundle",
         "capabilities": [
-            "layer"
+            "data:own",
+            "globe:overlay"
         ],
         "ci": {
             "type": "data"
@@ -21,9 +22,13 @@
     "type": "module",
     "module": "dist/frontend.mjs",
     "scripts": {
-        "build": "vite build"
+        "build": "vite build",
+        "test": "vitest run"
     },
     "peerDependencies": {
         "@worldwideview/wwv-plugin-sdk": "workspace:*"
+    },
+    "devDependencies": {
+        "vitest": "^4.1.7"
     }
 }

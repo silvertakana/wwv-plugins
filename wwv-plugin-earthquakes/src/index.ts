@@ -9,6 +9,58 @@ import {
 } from "@worldwideview/wwv-plugin-sdk";
 import { BaseIncidentPlugin } from "@worldwideview/wwv-lib-incidents";
 
+const ENGINE_FALLBACK_URL = "https://dataenginev2.worldwideview.dev";
+
+/** One earthquake row as served by the data engine's /api/earthquakes snapshot. */
+export interface EarthquakeItem {
+    id: string;
+    place: string | null;
+    magnitude: number | null;
+    depth_km: number | null;
+    lat: number;
+    lon: number;
+    /** Millisecond epoch. */
+    occurredAt: number;
+    url: string | null;
+    nearTestSite?: boolean;
+    nearestSiteName?: string | null;
+    distanceToTestSiteKm?: number | null;
+}
+
+/**
+ * Maps one engine earthquake row to a GeoEntity. Returns null for rows whose
+ * coordinates or timestamp are not usable, so the caller can drop them without
+ * a hole in the layer. The property key is depth (not depth_km) to match the
+ * depth filter.
+ */
+export function mapEarthquakeToEntity(pluginId: string, item: EarthquakeItem): GeoEntity | null {
+    if (!Number.isFinite(item?.lat) || !Number.isFinite(item?.lon)) return null;
+
+    // A malformed occurredAt makes toISOString() throw, and mapWebsocketPayload() has no try/catch.
+    const occurredAt = new Date(item.occurredAt);
+    if (!Number.isFinite(occurredAt.getTime())) return null;
+
+    return {
+        id: `${pluginId}-${item.id}`,
+        pluginId,
+        latitude: item.lat,
+        longitude: item.lon,
+        altitude: 0,
+        timestamp: occurredAt,
+        label: `M${item.magnitude ?? "?"}`,
+        properties: {
+            magnitude: item.magnitude,
+            depth: item.depth_km,
+            place: item.place,
+            url: urlProp(item.url),
+            occurredAt: dtProp(occurredAt.toISOString()),
+            nearTestSite: item.nearTestSite,
+            nearestSiteName: item.nearestSiteName,
+            distanceToTestSiteKm: item.distanceToTestSiteKm,
+        },
+    };
+}
+
 export class EarthquakesPlugin extends BaseIncidentPlugin {
     id = "earthquakes";
     name = "Earthquakes";
@@ -38,49 +90,19 @@ export class EarthquakesPlugin extends BaseIncidentPlugin {
 
     async fetch(_timeRange: TimeRange): Promise<GeoEntity[]> {
         try {
-            const res = await globalThis.fetch(`/api/earthquake`);
+            const engineBase = this.context?.getEngineUrl() || ENGINE_FALLBACK_URL;
+            const res = await globalThis.fetch(`${engineBase}/api/earthquakes`);
             if (!res.ok) {
                 this.context?.onError(new Error(`Earthquakes API returned ${res.status}`));
                 return [];
             }
 
             const data = await res.json();
-            const features = Array.isArray(data?.features) ? data.features : [];
+            if (!Array.isArray(data?.items)) return [];
 
-            return features.flatMap((feature: any): GeoEntity[] => {
-                const coordinates = feature?.geometry?.coordinates;
-                const time = feature?.properties?.time;
-                if (
-                    !Array.isArray(coordinates)
-                    || coordinates.length < 2
-                    || !Number.isFinite(coordinates[0])
-                    || !Number.isFinite(coordinates[1])
-                    || !Number.isFinite(time)
-                ) {
-                    return [];
-                }
-
-                const magnitude = Number(feature?.properties?.mag ?? 0) || 0;
-                return [{
-                    id: `${this.id}-${feature.id}`,
-                    pluginId: this.id,
-                    latitude: coordinates[1],
-                    longitude: coordinates[0],
-                    altitude: 0,
-                    timestamp: new Date(time),
-                    label: `M${feature?.properties?.mag ?? "?"}`,
-                    properties: {
-                        magnitude,
-                        depth: Number(feature?.geometry?.coordinates?.[2] ?? 0) || 0,
-                        place: feature?.properties?.place ?? null,
-                        url: urlProp(feature?.properties?.url ?? null),
-                        updated: dtProp(feature?.properties?.updated ? new Date(feature.properties.updated).toISOString() : null),
-                        status: feature?.properties?.status ?? null,
-                        tsunami: feature?.properties?.tsunami ?? null,
-                        sig: feature?.properties?.sig ?? null,
-                        magType: feature?.properties?.magType ?? null,
-                    },
-                }];
+            return data.items.flatMap((item: EarthquakeItem): GeoEntity[] => {
+                const entity = mapEarthquakeToEntity(this.id, item);
+                return entity ? [entity] : [];
             });
         } catch (err) {
             const error = err instanceof Error ? err : new Error("Failed to fetch earthquakes");
@@ -89,12 +111,31 @@ export class EarthquakesPlugin extends BaseIncidentPlugin {
         }
     }
 
+    /**
+     * The engine streams the same earthquake rows over the WebSocket that fetch()
+     * receives over HTTP, wrapped in the scheduler envelope. Mapping them through
+     * mapEarthquakeToEntity keeps streamed entities on the same shape as fetched
+     * ones; the base class would otherwise pass the raw rows through as entities.
+     */
+    override mapWebsocketPayload(payload: unknown): GeoEntity[] {
+        const items = Array.isArray(payload)
+            ? payload
+            : Array.isArray((payload as { items?: unknown } | null)?.items)
+                ? (payload as { items: EarthquakeItem[] }).items
+                : [];
+
+        return items.flatMap((item: EarthquakeItem): GeoEntity[] => {
+            const entity = mapEarthquakeToEntity(this.id, item);
+            return entity ? [entity] : [];
+        });
+    }
+
     getPollingInterval(): number {
-        return 120000;
+        return 0;
     }
 
     getServerConfig(): ServerPluginConfig {
-        return { streamUrl: "wss://dataenginev2.worldwideview.dev/stream", apiBasePath: "/api/earthquake", pollingIntervalMs: 120000, historyEnabled: false };
+        return { streamUrl: "wss://dataenginev2.worldwideview.dev/stream", apiBasePath: "/api/earthquakes", pollingIntervalMs: 0, historyEnabled: false };
     }
 
     getLayerConfig() {
@@ -120,7 +161,7 @@ export class EarthquakesPlugin extends BaseIncidentPlugin {
 
     getLegend(): { label: string; color: string; filterId?: string; filterValue?: string }[] {
         return [
-            { label: "M < 5.0", color: "#fcd34d", filterId: "magnitude", filterValue: "0" },
+            { label: "M < 5.0", color: "#fcd34d", filterId: "magnitude", filterValue: "4.5" },
             { label: "M 5.0 - 5.9", color: "#f97316", filterId: "magnitude", filterValue: "5.0" },
             { label: "M 6.0 - 6.9", color: "#ef4444", filterId: "magnitude", filterValue: "6.0" },
             { label: "M ≥ 7.0", color: "#7f1d1d", filterId: "magnitude", filterValue: "7.0" },
@@ -129,7 +170,7 @@ export class EarthquakesPlugin extends BaseIncidentPlugin {
 
     getFilterDefinitions(): FilterDefinition[] {
         return [
-            { id: "magnitude", label: "Magnitude", type: "range", propertyKey: "magnitude", range: { min: 0, max: 10, step: 0.1 } },
+            { id: "magnitude", label: "Magnitude", type: "range", propertyKey: "magnitude", range: { min: 4.5, max: 10, step: 0.1 } },
             { id: "depth", label: "Depth (km)", type: "range", propertyKey: "depth", range: { min: 0, max: 800, step: 10 } },
         ];
     }
