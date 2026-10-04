@@ -8,6 +8,6 @@ export const manifest: PluginManifest = {
     type: "data-layer",
     format: "bundle",
     trust: "built-in",
-    capabilities: ["data:own", "ui:sidebar", "globe:overlay"],
+    capabilities: ["network:fetch", "ui:sidebar"],
     category: "custom"
 };

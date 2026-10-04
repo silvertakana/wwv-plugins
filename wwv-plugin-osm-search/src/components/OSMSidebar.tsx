@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Math as CesiumMath } from "cesium";
 import { Eye, EyeOff } from "lucide-react";
 import { useOsmStore } from "../store";
+import { queryOverpass } from "../lib/overpass";
 
 const COMMON_TAGS = [
     // Military & Security
@@ -127,20 +128,13 @@ out center;`;
         
         setIsScanning(true);
         try {
-            const res = await fetch("/api/plugins/osm-search", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ query: ql })
-            });
-            
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || "Search failed");
+            const elements = await queryOverpass(ql);
             
             if (plugin?.pushResults && plugin?.mapOverpassToEntities) {
-                const entities = plugin.mapOverpassToEntities(data.data || []);
+                const entities = plugin.mapOverpassToEntities(elements);
                 plugin.pushResults(entities);
             } else {
-                console.warn("Plugin bridge not available in OSMSidebar", data.data);
+                console.warn("Plugin bridge not available in OSMSidebar", elements);
             }
         } catch (err) {
             console.error(err);
