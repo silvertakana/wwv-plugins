@@ -5,6 +5,7 @@ import type {
     LayerConfig,
     CesiumEntityOptions,
     PluginContext,
+    ServerPluginConfig,
 } from "@worldwideview/wwv-plugin-sdk";
 import { createSvgIconUrl, dtProp, urlProp } from "@worldwideview/wwv-plugin-sdk";
 import { Satellite } from "lucide-react";
@@ -17,53 +18,108 @@ const ISS_ICON_URL = createSvgIconUrl(Satellite, {
     background: false,
 });
 
-interface IssApiResponse {
+const ENGINE_FALLBACK_URL = "https://dataenginev2.worldwideview.dev";
+
+/** One position row as served by the data engine's /api/iss snapshot: the upstream wheretheiss.at payload, verbatim. */
+export interface IssPosition {
     id: number;
     name: string;
     latitude: number;
     longitude: number;
+    /** Kilometres. */
     altitude: number;
     velocity: number;
     visibility: string;
     footprint: number;
+    /** Second epoch, the upstream unit -- converted to milliseconds on the entity. */
     timestamp: number;
     units: string;
 }
 
-// Matches the server route's own 10s upstream cache window (/api/iss
-// revalidate=10) -- polling faster than that just re-serves the same cached
-// response and wastes a request.
-const POLL_INTERVAL_MS = 10_000;
-
-interface IssPositionsResponse {
-    positions: { latitude: number; longitude: number; timestamp: number }[];
+/** One historical ground-track sample, already in the shape useTrailRendering.ts consumes. */
+export interface IssTrackPoint {
+    latitude: number;
+    longitude: number;
+    timestamp: number;
 }
 
-// 9 points over the last 27 minutes (3-min spacing) -- well under the
-// route's 10-timestamp cap, and long enough relative to the ISS's ~92.7min
-// orbital period to show a real, visibly curved arc of ground track leading
-// into the current position (the host's trail renderer appends that tip
-// itself from the live entity, see properties.history below).
-const GROUND_TRACK_MINUTES_BACK = [27, 24, 21, 18, 15, 12, 9, 6, 3];
-
-async function fetchGroundTrack(): Promise<{ lat: number; lon: number; ts: number }[]> {
-    const nowSec = Math.floor(Date.now() / 1000);
-    const timestamps = GROUND_TRACK_MINUTES_BACK.map((m) => nowSec - m * 60);
-    try {
-        const res = await fetch(`/api/iss/positions?timestamps=${timestamps.join(",")}`);
-        if (!res.ok) return [];
-        const data: IssPositionsResponse = await res.json();
-        if (!Array.isArray(data.positions)) return [];
-        return data.positions
-            .filter((p) => Number.isFinite(p.latitude) && Number.isFinite(p.longitude))
-            .map((p) => ({ lat: p.latitude, lon: p.longitude, ts: p.timestamp }));
-    } catch {
-        // Ground track is a bonus visual, not core data -- never let it fail the main fetch.
-        return [];
-    }
+/** Envelope served at GET /api/iss and pushed over the engine stream. */
+export interface IssEnvelope {
+    source: string;
+    fetchedAt: string;
+    items: IssPosition[];
+    track?: IssTrackPoint[];
+    totalCount: number;
 }
 
-const issPlugin: WorldPlugin = {
+/**
+ * Maps one engine ISS position to the layer's single GeoEntity. The engine
+ * serves altitude in kilometres and timestamp in seconds, while the entity
+ * carries metres and a Date, so both are converted here.
+ */
+export function mapIssToEntity(pluginId: string, position: IssPosition, track: IssTrackPoint[] = []): GeoEntity {
+    const ts = new Date(position.timestamp * 1000);
+
+    return {
+        id: `${pluginId}-25544`,
+        pluginId,
+        latitude: position.latitude,
+        longitude: position.longitude,
+        altitude: (position.altitude ?? 0) * 1000, // km -> meters
+        speed: position.velocity,
+        timestamp: ts,
+        label: "ISS",
+        properties: {
+            velocity: `${Math.round(position.velocity)} km/h (${Math.round(position.velocity * 0.6214)} mph)`,
+            altitude: `${Math.round(position.altitude)} km`,
+            visibility: position.visibility === "daylight" ? "In daylight" : "In darkness (eclipsed)",
+            ground_footprint: `${Math.round(position.footprint)} km diameter visible from this position`,
+            orbital_period: "~92.7 minutes per orbit (~15.5 orbits/day)",
+            last_updated: dtProp(ts.toISOString()),
+            more_info: urlProp("https://en.wikipedia.org/wiki/International_Space_Station"),
+            // Consumed by the host's trail renderer (useTrailRendering.ts) to draw a
+            // real curved ground-track polyline into the current position -- not
+            // synthetic dead-reckoning, actual historical positions from the engine.
+            history: track,
+        },
+    };
+}
+
+/** Reads an engine envelope, or a bare position array, into items plus ground track. */
+function readIssPayload(payload: unknown): { items: IssPosition[]; track: IssTrackPoint[] } {
+    if (Array.isArray(payload)) return { items: payload, track: [] };
+
+    const envelope = payload as IssEnvelope | null | undefined;
+    return {
+        items: Array.isArray(envelope?.items) ? envelope.items : [],
+        track: Array.isArray(envelope?.track) ? envelope.track : [],
+    };
+}
+
+/**
+ * Maps the engine snapshot (or a streamed frame, which may be a bare array) to
+ * the layer's single entity. Returns [] for an envelope with no items.
+ */
+export function mapIssPayload(pluginId: string, payload: unknown): GeoEntity[] {
+    const { items, track } = readIssPayload(payload);
+    const position = items[0];
+    if (!position) return [];
+
+    return [mapIssToEntity(pluginId, position, track)];
+}
+
+/**
+ * WorldPlugin has no context slot, so the host context is declared here and
+ * captured in initialize(). mapWebsocketPayload() and getServerConfig() are
+ * declared required because this plugin always implements them.
+ */
+interface IssPlugin extends WorldPlugin {
+    context?: PluginContext;
+    mapWebsocketPayload(payload: unknown): GeoEntity[];
+    getServerConfig(): ServerPluginConfig;
+}
+
+const issPlugin: IssPlugin = {
     id: "iss",
     name: "ISS Tracker",
     description: "Live position of the International Space Station",
@@ -71,55 +127,53 @@ const issPlugin: WorldPlugin = {
     category: "space",
     version: pkg.version,
 
-    async initialize(_ctx: PluginContext): Promise<void> {
-        // No setup needed -- fetch() hits this app's own same-origin /api/iss
-        // proxy route, so no engine URL / auth wiring is required.
+    async initialize(ctx: PluginContext): Promise<void> {
+        // fetch() resolves the engine URL from this context; the position and the
+        // ground track now come from the engine's own /api/iss snapshot.
+        this.context = ctx;
     },
 
     destroy(): void {
-        // No open connections or timers owned outside the host's poll loop.
+        this.context = undefined;
     },
 
     async fetch(_timeRange: TimeRange): Promise<GeoEntity[]> {
-        const res = await fetch("/api/iss");
-        if (!res.ok) return [];
+        try {
+            const engineBase = this.context?.getEngineUrl() || ENGINE_FALLBACK_URL;
+            const res = await globalThis.fetch(`${engineBase}/api/iss`);
+            if (!res.ok) {
+                this.context?.onError(new Error(`ISS API returned ${res.status}`));
+                return [];
+            }
 
-        const data: IssApiResponse = await res.json();
-        if (!Number.isFinite(data.latitude) || !Number.isFinite(data.longitude)) {
+            const data = await res.json();
+            if (!Array.isArray(data?.items) || data.items.length === 0) return [];
+
+            return mapIssPayload(this.id, data);
+        } catch (err) {
+            const error = err instanceof Error ? err : new Error("Failed to fetch ISS position");
+            this.context?.onError(error);
             return [];
         }
+    },
 
-        const groundTrack = await fetchGroundTrack();
-
-        const entity: GeoEntity = {
-            id: "iss-25544",
-            pluginId: "iss",
-            latitude: data.latitude,
-            longitude: data.longitude,
-            altitude: (data.altitude ?? 0) * 1000, // km -> meters
-            speed: data.velocity,
-            timestamp: new Date(data.timestamp * 1000),
-            label: "ISS",
-            properties: {
-                velocity: `${Math.round(data.velocity)} km/h (${Math.round(data.velocity * 0.6214)} mph)`,
-                altitude: `${Math.round(data.altitude)} km`,
-                visibility: data.visibility === "daylight" ? "In daylight" : "In darkness (eclipsed)",
-                ground_footprint: `${Math.round(data.footprint)} km diameter visible from this position`,
-                orbital_period: "~92.7 minutes per orbit (~15.5 orbits/day)",
-                last_updated: dtProp(new Date(data.timestamp * 1000).toISOString()),
-                more_info: urlProp("https://en.wikipedia.org/wiki/International_Space_Station"),
-                // Consumed by the host's trail renderer (useTrailRendering.ts) to draw a
-                // real curved ground-track polyline into the current position -- not
-                // synthetic dead-reckoning, actual historical positions from the API.
-                history: groundTrack,
-            },
-        };
-
-        return [entity];
+    /**
+     * The engine streams the same envelope the fetch() above receives over HTTP.
+     * Mapping it through mapIssPayload keeps streamed entities on the shape the
+     * globe expects; without this it drops every pushed frame and the layer only
+     * ever updates on the one initial fetch.
+     */
+    mapWebsocketPayload(payload: unknown): GeoEntity[] {
+        return mapIssPayload(this.id, payload);
     },
 
     getPollingInterval(): number {
-        return POLL_INTERVAL_MS;
+        // One poll for the initial position; live updates arrive over the stream.
+        return 0;
+    },
+
+    getServerConfig(): ServerPluginConfig {
+        return { streamUrl: "wss://dataenginev2.worldwideview.dev/stream", apiBasePath: "/api/iss", pollingIntervalMs: 0, historyEnabled: false };
     },
 
     getLayerConfig(): LayerConfig {
