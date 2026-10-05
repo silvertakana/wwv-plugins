@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import type { GeoEntity } from "@worldwideview/wwv-plugin-sdk";
-import issPlugin, { mapIssToEntity, mapIssPayload, type IssEnvelope, type IssPosition } from "../index";
+import issPlugin, { mapIssToEntity, mapIssPayload, type IssEnvelope, type IssPosition, type IssTrackPoint } from "../index";
 
 // ---- Fixtures ----------------------------------------------------------------
 
@@ -18,10 +18,20 @@ const POSITION: IssPosition = {
     units: "kilometers",
 };
 
-/** The ground track the snapshot carries: { latitude, longitude, timestamp } samples. */
-const TRACK = [
+/**
+ * The ground track the snapshot carries, with both epoch fields the mapper
+ * writes: `ts` for the host's trail renderer and `timestamp` for everything
+ * else.
+ */
+const TRACK: IssTrackPoint[] = [
     { latitude: -45.5, longitude: 168.1, timestamp: 1791093126 },
     { latitude: -44.5, longitude: 170.4, timestamp: 1791093306 },
+];
+
+/** What the mapper writes for that track: both epoch fields, ts in milliseconds. */
+const MAPPED_TRACK = [
+    { latitude: -45.5, longitude: 168.1, timestamp: 1791093126, ts: 1791093126000 },
+    { latitude: -44.5, longitude: 170.4, timestamp: 1791093306, ts: 1791093306000 },
 ];
 
 const ENVELOPE: IssEnvelope = {
@@ -80,6 +90,26 @@ describe("mapIssToEntity", () => {
         expect(entity.properties.more_info).toBe("url:https://en.wikipedia.org/wiki/International_Space_Station");
     });
 
+    it("drives the host trail renderer's change detection", () => {
+        // The two lines below mirror useTrailRendering.ts:48/50 (globe origin/main)
+        // against the properties this mapper writes. With only `timestamp` on the
+        // points, latestHistoryTs was permanently undefined and the polyline was
+        // built once and never rebuilt as the track grew.
+        const latestHistoryTs = (entity: GeoEntity): unknown => {
+            const history = entity.properties.history as { ts?: unknown }[];
+            return history.length > 0 ? history[history.length - 1].ts : 0;
+        };
+
+        const first = mapIssToEntity("iss", POSITION, TRACK.slice(0, 1));
+        const second = mapIssToEntity("iss", POSITION, TRACK);
+
+        const firstTs = latestHistoryTs(first);
+        expect(firstTs).toBe(1791093126000);
+        expect(latestHistoryTs(second)).not.toBe(firstTs);
+        // Exactly the comparison the renderer makes: item._lastHistoryTs !== latestHistoryTs.
+        expect(latestHistoryTs(second) !== firstTs).toBe(true);
+    });
+
     it("reports an eclipsed station as in darkness", () => {
         const entity = mapIssToEntity("iss", { ...POSITION, visibility: "eclipsed" });
         expect(entity.properties.visibility).toBe("In darkness (eclipsed)");
@@ -89,14 +119,19 @@ describe("mapIssToEntity", () => {
         const entity = mapIssToEntity("iss", POSITION, TRACK);
 
         expect(entity.properties.history).toHaveLength(2);
-        expect(entity.properties.history).toEqual([
-            { latitude: -45.5, longitude: 168.1, timestamp: 1791093126 },
-            { latitude: -44.5, longitude: 170.4, timestamp: 1791093306 },
-        ]);
+        expect(entity.properties.history).toEqual(MAPPED_TRACK);
     });
 
-    it("defaults history to [] when the payload carries no track", () => {
-        expect(mapIssToEntity("iss", POSITION).properties.history).toEqual([]);
+    it("omits history entirely when the payload carries no track and there is no earlier entity", () => {
+        expect(mapIssToEntity("iss", POSITION).properties).not.toHaveProperty("history");
+    });
+
+    it("carries an earlier entity's history forward when the payload has no track", () => {
+        const previous = mapIssToEntity("iss", POSITION, TRACK);
+
+        const next = mapIssToEntity("iss", { ...POSITION, timestamp: POSITION.timestamp + 60 }, undefined, previous);
+
+        expect(next.properties.history).toEqual(MAPPED_TRACK);
     });
 });
 
@@ -137,7 +172,7 @@ describe("ISSPlugin.fetch", () => {
         expect(entities[0].altitude).toBe(418500);
         expect(entities[0].speed).toBe(27580.4);
         expect(entities[0].timestamp.getTime()).toBe(1791093306000);
-        expect(entities[0].properties.history).toEqual(TRACK);
+        expect(entities[0].properties.history).toEqual(MAPPED_TRACK);
         expect(onError).not.toHaveBeenCalled();
     });
 
@@ -188,7 +223,14 @@ describe("ISSPlugin.mapWebsocketPayload", () => {
         expect(streamed).toEqual(fetched);
         expect(streamed[0].id).toBe("iss-25544");
         expect(streamed[0].altitude).toBe(418500);
-        expect(streamed[0].properties.history).toEqual(TRACK);
+        expect(streamed[0].properties.history).toEqual(MAPPED_TRACK);
+    });
+
+    it("writes the ground track onto history when the payload carries one", () => {
+        const entities = issPlugin.mapWebsocketPayload(ENVELOPE);
+
+        expect(entities[0].properties.history).toEqual(MAPPED_TRACK);
+        expect(entities[0].properties.history).toHaveLength(2);
     });
 
     it("accepts a bare position array, with no ground track", () => {
@@ -197,7 +239,29 @@ describe("ISSPlugin.mapWebsocketPayload", () => {
         expect(entities).toHaveLength(1);
         expect(entities[0].longitude).toBe(172.6362);
         expect(entities[0].timestamp.getTime()).toBe(1791093306000);
-        expect(entities[0].properties.history).toEqual([]);
+        expect(entities[0].properties).not.toHaveProperty("history");
+    });
+
+    it("does not empty properties.history when a streamed frame carries no track", () => {
+        // The host passes the plugin's current entities as the second argument
+        // (WsClient.ts:284) and replaces the array wholesale, so a frame with no
+        // track must carry the previous history forward.
+        const held = issPlugin.mapWebsocketPayload(ENVELOPE);
+        expect(held[0].properties.history).toEqual(MAPPED_TRACK);
+
+        const afterBareFrame = issPlugin.mapWebsocketPayload([POSITION], held);
+
+        expect(afterBareFrame[0].properties.history).toEqual(MAPPED_TRACK);
+        expect(afterBareFrame[0].properties.history).toHaveLength(2);
+    });
+
+    it("keeps an envelope's own track when a previous entity exists", () => {
+        const previous = issPlugin.mapWebsocketPayload(ENVELOPE);
+        const shorter: IssTrackPoint[] = TRACK.slice(0, 1);
+
+        const next = issPlugin.mapWebsocketPayload({ ...ENVELOPE, track: shorter }, previous);
+
+        expect(next[0].properties.history).toEqual(MAPPED_TRACK.slice(0, 1));
     });
 
     it("returns [] for a payload with no items", () => {

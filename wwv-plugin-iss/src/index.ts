@@ -36,10 +36,19 @@ export interface IssPosition {
     units: string;
 }
 
-/** One historical ground-track sample, already in the shape useTrailRendering.ts consumes. */
+/**
+ * One historical ground-track sample. It carries the timestamp twice on
+ * purpose: `ts` is the field the host's trail renderer reads
+ * (useTrailRendering.ts, `history[history.length - 1].ts`) to decide whether
+ * the polyline needs rebuilding, and `timestamp` is the engine's own field
+ * name, kept for every other consumer.
+ */
 export interface IssTrackPoint {
     latitude: number;
     longitude: number;
+    /** Millisecond epoch, the field useTrailRendering.ts compares. */
+    ts?: number;
+    /** Second epoch, the engine's own field name. */
     timestamp: number;
 }
 
@@ -56,8 +65,25 @@ export interface IssEnvelope {
  * Maps one engine ISS position to the layer's single GeoEntity. The engine
  * serves altitude in kilometres and timestamp in seconds, while the entity
  * carries metres and a Date, so both are converted here.
+ *
+ * `track` is the incoming ground track, and is `undefined` when the payload
+ * carries none (a streamed frame with no track, or a bare position array). In
+ * that case the history from `previous` is carried forward: the host replaces
+ * a plugin's entity array wholesale, so an omitted `history` key would empty
+ * the trail until the next frame that does carry a track.
  */
-export function mapIssToEntity(pluginId: string, position: IssPosition, track: IssTrackPoint[] = []): GeoEntity {
+export function mapIssToEntity(
+    pluginId: string,
+    position: IssPosition,
+    track?: IssTrackPoint[],
+    previous?: GeoEntity,
+): GeoEntity {
+    // The engine's samples carry `timestamp`; the host's trail renderer compares
+    // `ts`. Write both so neither consumer has to know about the other.
+    const history = (track ?? (previous?.properties.history as IssTrackPoint[] | undefined))?.map((point) => ({
+        ...point,
+        ts: point.timestamp * 1000,
+    }));
     const ts = new Date(position.timestamp * 1000);
 
     return {
@@ -80,7 +106,8 @@ export function mapIssToEntity(pluginId: string, position: IssPosition, track: I
             // Consumed by the host's trail renderer (useTrailRendering.ts) to draw a
             // real curved ground-track polyline into the current position -- not
             // synthetic dead-reckoning, actual historical positions from the engine.
-            history: track,
+            // Left off entirely when there is no track and no earlier history.
+            ...(history ? { history } : {}),
         },
     };
 }
@@ -99,13 +126,16 @@ function readIssPayload(payload: unknown): { items: IssPosition[]; track: IssTra
 /**
  * Maps the engine snapshot (or a streamed frame, which may be a bare array) to
  * the layer's single entity. Returns [] for an envelope with no items.
+ *
+ * `previous` is the entity the host last held for this layer, passed through
+ * to mapIssToEntity so a payload with no track keeps the existing trail.
  */
-export function mapIssPayload(pluginId: string, payload: unknown): GeoEntity[] {
+export function mapIssPayload(pluginId: string, payload: unknown, previous?: GeoEntity): GeoEntity[] {
     const { items, track } = readIssPayload(payload);
     const position = items[0];
     if (!position) return [];
 
-    return [mapIssToEntity(pluginId, position, track)];
+    return [mapIssToEntity(pluginId, position, track.length > 0 ? track : undefined, previous)];
 }
 
 /**
@@ -115,7 +145,7 @@ export function mapIssPayload(pluginId: string, payload: unknown): GeoEntity[] {
  */
 interface IssPlugin extends WorldPlugin {
     context?: PluginContext;
-    mapWebsocketPayload(payload: unknown): GeoEntity[];
+    mapWebsocketPayload(payload: unknown, existingEntities?: GeoEntity[]): GeoEntity[];
     getServerConfig(): ServerPluginConfig;
 }
 
@@ -163,8 +193,8 @@ const issPlugin: IssPlugin = {
      * globe expects; without this it drops every pushed frame and the layer only
      * ever updates on the one initial fetch.
      */
-    mapWebsocketPayload(payload: unknown): GeoEntity[] {
-        return mapIssPayload(this.id, payload);
+    mapWebsocketPayload(payload: unknown, existingEntities?: GeoEntity[]): GeoEntity[] {
+        return mapIssPayload(this.id, payload, existingEntities?.[0]);
     },
 
     getPollingInterval(): number {
