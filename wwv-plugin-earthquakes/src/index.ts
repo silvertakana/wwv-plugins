@@ -8,6 +8,7 @@ import {
     urlProp,
 } from "@worldwideview/wwv-plugin-sdk";
 import { BaseIncidentPlugin } from "@worldwideview/wwv-lib-incidents";
+import pkg from "../package.json";
 
 const ENGINE_FALLBACK_URL = "https://dataenginev2.worldwideview.dev";
 
@@ -65,7 +66,7 @@ export class EarthquakesPlugin extends BaseIncidentPlugin {
     description = "Recent seismic activity from USGS";
     icon = Activity;
     category = "natural-disaster" as const;
-    version = "1.1.0";
+    version = pkg.version;
     protected defaultLayerColor = "#f97316";
 
     protected getSeverityValue(entity: GeoEntity): number {
