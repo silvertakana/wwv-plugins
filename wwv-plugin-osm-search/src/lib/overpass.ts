@@ -13,6 +13,12 @@
  * round trip and one failure mode.
  */
 
+/**
+ * Tried in this order. The order is a measured preference, not a guarantee: the
+ * mirrors are independent public instances with different load, so a mirror that
+ * answers first today may be the slow one tomorrow. Every mirror stays in the
+ * list, and the total budget below bounds the wait when the early ones are slow.
+ */
 export const OVERPASS_MIRRORS = [
     "https://overpass-api.de/api/interpreter",
     "https://lz4.overpass-api.de/api/interpreter",
@@ -21,6 +27,16 @@ export const OVERPASS_MIRRORS = [
 
 /** Interactive searches are small; a mirror that has not answered in 25s is not going to. */
 const REQUEST_TIMEOUT_MS = 25_000;
+
+/**
+ * Ceiling on the whole call across every mirror. Without it, three mirrors at
+ * 25s each leave a user staring at a "scanning" state for up to 75s. A mirror
+ * only gets an attempt while the remaining budget still covers a real try.
+ */
+const TOTAL_BUDGET_MS = 30_000;
+
+/** A mirror gets no attempt when less than this remains, because an abort at that point is noise. */
+const MIN_ATTEMPT_MS = 1_000;
 
 export interface OverpassElement {
     type?: string;
@@ -34,9 +50,11 @@ export interface OverpassElement {
 /**
  * Run one Overpass QL query, trying each mirror until one returns usable elements.
  *
- * A 2xx status alone does not mean success: an overloaded or rate-limiting mirror answers HTTP
- * 200 with an XML/HTML error document. The body must therefore parse as JSON and carry an
- * `elements` array; `remark` is Overpass's field for a soft error such as a query timeout.
+ * A 2xx status alone does not mean success. An overloaded or rate-limiting mirror answers HTTP
+ * 200 with an XML/HTML error document, and Overpass reports a soft error (a query timeout, a
+ * runtime error) as a 200 whose body carries an empty `elements` array together with a `remark`
+ * string. So the body must parse as JSON, carry an `elements` array, and carry no `remark`;
+ * a `remark` is a failure and the next mirror is tried.
  *
  * @param query Overpass QL source, already interpolated with a bbox and `[out:json]`.
  * @param fetchImpl Injectable fetch, so the mirror fallback can be tested without the network.
@@ -48,10 +66,20 @@ export async function queryOverpass(
     fetchImpl: typeof fetch = fetch,
 ): Promise<OverpassElement[]> {
     const failures: string[] = [];
+    const deadline = Date.now() + TOTAL_BUDGET_MS;
 
     for (const mirror of OVERPASS_MIRRORS) {
+        // Per-attempt timeout, clamped to what is left of the shared budget, so
+        // one hanging mirror cannot spend the whole call on its own.
+        const remainingMs = deadline - Date.now();
+        if (remainingMs < MIN_ATTEMPT_MS) {
+            failures.push(mirror + ": skipped, no time left in the shared budget");
+            continue;
+        }
+        const attemptTimeoutMs = Math.min(REQUEST_TIMEOUT_MS, remainingMs);
+
         const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+        const timer = setTimeout(() => controller.abort(), attemptTimeoutMs);
         try {
             const res = await fetchImpl(mirror, {
                 method: "POST",
@@ -74,17 +102,23 @@ export async function queryOverpass(
                 continue;
             }
 
+            const remark = (parsed as { remark?: string }).remark;
             const elements = (parsed as { elements?: unknown }).elements;
+            // A remark marks a soft error whether or not the body also carries an
+            // empty elements array, which is how a timed-out query arrives.
+            if (remark) {
+                failures.push(mirror + ": " + remark);
+                continue;
+            }
             if (!Array.isArray(elements)) {
-                const remark = (parsed as { remark?: string }).remark;
-                failures.push(mirror + ": " + (remark ?? "no elements in response"));
+                failures.push(mirror + ": no elements in response");
                 continue;
             }
 
             return elements as OverpassElement[];
         } catch (err) {
-            const name = (err as Error).name;
-            failures.push(mirror + ": " + (name === "AbortError" ? "timed out" : (err as Error).message));
+            const error = err as Error;
+            failures.push(mirror + ": " + (error.name === "AbortError" ? "timed out" : error.message));
         } finally {
             clearTimeout(timer);
         }
