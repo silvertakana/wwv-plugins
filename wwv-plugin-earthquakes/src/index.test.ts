@@ -16,7 +16,6 @@ const ITEM: EarthquakeItem = {
     url: "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tzh0",
     nearTestSite: false,
     nearestSiteName: null,
-    distanceToTestSiteKm: 12.3,
 };
 
 const ENVELOPE = {
@@ -69,7 +68,9 @@ describe("mapEarthquakeToEntity", () => {
         expect(entity.properties.occurredAt).toBe("datetime:2026-10-04T05:55:06.861Z");
         expect(entity.properties.nearTestSite).toBe(false);
         expect(entity.properties.nearestSiteName).toBeNull();
-        expect(entity.properties.distanceToTestSiteKm).toBe(12.3);
+        // The engine feed publishes no distance field, so the mapper must not
+        // invent a permanently-blank row in the detail panel.
+        expect(entity.properties).not.toHaveProperty("distanceToTestSiteKm");
     });
 
     it("returns null when lat or lon is not finite", () => {

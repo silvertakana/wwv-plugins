@@ -24,7 +24,6 @@ export interface EarthquakeItem {
     url: string | null;
     nearTestSite?: boolean;
     nearestSiteName?: string | null;
-    distanceToTestSiteKm?: number | null;
 }
 
 /**
@@ -56,7 +55,6 @@ export function mapEarthquakeToEntity(pluginId: string, item: EarthquakeItem): G
             occurredAt: dtProp(occurredAt.toISOString()),
             nearTestSite: item.nearTestSite,
             nearestSiteName: item.nearestSiteName,
-            distanceToTestSiteKm: item.distanceToTestSiteKm,
         },
     };
 }
