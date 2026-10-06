@@ -80,10 +80,13 @@ export function mapIssToEntity(
 ): GeoEntity {
     // The engine's samples carry `timestamp`; the host's trail renderer compares
     // `ts`. Write both so neither consumer has to know about the other.
-    const history = (track ?? (previous?.properties.history as IssTrackPoint[] | undefined))?.map((point) => ({
-        ...point,
-        ts: point.timestamp * 1000,
-    }));
+    // An explicit empty track means "reset" and must win over prior history; an
+    // absent one means "unchanged" and carries the previous history forward.
+    // Points are copied, never mutated: `previous` belongs to the host.
+    const source = track ?? (previous?.properties.history as IssTrackPoint[] | undefined);
+    const history = source
+        ?.filter(isValidTrackPoint)
+        .map((point) => ({ ...point, ts: point.timestamp * 1000 }));
     const ts = new Date(position.timestamp * 1000);
 
     return {
@@ -112,14 +115,61 @@ export function mapIssToEntity(
     };
 }
 
-/** Reads an engine envelope, or a bare position array, into items plus ground track. */
-function readIssPayload(payload: unknown): { items: IssPosition[]; track: IssTrackPoint[] } {
-    if (Array.isArray(payload)) return { items: payload, track: [] };
+function isFiniteNumber(value: unknown): value is number {
+    return typeof value === "number" && Number.isFinite(value);
+}
+
+/** A position the layer can actually place: a point on the globe and a real time. */
+function isUsablePosition(value: unknown): value is IssPosition {
+    if (!value || typeof value !== "object") return false;
+
+    const candidate = value as Partial<IssPosition>;
+    return (
+        isFiniteNumber(candidate.latitude) &&
+        candidate.latitude >= -90 &&
+        candidate.latitude <= 90 &&
+        isFiniteNumber(candidate.longitude) &&
+        candidate.longitude >= -180 &&
+        candidate.longitude <= 180 &&
+        isFiniteNumber(candidate.timestamp) &&
+        candidate.timestamp > 0 &&
+        !Number.isNaN(new Date(candidate.timestamp * 1000).getTime())
+    );
+}
+
+/** A track point the trail renderer can compare and draw. */
+function isValidTrackPoint(point: unknown): point is IssTrackPoint {
+    if (!point || typeof point !== "object") return false;
+
+    const candidate = point as Partial<IssTrackPoint>;
+    return (
+        isFiniteNumber(candidate.latitude) &&
+        isFiniteNumber(candidate.longitude) &&
+        isFiniteNumber(candidate.timestamp) &&
+        candidate.timestamp > 0
+    );
+}
+
+/**
+ * Reads an engine envelope, or a bare position array, into items plus ground
+ * track.
+ *
+ * A missing or non-array `track` reads as `undefined` ("this frame carries no
+ * track"), which is deliberately different from an explicit `[]` ("the track is
+ * now empty"): the first preserves the existing trail, the second clears it.
+ * Unusable points are dropped, so a track of only unusable points reads as
+ * empty and clears the trail rather than drawing nonsense.
+ */
+function readIssPayload(payload: unknown): {
+    items: IssPosition[];
+    track: IssTrackPoint[] | undefined;
+} {
+    if (Array.isArray(payload)) return { items: payload, track: undefined };
 
     const envelope = payload as IssEnvelope | null | undefined;
     return {
         items: Array.isArray(envelope?.items) ? envelope.items : [],
-        track: Array.isArray(envelope?.track) ? envelope.track : [],
+        track: Array.isArray(envelope?.track) ? envelope.track.filter(isValidTrackPoint) : undefined,
     };
 }
 
@@ -129,13 +179,17 @@ function readIssPayload(payload: unknown): { items: IssPosition[]; track: IssTra
  *
  * `previous` is the entity the host last held for this layer, passed through
  * to mapIssToEntity so a payload with no track keeps the existing trail.
+ *
+ * The host replaces a plugin's entity array wholesale, so a frame that cannot be
+ * rendered is rejected here: mapIssToEntity would otherwise build a Date from a
+ * missing timestamp and throw out of the WebSocket handler.
  */
 export function mapIssPayload(pluginId: string, payload: unknown, previous?: GeoEntity): GeoEntity[] {
     const { items, track } = readIssPayload(payload);
     const position = items[0];
-    if (!position) return [];
+    if (!isUsablePosition(position)) return [];
 
-    return [mapIssToEntity(pluginId, position, track.length > 0 ? track : undefined, previous)];
+    return [mapIssToEntity(pluginId, position, track, previous)];
 }
 
 /**

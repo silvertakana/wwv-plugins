@@ -306,3 +306,133 @@ describe("ISSPlugin config", () => {
         });
     });
 });
+
+// ---- track reset semantics and unusable input --------------------------------
+
+describe("ground-track reset semantics", () => {
+    it("clears properties.history when the payload carries an explicit empty track", () => {
+        const held = issPlugin.mapWebsocketPayload(ENVELOPE);
+        expect(held[0].properties.history).toEqual(MAPPED_TRACK);
+
+        // An empty array is a deliberate "the track is now empty", so it has to
+        // win over the history the host is still holding. Treating it as absent
+        // (the old length-based check) left a stale trail on the globe.
+        const reset = issPlugin.mapWebsocketPayload({ ...ENVELOPE, track: [] }, held);
+
+        expect(reset[0].properties.history).toEqual([]);
+    });
+
+    it("keeps properties.history when the payload omits the track key", () => {
+        const held = issPlugin.mapWebsocketPayload(ENVELOPE);
+        const withoutTrack = {
+            source: "iss",
+            fetchedAt: ENVELOPE.fetchedAt,
+            items: [POSITION],
+            totalCount: 1,
+        };
+
+        const next = issPlugin.mapWebsocketPayload(withoutTrack, held);
+
+        expect(next[0].properties.history).toEqual(MAPPED_TRACK);
+    });
+
+    it("treats a non-array track as absent rather than empty", () => {
+        const held = issPlugin.mapWebsocketPayload(ENVELOPE);
+
+        const next = issPlugin.mapWebsocketPayload({ ...ENVELOPE, track: "nope" }, held);
+
+        expect(next[0].properties.history).toEqual(MAPPED_TRACK);
+    });
+
+    it("accepts a fresh track after a reset", () => {
+        const held = issPlugin.mapWebsocketPayload(ENVELOPE);
+        const reset = issPlugin.mapWebsocketPayload({ ...ENVELOPE, track: [] }, held);
+        expect(reset[0].properties.history).toEqual([]);
+
+        const regrown = issPlugin.mapWebsocketPayload(ENVELOPE, reset);
+
+        expect(regrown[0].properties.history).toEqual(MAPPED_TRACK);
+    });
+
+    it("never mutates the entity or history it was handed", () => {
+        const held = issPlugin.mapWebsocketPayload(ENVELOPE);
+        const history = held[0].properties.history as IssTrackPoint[];
+        history.forEach((point) => Object.freeze(point));
+        Object.freeze(history);
+        Object.freeze(held[0].properties);
+        Object.freeze(held[0]);
+        Object.freeze(held);
+
+        // This module is ESM, so a write to a frozen object throws. Calling the
+        // mapper against a frozen previous entity is therefore the assertion.
+        expect(() => issPlugin.mapWebsocketPayload(ENVELOPE, held)).not.toThrow();
+        expect(() => issPlugin.mapWebsocketPayload({ ...ENVELOPE, track: [] }, held)).not.toThrow();
+        expect(history).toEqual(MAPPED_TRACK);
+    });
+});
+
+describe("unusable input", () => {
+    const BAD_POSITIONS: Array<[string, unknown]> = [
+        ["a missing latitude", { ...POSITION, latitude: undefined }],
+        ["a missing longitude", { ...POSITION, longitude: undefined }],
+        ["a numeric-string latitude", { ...POSITION, latitude: "51.6" }],
+        ["a latitude off the globe", { ...POSITION, latitude: 91 }],
+        ["a NaN longitude", { ...POSITION, longitude: NaN }],
+        ["a missing timestamp", { ...POSITION, timestamp: undefined }],
+        ["a zero timestamp", { ...POSITION, timestamp: 0 }],
+        ["an unrepresentable timestamp", { ...POSITION, timestamp: 1e20 }],
+        ["a bare string", "not-a-position"],
+        ["a number", 42],
+        ["null", null],
+    ];
+
+    for (const [label, position] of BAD_POSITIONS) {
+        it(`returns [] for ${label} rather than throwing on the Date`, () => {
+            const payload = { ...ENVELOPE, items: [position] };
+
+            // mapIssToEntity would build new Date(undefined * 1000) and throw
+            // RangeError out of the WebSocket handler; the boundary rejects first.
+            expect(() => mapIssPayload("iss", payload)).not.toThrow();
+            expect(mapIssPayload("iss", payload)).toEqual([]);
+        });
+    }
+
+    it("still renders a fix on the equator at the prime meridian", () => {
+        const entities = mapIssPayload("iss", {
+            ...ENVELOPE,
+            items: [{ ...POSITION, latitude: 0, longitude: 0 }],
+        });
+
+        expect(entities).toHaveLength(1);
+        expect(entities[0].latitude).toBe(0);
+        expect(entities[0].longitude).toBe(0);
+    });
+
+    it("drops unusable track points and keeps the usable ones", () => {
+        const track = [
+            TRACK[0],
+            { latitude: 1, longitude: 2 },
+            { latitude: NaN, longitude: 2, timestamp: 1791093306 },
+            { latitude: 1, longitude: 2, timestamp: 0 },
+            null,
+            TRACK[1],
+        ];
+
+        const entities = mapIssPayload("iss", { ...ENVELOPE, track });
+
+        expect(entities[0].properties.history).toEqual(MAPPED_TRACK);
+    });
+
+    it("clears the trail when every track point is unusable", () => {
+        const held = issPlugin.mapWebsocketPayload(ENVELOPE);
+        expect(held[0].properties.history).toHaveLength(2);
+
+        const entities = issPlugin.mapWebsocketPayload(
+            { ...ENVELOPE, track: [{ latitude: 1, longitude: 2 }] },
+            held
+        );
+
+        expect(entities[0].properties.history).toEqual([]);
+    });
+});
+

@@ -1,6 +1,6 @@
 {
   "name": "@worldwideview/wwv-plugin-iss",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Live position of the International Space Station",
   "main": "dist/frontend.mjs",
   "type": "module",
