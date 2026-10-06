@@ -434,5 +434,43 @@ describe("unusable input", () => {
 
         expect(entities[0].properties.history).toEqual([]);
     });
+
+    // A finite number is not enough for a track point: 91 degrees latitude and
+    // 1e308 seconds are both "finite" and both unusable. 1e308 * 1000 overflows
+    // to Infinity, so the point reached the renderer with ts: null in JSON and
+    // the polyline's change detection read it as a real timestamp.
+    const IMPOSSIBLE_TRACK_POINTS: Array<[string, unknown]> = [
+        ["a latitude past the north pole", { latitude: 91, longitude: 0, timestamp: POSITION.timestamp }],
+        ["a latitude past the south pole", { latitude: -91, longitude: 0, timestamp: POSITION.timestamp }],
+        ["a longitude past the antimeridian", { latitude: 0, longitude: 181, timestamp: POSITION.timestamp }],
+        ["a longitude past the antimeridian the other way", { latitude: 0, longitude: -181, timestamp: POSITION.timestamp }],
+        ["a timestamp whose millisecond conversion overflows", { latitude: 0, longitude: 0, timestamp: 1e308 }],
+        ["a timestamp past the Date range", { latitude: 0, longitude: 0, timestamp: 1e20 }],
+    ];
+
+    for (const [label, point] of IMPOSSIBLE_TRACK_POINTS) {
+        it(`drops ${label} and keeps the usable points around it`, () => {
+            const entities = mapIssPayload("iss", {
+                ...ENVELOPE,
+                track: [TRACK[0], point, TRACK[1]],
+            });
+
+            expect(entities[0].properties.history).toEqual(MAPPED_TRACK);
+        });
+    }
+
+    it("keeps track points on the coordinate boundaries and at the origin", () => {
+        const track: IssTrackPoint[] = [
+            { latitude: -90, longitude: -180, timestamp: 1791093126 },
+            { latitude: 90, longitude: 180, timestamp: 1791093186 },
+            { latitude: 0, longitude: 0, timestamp: 1791093306 },
+        ];
+
+        const entities = mapIssPayload("iss", { ...ENVELOPE, track });
+
+        expect(entities[0].properties.history).toEqual(
+            track.map((point) => ({ ...point, ts: point.timestamp * 1000 }))
+        );
+    });
 });
 

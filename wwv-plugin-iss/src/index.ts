@@ -137,16 +137,27 @@ function isUsablePosition(value: unknown): value is IssPosition {
     );
 }
 
-/** A track point the trail renderer can compare and draw. */
+/**
+ * A track point the trail renderer can compare and draw: a real place on the
+ * globe at a real time. Bounds matter as much as type does here -- 91 degrees
+ * and 1e308 seconds are both finite numbers, and 1e308 * 1000 overflows to
+ * Infinity, which the renderer's change detection reads as a timestamp rather
+ * than as garbage.
+ */
 function isValidTrackPoint(point: unknown): point is IssTrackPoint {
     if (!point || typeof point !== "object") return false;
 
     const candidate = point as Partial<IssTrackPoint>;
     return (
         isFiniteNumber(candidate.latitude) &&
+        candidate.latitude >= -90 &&
+        candidate.latitude <= 90 &&
         isFiniteNumber(candidate.longitude) &&
+        candidate.longitude >= -180 &&
+        candidate.longitude <= 180 &&
         isFiniteNumber(candidate.timestamp) &&
-        candidate.timestamp > 0
+        candidate.timestamp > 0 &&
+        !Number.isNaN(new Date(candidate.timestamp * 1000).getTime())
     );
 }
 
