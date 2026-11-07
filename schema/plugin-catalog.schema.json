@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/silvertakana/wwv-plugins/main/schema/plugin-catalog.schema.json",
+  "title": "Plugin catalog",
+  "description": "The generated catalog of every plugin in this repository. Produced by scripts/catalog/generate-catalog.mjs and published as a workflow artifact on every push to main by .github/workflows/catalog.yml. It is a list of declarations, not a second registry: npm stays the artifact plane and the signed registry stays the trust plane. Consumers should treat schemaVersion as the compatibility contract.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "generatedFrom",
+    "pluginCount",
+    "plugins"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Bumped when the shape of this document changes in a way a consumer would notice."
+    },
+    "generatedFrom": {
+      "type": "object",
+      "required": [
+        "repository",
+        "commit",
+        "ref",
+        "generatedAt"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "generatedAt": {
+          "type": "string",
+          "description": "The commit date of `commit`, not the wall clock, so the same commit always produces the same document."
+        }
+      },
+      "additionalProperties": false
+    },
+    "pluginCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "plugins": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/plugin"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "plugin": {
+      "type": "object",
+      "required": [
+        "id",
+        "dir",
+        "npmPackage",
+        "version",
+        "format",
+        "capabilities"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "dir": {
+          "type": "string"
+        },
+        "npmPackage": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        },
+        "entry": {
+          "type": "string"
+        },
+        "dataFile": {
+          "type": "string"
+        },
+        "capabilities": {
+          "type": "object",
+          "required": [
+            "declared"
+          ],
+          "properties": {
+            "declared": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Exactly what the plugin manifest claims. Enforced against observed behaviour by scripts/capabilities/validate.mjs, so this list is honest by construction."
+            }
+          },
+          "additionalProperties": false
+        },
+        "ci": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "bundleSizeLimitKb": {
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

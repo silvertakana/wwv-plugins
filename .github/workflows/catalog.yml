@@ -1,0 +1,79 @@
+# Plugin catalog — generated, published as a workflow artifact
+#
+# On every push to main, build one JSON document listing every plugin in this
+# repository: id, directory, npm package, version, category, declared
+# capabilities and CI tier settings. Upload it as the workflow artifact
+# "plugin-catalog" (90 day retention).
+#
+# Why an artifact and not a committed file: the catalog is derived, and a
+# committed derived file is a merge conflict on every plugin PR. A reviewer or a
+# consumer can always rebuild it from any commit, which is the property that
+# makes it trustworthy.
+#
+# The document shape is normative in schema/plugin-catalog.schema.json, and
+# scripts/catalog/generate-catalog.mjs refuses to write a document that does not
+# satisfy it. Nothing here writes to the repository: contents: read, upload only.
+#
+# Consumers: the marketplace can reconcile its registry against this list, and a
+# third party can enumerate the plugin line without a registry account.
+
+name: Plugin Catalog
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: catalog-\${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+
+      - name: Generate catalog
+        run: node scripts/catalog/generate-catalog.mjs --out catalog/plugins.json
+
+      - name: Describe the artifact
+        run: |
+          node -e '
+            const catalog = require("./catalog/plugins.json");
+            const lines = [
+              "## Plugin catalog",
+              "",
+              catalog.pluginCount + " plugin(s) from " + catalog.generatedFrom.repository
+                + " at " + catalog.generatedFrom.commit.slice(0, 12),
+              "",
+              "| field | value |",
+              "|---|---|",
+              "| schemaVersion | " + catalog.schemaVersion + " |",
+              "| pluginCount | " + catalog.pluginCount + " |",
+              "| generatedAt | " + catalog.generatedFrom.generatedAt + " |",
+              "",
+              "First entry:",
+              "",
+              "```json",
+              JSON.stringify(catalog.plugins[0], null, 2),
+              "```",
+            ];
+            require("node:fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join("\n") + "\n");
+            console.log(lines.join("\n"));
+          '
+
+      - name: Upload catalog artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: plugin-catalog
+          path: catalog/plugins.json
+          if-no-files-found: error
+          retention-days: 90
