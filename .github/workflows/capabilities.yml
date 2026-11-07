@@ -1,0 +1,63 @@
+# Plugin capabilities — declared vs observed
+#
+# A capability in the manifest is a claim: "this plugin draws on the globe",
+# "this plugin makes network requests". A claim nobody checks is decoration, so
+# this workflow checks both directions for every plugin directory:
+#
+#   declared but not used  -> the manifest is wrong
+#   used but not declared  -> the manifest is incomplete
+#
+# No install, no build, no network: the check reads package.json and src/, so it
+# runs in seconds and cannot fail for reasons unrelated to the claim.
+#
+# Manifests are also validated against schema/plugin-manifest.schema.json, which
+# is where worldwideview.capabilities is defined.
+#
+# Grandfathered declarations live in schema/capabilities-baseline.json and can
+# only shrink - see scripts/capabilities/validate.mjs for the rules.
+
+name: Plugin Capabilities
+
+on:
+  pull_request:
+    paths:
+      - 'wwv-plugin-*/package.json'
+      - 'wwv-plugin-*/src/**'
+      - 'schema/**'
+      - 'scripts/capabilities/**'
+      - '.github/workflows/capabilities.yml'
+    branches: [main]
+  push:
+    branches: [main]
+    paths:
+      - 'wwv-plugin-*/package.json'
+      - 'wwv-plugin-*/src/**'
+      - 'schema/**'
+      - 'scripts/capabilities/**'
+      - '.github/workflows/capabilities.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: capabilities-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  capabilities:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+
+      # The checker first tests itself against four fixtures, so a checker that
+      # fails everything (or passes everything) cannot quietly go green.
+      - name: Self-test the checker
+        run: node scripts/capabilities/self-test.mjs
+
+      - name: Check every plugin's declared capabilities
+        run: node scripts/capabilities/validate.mjs

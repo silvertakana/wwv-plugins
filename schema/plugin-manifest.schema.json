@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/silvertakana/wwv-plugins/main/schema/plugin-manifest.schema.json",
+  "title": "WorldWideView plugin manifest",
+  "description": "The part of a plugin's package.json that the host, the marketplace and the plugin CI rely on. Every plugin directory at the repository root must satisfy this schema; scripts/capabilities/validate.mjs enforces it and is run by .github/workflows/capabilities.yml.",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "worldwideview"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^@worldwideview/wwv-plugin-[a-z0-9][a-z0-9-]*$",
+      "description": "Scoped npm package name. The scope is the only namespace defence on npm, so it is not optional."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$"
+    },
+    "description": {
+      "type": "string"
+    },
+    "license": {
+      "type": "string"
+    },
+    "main": {
+      "type": "string"
+    },
+    "module": {
+      "type": "string"
+    },
+    "types": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "worldwideview": {
+      "$ref": "#/$defs/worldwideview"
+    }
+  },
+  "$defs": {
+    "capability": {
+      "title": "Capability id",
+      "description": "Closed vocabulary. A capability states what the plugin does to the host and its surroundings, so it can be reviewed without reading the code. Adding a value here is a schema change and needs a detector in scripts/capabilities/detect.mjs.",
+      "type": "string",
+      "enum": [
+        "data:own",
+        "globe:camera",
+        "globe:overlay",
+        "layer",
+        "network:fetch",
+        "storage:read",
+        "storage:write",
+        "ui:detail-panel",
+        "ui:settings",
+        "ui:sidebar",
+        "ui:toolbar"
+      ]
+    },
+    "capabilities": {
+      "title": "Declared capabilities",
+      "description": "What this plugin does. Required, non-empty, no duplicates. Every declared capability must be observable in the plugin's own runtime source, and every observable capability must be declared - that equivalence is what the CI check enforces.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/capability"
+      }
+    },
+    "ciSettings": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "data",
+            "ui",
+            "control"
+          ],
+          "description": "Which CI tiers run. data = all tiers, ui/control = tiers 0, 1 and 4 only."
+        },
+        "bundleSizeLimitKb": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "worldwideview": {
+      "type": "object",
+      "required": [
+        "id",
+        "icon",
+        "category",
+        "format",
+        "capabilities"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Kebab-case plugin id. This is the id the marketplace and the signed registry key on."
+        },
+        "icon": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "bundle",
+            "native",
+            "static"
+          ]
+        },
+        "capabilities": {
+          "$ref": "#/$defs/capabilities"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "data-layer",
+            "extension"
+          ]
+        },
+        "dataFile": {
+          "type": "string"
+        },
+        "needsKey": {
+          "type": "boolean"
+        },
+        "dev_entry": {
+          "type": "string"
+        },
+        "rendering": {
+          "type": "object"
+        },
+        "ci": {
+          "$ref": "#/$defs/ciSettings"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

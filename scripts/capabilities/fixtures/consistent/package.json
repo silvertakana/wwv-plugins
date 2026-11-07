@@ -1,0 +1,22 @@
+{
+    "name": "@worldwideview/wwv-plugin-fixture-consistent",
+    "version": "0.0.0",
+    "description": "Fixture for scripts/capabilities/self-test.mjs - not a real plugin.",
+    "license": "Apache-2.0",
+    "main": "dist/frontend.mjs",
+    "type": "module",
+    "worldwideview": {
+        "id": "fixture-consistent",
+        "icon": "FlaskConical",
+        "category": "Test",
+        "format": "bundle",
+        "capabilities": [
+            "globe:overlay",
+            "layer",
+            "network:fetch"
+        ],
+        "ci": {
+            "type": "data"
+        }
+    }
+}

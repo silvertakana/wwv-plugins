@@ -1,0 +1,439 @@
+{
+  "$comment": "Grandfathered capability declarations. See scripts/capabilities/validate.mjs for the rules. This list may only shrink: each entry is a plugin whose manifest claims something its code does not show, or the reverse. Delete an entry when the plugin becomes consistent; never add one without a reviewer noticing.",
+  "version": 1,
+  "plugins": {
+    "wwv-plugin-air-defense": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-air-quality-openaq": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-airports": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-antarctic-stations": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-aviation": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-aviation-weather-hazards": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-borders": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-broadcast-towers": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-camera": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-cell-towers": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-civil-unrest": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-conflict-events": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-conflict-events-acled": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-conflict-zones": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-coral-reefs-global": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-cyber-attacks": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-dams": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-data-centers": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-daynight": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-deforestation-gfw": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-earth-impact-craters": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-earthquakes": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-eez-boundaries": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-embassies": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-exif-geolocate": {
+      "declared": [
+        "data:own",
+        "globe:overlay",
+        "ui:sidebar"
+      ]
+    },
+    "wwv-plugin-fishing-activity-gfw": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-fortiguard": {
+      "declared": [
+        "data:own",
+        "globe:overlay"
+      ]
+    },
+    "wwv-plugin-gdacs-disasters": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-global-news-gdelt": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-gps-jamming": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-hospitals": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-hurricane-storms": {
+      "declared": [
+        "data:own",
+        "globe:overlay",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-hurricane-tracks": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-international-sanctions": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-internet-censorship-ooni": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-internet-exchanges": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-ip-geolocate": {
+      "declared": [
+        "layer",
+        "ui:sidebar"
+      ]
+    },
+    "wwv-plugin-iranwarlive": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-iron-steel-plants": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-iss": {
+      "declared": [
+        "data:own",
+        "globe:overlay",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-launch-tracker": {
+      "declared": [
+        "data:own",
+        "globe:overlay",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-lighthouses": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-lightning": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-live-disasters": {
+      "declared": [
+        "data:own",
+        "globe:overlay",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-marine-buoys": {
+      "declared": [
+        "data:own",
+        "globe:overlay",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-maritime": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-market-tracker": {
+      "declared": [
+        "data:own",
+        "ui:settings"
+      ]
+    },
+    "wwv-plugin-military-aviation": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-military-bases": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-mineral-mines": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-moon": {
+      "declared": [
+        "data:own",
+        "globe:overlay"
+      ]
+    },
+    "wwv-plugin-near-earth-objects": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-nuclear": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-nz-traffic-cameras": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-oil-gas-pipelines": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-osm-rail-network": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-osm-search": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-phone-lookup": {
+      "declared": [
+        "data:own",
+        "globe:overlay",
+        "ui:sidebar"
+      ]
+    },
+    "wwv-plugin-power-grid-substations": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-power-plants": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-railway-stations": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-ripe-atlas": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-river-levels-flood": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-rocket-launches": {
+      "declared": [
+        "data:own",
+        "globe:overlay",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-satellite": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-satground-stations": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-seaports": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-severe-weather-alerts": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-shipwrecks": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-solar-plants": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-space-weather-aurora": {
+      "declared": [
+        "layer",
+        "network:fetch"
+      ]
+    },
+    "wwv-plugin-spaceports": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-surveillance-satellites": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-tor-exit-nodes": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-undersea-cables": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-unesco-sites": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-volcanoes": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-weather-stations": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-wildfire": {
+      "declared": [
+        "layer"
+      ]
+    },
+    "wwv-plugin-wind-farms": {
+      "declared": [
+        "layer"
+      ]
+    }
+  }
+}
