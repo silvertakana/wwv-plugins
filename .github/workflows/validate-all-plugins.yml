@@ -50,10 +50,13 @@ jobs:
       fail-fast: false
     name: "${{ matrix.plugin.name }}"
     steps:
+      # Pinned on purpose — see the note in plugin-ci.yml. A fleet audit is
+      # only meaningful against a fixed toolchain.
       - name: Checkout worldwideview (monorepo toolchain)
         uses: actions/checkout@v7
         with:
           repository: silvertakana/worldwideview
+          ref: 33df7a5b7f89c9d9d432400937fa45aa7481d683 # platform main as of 2026-09-26; keep in sync with plugin-ci.yml and publish-plugins.yml
           path: worldwideview
 
       - name: Checkout wwv-plugins into local-plugins

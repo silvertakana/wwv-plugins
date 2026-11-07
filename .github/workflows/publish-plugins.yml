@@ -45,10 +45,14 @@ jobs:
     env:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
+      # Pinned on purpose — see the note in plugin-ci.yml. A publish must be
+      # reproducible: the toolchain that built a version should not change
+      # under the repo between two runs of the same commit.
       - name: Checkout worldwideview (monorepo toolchain)
         uses: actions/checkout@v7
         with:
           repository: silvertakana/worldwideview
+          ref: 33df7a5b7f89c9d9d432400937fa45aa7481d683 # platform main as of 2026-09-26; keep in sync with plugin-ci.yml and validate-all-plugins.yml
           path: worldwideview
 
       # Place this repo inside worldwideview/local-plugins/ so the plugins

@@ -91,10 +91,16 @@ jobs:
       fail-fast: false
     name: "${{ matrix.plugin.name }}"
     steps:
+      # Pinned on purpose: this workflow composes a checkout of the platform
+      # repo purely for its hoisted toolchain (vite, typescript, react, the
+      # plugin SDK). Tracking the platform's default branch means a plugin PR
+      # can go red because the platform moved, with nothing changed here.
+      # Bump the ref deliberately, with a run of this workflow to prove it.
       - name: Checkout worldwideview (monorepo toolchain)
         uses: actions/checkout@v7
         with:
           repository: silvertakana/worldwideview
+          ref: 33df7a5b7f89c9d9d432400937fa45aa7481d683 # platform main as of 2026-09-26; keep in sync with publish-plugins.yml and validate-all-plugins.yml
           path: worldwideview
 
       - name: Checkout wwv-plugins into local-plugins
