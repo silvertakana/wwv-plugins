@@ -1,0 +1,21 @@
+{
+    "name": "@worldwideview/wwv-plugin-fixture-over-declared",
+    "version": "0.0.0",
+    "description": "Fixture for scripts/capabilities/self-test.mjs - not a real plugin.",
+    "license": "Apache-2.0",
+    "main": "dist/frontend.mjs",
+    "type": "module",
+    "worldwideview": {
+        "id": "fixture-over-declared",
+        "icon": "FlaskConical",
+        "category": "Test",
+        "format": "bundle",
+        "capabilities": [
+            "layer",
+            "ui:sidebar"
+        ],
+        "ci": {
+            "type": "data"
+        }
+    }
+}

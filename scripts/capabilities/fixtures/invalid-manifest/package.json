@@ -1,0 +1,14 @@
+{
+    "name": "@worldwideview/wwv-plugin-fixture-invalid",
+    "version": "0.0.0",
+    "worldwideview": {
+        "id": "fixture-invalid",
+        "category": "Test",
+        "format": "bundle",
+        "capabilities": [
+            "layer",
+            "layer",
+            "teleport:anywhere"
+        ]
+    }
+}

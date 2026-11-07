@@ -44,6 +44,26 @@ All helpers return `null` for empty input — the panel skips null properties cl
 
 Use `createSvgIconUrl(Icon, { color })` from the SDK for billboard icons.
 
+## Capabilities
+
+Every plugin declares what it does in `worldwideview.capabilities`. The field is defined in
+`schema/plugin-manifest.schema.json`; the check is `node scripts/capabilities/validate.mjs`, run
+by the **Plugin Capabilities** workflow on every pull request that touches a plugin.
+
+A capability has to be true in both directions:
+
+- declaring a capability your source never exercises fails the check;
+- exercising a capability you did not declare fails it too.
+
+The vocabulary is closed, so adding one is a schema change, and the check is lexical: it reads
+your plugin's own `src/` tree for the host API the capability grants (`getLayerConfig()` for
+`layer`, `globalThis.fetch()` for `network:fetch`, and so on). Build-time helper scripts, tests
+and `vite.config.ts` are not part of it, because none of them ship.
+
+If your plugin really does something the detectors cannot see - it inherits the behaviour from a
+base class in an npm package, for example - add the signal to `scripts/capabilities/detect.mjs`
+rather than dropping the claim. A capability nobody can check is decoration.
+
 ## Versioning
 
 - `feat:` changes bump the minor version
